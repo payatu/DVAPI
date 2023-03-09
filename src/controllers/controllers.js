@@ -12,6 +12,25 @@ exports.verify = (req, res, next) => {
     res.json({ message: 'Authentication successful' });
 }
 
+exports.profile = (req, res, next) => {
+  async function getProfile(userId) {
+    try {
+      console.log('userId:', userId);
+      const user = await User.findOne({ _id: userId });
+      console.log('User found:', user);
+      if(!user){
+        return res.json({ message: 'User does not exist' });
+      }
+      return res.json({ user: user });
+    } catch (error) { // handle error
+      console.log('Error finding user:', error);
+      return res.json({ message: 'Error finding user' });
+    }
+  }
+  getProfile(req.userId);
+  
+}
+
 exports.addNote = (req, res, next) => {
     const { note } = req.body;
     if (!note) {
@@ -25,7 +44,7 @@ exports.addNote = (req, res, next) => {
             { new: true }
           );
           console.log('User updated:', updatedUser);
-          res.json({ message: 'Successfully added a note' });
+          return res.json({ message: 'Successfully added a note' });
         } catch (error) { // handle error
           console.log('Error updating user:', error);
           res.json({ message: 'Failed to add note' });
@@ -39,13 +58,13 @@ exports.getNote = (req, res, next) => {
         try {
           const user = await User.findOne({ username: req.query.username });
           console.log('User found:', user);
-          if(user.secretNote){
-            res.json({ message: 'No note found' });
+          if(!user.secretNote || user.secretNote == ""){
+            return res.json({ message: 'No note found' });
           }
-          res.json({ note: user.secretNote });
+          return res.json({ note: user.secretNote });
         } catch (error) { // handle error
           console.log('Error finding user:', error);
-          res.json({ message: 'Error finding user' });
+          return res.json({ message: 'Error finding user' });
         }
       }
       getUserSecretNote();

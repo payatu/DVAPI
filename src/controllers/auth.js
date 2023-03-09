@@ -41,10 +41,10 @@ exports.login = async (req, res) => {
     // Generate a JWT token and send it in the response
     console.log(user)
     const token = jwt.sign({ userId: user._id, username: user.username }, JWT_SECRET);
-    res.json({ token });
+    return res.json({ token });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Internal server error' });
+    return res.status(500).json({ message: 'Internal server error' });
   }
 };
 
