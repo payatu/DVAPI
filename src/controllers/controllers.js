@@ -1,4 +1,4 @@
-const User = require('../models/user'); // assuming you have a User model
+const User = require('../models/user');
 
 const dummyusers = [
   { username: 'Alice', password: 'AlicePassword1@44', score: 100 },
@@ -59,7 +59,7 @@ exports.addNote = (req, res, next) => {
     }
     async function updateUserSecretNote(userId) {
         try {
-          const updatedUser = await User.findOneAndUpdate(
+          const updatedUser = await User.findOneAndUpdate(  // Update the user's secret note
             { _id: userId },
             { secretNote: note },
             { new: true }
@@ -93,21 +93,17 @@ exports.getNote = (req, res, next) => {
 
 exports.updateProfile = (req, res, next) => {
   console.log(req.body);
-  const addition = req.body.addition;
-  if(addition){
-    console.log("ADDITION: ", addition)
-  }
   const { password, confirm_password } = req.body;
-    if (!password || !confirm_password) {
+    if (!password || !confirm_password) { // check if password and confirm_password are provided
       return res.status(400).json({ status: "error", message: 'password and confirm_password required' });
     }
-    if(password !== confirm_password){
+    if(password !== confirm_password){  // check if password and confirm_password match
       return res.status(400).json({ status: "error", message: 'password and confirm_password must match' });
     }
   async function updateUserDetails(userId) {
     try {
       console.log('userId:', userId);
-      const updatedUser = await User.findOneAndUpdate(
+      const updatedUser = await User.findOneAndUpdate(  // Update the user's password
         { _id: userId },
         { password: password },
         { new: true }
@@ -128,11 +124,13 @@ exports.updateProfile = (req, res, next) => {
 exports.getScores = (req, res, next) => {
   async function getUserScores() {
     try {
-      const users = await User.find({}, { _id: 0, username: 1, score: 1 }).sort({score: -1});
+      // Find all users with status ACTIVE and return only the username and score in descending order
+      const users = await User.find({ status: "ACTIVE" }, { _id: 0, username: 1, score: 1 }).sort({score: -1});
       // Return the username and score for each user
       return users.map(user => ({ username: user.username, score: user.score }));
     } catch (err) {
       console.error(err);
+      // Return an empty array if there is an error
       return [];
     }
   }
@@ -144,4 +142,36 @@ exports.getScores = (req, res, next) => {
     res.json({ status: "error", message: 'Failed to get scores' });
   });
   
+}
+
+exports.updateUserStatus = (req, res, next) => {
+  async function updateUserStatus() {
+    const { username, status } = req.body;
+    console.log(username, status)
+    if (!username || !status) { // Check if username and status are provided
+      return res.status(400).json({ status: "error", message: 'username and status required' });
+    }
+    try {
+      if (status !== 'ACTIVE' && status !== 'BANNED') { // Check if status is valid
+        return res.status(400).json({ status: "error", message: 'status must be ACTIVE or BANNED' });
+      }
+      const updatedUser = await User.findOneAndUpdate(  // Update the user status
+        { username: username },
+        { status: status },
+        { new: false }
+      );
+      if(!updatedUser){ 
+        return res.json({ status: "error", message: 'User does not exist' }); // show this message if user does not exist
+      }
+      if(updatedUser.status === status){
+        return res.json({ status: "error", message: 'User status is already ' + status });  // show this message if user status is already the same
+      }
+      return res.json({ status: "success", message: "User status has been successfully updated to " + status });  // show this message if user status is updated
+    }
+    catch (err) {
+      console.error(err);
+      return res.json({ status: "error", message: 'Failed to update user status' });  // show this message if there is an error
+    }
+  }
+  updateUserStatus(req.userId)
 }

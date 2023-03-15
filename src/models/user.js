@@ -7,8 +7,9 @@ connectToDatabase();
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  secretNote: { type: String, required: false },
-  score: { type: Number, default: 0 }
+  secretNote: { type: String, required: false, default: "" },
+  score: { type: Number, default: 0 },
+  status: { type: String, default: "ACTIVE"} // ACTIVE, BANNED
 });
 
 // Hash the user password before saving to the database
