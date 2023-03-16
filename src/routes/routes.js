@@ -13,6 +13,7 @@ router.post('/api/challenge1/addNote', auth.verifyToken, controller.addNote);
 router.get('/api/challenge1/getNote', auth.verifyToken, controller.getNote);
 router.get('/api/scores', auth.verifyToken, controller.getScores);
 router.post('/api/admin/updateStatus', auth.verifyToken, controller.updateUserStatus);
+router.post('/api/profile/upload', auth.verifyToken, controller.uploadProfileImage);
 router.get('*', controller.get404);
 
 module.exports = router;

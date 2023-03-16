@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const path = require('path');
 
 const dummyusers = [
   { username: 'Alice', password: 'AlicePassword1@44', score: 100 },
@@ -175,3 +176,51 @@ exports.updateUserStatus = (req, res, next) => {
   }
   updateUserStatus(req.userId)
 }
+
+exports.uploadProfileImage = (req, res, next) => {
+    if (!req.files || Object.keys(req.files).length === 0) {
+      return res.status(400).send('No files were uploaded.');
+    }
+    console.log(req.userId);
+  
+    const file = req.files.file;
+    console.log(file)
+    const allowedExtensions = ['.png', '.jpg', '.jpeg'];
+    const fileExtension = path.extname(file.name).toLowerCase();
+    console.log(fileExtension)
+    if (!allowedExtensions.includes(fileExtension)) { // Check extension if file is an image
+      return res.status(400).send('Invalid file type. Only PNG, JPG, and JPEG files are allowed.');
+    }
+    const uploadPath = path.join(__dirname, '../uploads', req.userId + file.name);
+    console.log(uploadPath)
+    const normalizedPath = path.normalize(uploadPath);
+    console.log(normalizedPath)
+    console.log(path.join(__dirname, 'uploads'))
+    if (!normalizedPath.startsWith(path.join(__dirname, '../uploads'))) {
+      return res.status(400).send('Invalid file path');
+    }
+
+  
+    file.mv(uploadPath, (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send(err);
+      }
+      async function updateUserProfilePic(userId) {
+        try {
+          const updatedUser = await User.findOneAndUpdate(  // Update the user's profile pic
+            { _id: userId },
+            { profilePic: req.userId + file.name },
+            { new: true }
+          );
+          console.log(updatedUser)
+          return res.status(200).json({ message: 'File uploaded successfully' });
+        } catch (error) { // handle error
+          console.log('Failed to update user:', error);
+          return res.status(500).json({ message: 'Failed to update user profile pic' });
+        }
+      }
+      updateUserProfilePic(req.userId);
+    });
+}
+  

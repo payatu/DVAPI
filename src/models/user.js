@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   secretNote: { type: String, required: false, default: "" },
   score: { type: Number, default: 0 },
+  profilePic: { type: String, default: "" },
   status: { type: String, default: "ACTIVE"} // ACTIVE, BANNED
 });
 
