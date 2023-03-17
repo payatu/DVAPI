@@ -20,7 +20,7 @@ exports.register = async (req, res) => {
     console.log(user)
     // Generate a JWT token and send it in the response
     const token = jwt.sign({ userId: user._id, username: user.username }, JWT_SECRET);
-    res.json({ token });
+    res.json({ status: "success", message: 'Registration successful' });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Internal server error' });
@@ -44,7 +44,8 @@ exports.login = async (req, res) => {
     // Generate a JWT token and send it in the response
     console.log(user)
     const token = jwt.sign({ userId: user._id, username: user.username }, JWT_SECRET);
-    return res.json({ token });
+    // return res.json({ token });
+    return res.cookie('auth', token, { httpOnly: true }).json({ status: "success", message: 'Authentication successful' });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Internal server error' });
@@ -55,7 +56,7 @@ exports.login = async (req, res) => {
 exports.verifyToken = async (req, res, next) => {
   try {
     // Get the token from the Authorization header
-    const token = req.headers.authorization;
+    const token = req.cookies.auth;
     if (!token) {
       return res.status(401).json({ status: "error", message: 'Authentication failed. No token supplied' });
     }
