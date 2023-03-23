@@ -32,15 +32,18 @@ exports.login = async (req, res) => {
   try {
     const { username, password } = req.body;
     // Find the user with the given username
-    const user = await User.findOne({ username });
+    // const {username, password } = req.query;
+    const user = await User.findOne({ username: username, password: password });
     if (!user) {
       return res.status(401).json({ message: 'Authentication failed' });
     }
     // Check if the password matches
-    const isMatch = await user.comparePassword(password);
-    if (!isMatch) {
-      return res.status(401).json({ message: 'Authentication failed' });
-    }
+    // const isMatch = await user.comparePassword(password);
+    // console.log(password)
+    // const isMatch = user.password === password;
+    // if (!isMatch) {
+    //   return res.status(401).json({ message: 'Authentication failed' });
+    // }
     // Generate a JWT token and send it in the response
     console.log(user)
     const token = jwt.sign({ userId: user._id, username: user.username }, JWT_SECRET);
