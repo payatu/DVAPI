@@ -3,7 +3,6 @@ const router = express.Router();
 const controller = require('../controllers/controllers');
 const auth = require('../controllers/auth');
 
-router.get('/', controller.getHome);
 router.post('/api/login', auth.login);
 router.post('/api/register', auth.register);
 router.get('/api/profile', auth.verifyToken, controller.getProfile);
@@ -14,6 +13,13 @@ router.get('/api/challenge1/getNote', auth.verifyToken, controller.getNote);
 router.get('/api/scores', auth.verifyToken, controller.getScores);
 router.post('/api/admin/updateStatus', auth.verifyToken, controller.updateUserStatus);
 router.post('/api/profile/upload', auth.verifyToken, controller.uploadProfileImage);
-router.get('*', controller.get404);
+
+router.get('/', controller.getHome);
+router.get('/login', controller.loginPage)
+router.get('/register', controller.registerPage)
+router.get('/scoreboard', auth.verifyToken, controller.scoreboardPage)
+router.get('/:page', controller.viewPage)
+
+// router.get('*', controller.get404);
 
 module.exports = router;

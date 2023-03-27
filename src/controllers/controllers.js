@@ -227,3 +227,20 @@ exports.uploadProfileImage = (req, res, next) => {
     });
 }
   
+exports.loginPage = (req, res, next) => {
+  res.render('login', {});
+}
+
+exports.registerPage = (req, res, next) => {
+  res.render('register', {});
+}
+
+exports.scoreboardPage = (req, res, next) => {
+  res.render('scoreboard', {})
+}
+
+
+exports.viewPage = (req, res, next) => {
+  const page = req.params.page;
+    res.render(page);
+}
