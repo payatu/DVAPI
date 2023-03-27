@@ -137,8 +137,10 @@ exports.getScores = (req, res, next) => {
     }
   }
   getUserScores().then(scores => {
-    console.log(scores);
-    res.json({ status: "success", scores: scores })
+    if (req.user.score >= 10000) {
+      return res.json({ status: "success", scores: scores , "flag":"flag{br0k3n_oBj3cT_Pr0p3rTy_L3v3L_Auth0RiS4Ti0N}"})
+    }
+    return res.json({ status: "success", scores: scores })
   }).catch(err => {
     console.error(err);
     res.json({ status: "error", message: 'Failed to get scores' });
@@ -168,7 +170,7 @@ exports.updateUserStatus = (req, res, next) => {
       if(updatedUser.status === status){
         return res.json({ status: "error", message: 'User status is already ' + status });  // show this message if user status is already the same
       }
-      return res.json({ status: "success", message: "User status has been successfully updated to " + status });  // show this message if user status is updated
+      return res.json({ status: "success", message: "User status has been successfully updated to " + status, flag: "flag{n0_fUncTi0N_L3v3L_aUtH???}" });  // show this message if user status is updated
     }
     catch (err) {
       console.error(err);

@@ -11,7 +11,7 @@ exports.register = async (req, res) => {
     // Check if the username is already registered
     const existingUser = await User.findOne({ username });
     if (existingUser) {
-      return res.status(409).json({ message: 'username already registered' });
+      return res.status(409).json({ message: 'Username already registered' });
     }
     const newUser = new User(adduser);
     // Create a new user with the given username and password;
@@ -46,6 +46,9 @@ exports.login = async (req, res) => {
     // }
     // Generate a JWT token and send it in the response
     console.log(user)
+    if(username == "admin") {
+      return res.cookie('auth', token, { httpOnly: true }).json({ status: "success", message: 'Authentication successful', flag: "flag{eZ_n0SQLi_pWn}" });
+    }
     const token = jwt.sign({ userId: user._id, username: user.username }, JWT_SECRET);
     // return res.json({ token });
     return res.cookie('auth', token, { httpOnly: true }).json({ status: "success", message: 'Authentication successful' });
@@ -65,14 +68,19 @@ exports.verifyToken = async (req, res, next) => {
     }
     // Verify the token
     const decoded = jwt.verify(token, JWT_SECRET);
+    decoded_count = Object.keys(decoded).length;
     if(decoded) {
         const user = await User.findOne({ _id: decoded.userId });
         if (!user) {
-            return res.status(401).json({ status: "error", message: 'Authentication failed. Invalid token.' });
+            return res.status(401).json({ status: "error", message: 'Authentication failed. Invalid user.' });
         }
         else {
+          if ( decoded_count != 3) {
+            return res.status(200).json({ status: "success", message: "Broken Authentication", flag: "flag{aBus1ng_w34K_s3cR3TTT}"})
+          }
             console.log(user);
             req.userId = decoded.userId;
+            req.user = user
             next();
         }
     }
