@@ -89,3 +89,31 @@ exports.verifyToken = async (req, res, next) => {
     res.status(401).json({ status: "error", message: 'Authentication failed. Invalid token.' });
   }
 };
+
+exports.verifyTokenforPage = async (req, res, next) => {
+  try {
+    // Get the token from the Authorization header
+    const token = req.cookies.auth;
+    if (!token) {
+      // return res.status(401).json({ status: "error", message: 'Authentication failed. No token supplied' });
+      return res.status(301).redirect('/login');
+    }
+    // Verify the token
+    const decoded = jwt.verify(token, JWT_SECRET);
+    if(decoded) {
+        const user = await User.findOne({ _id: decoded.userId });
+        if (!user) {
+          return res.status(301).redirect('/login');
+        }
+        else {
+            console.log(user);
+            req.userId = decoded.userId;
+            req.user = user
+            next();
+        }
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(301).redirect('/login');
+  }
+};

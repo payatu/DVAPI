@@ -78,8 +78,8 @@
                             })
                             .then(r => r.json())
                             .then(data => {
-                                if (data.status === "success") window.location.href = "/";
-                                else document.getElementById("message-div").innerText = data.message;
+                                if (data.status === "success") window.location.href = "/challenges";
+                                else document.getElementById("message-div").innerHTML = '<div class="alert alert-danger" role="alert">' + data.message + '</div>';
                             })
                             .catch(console.error);
                             });

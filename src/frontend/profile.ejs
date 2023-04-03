@@ -10,12 +10,12 @@
     <meta name="keywords" content="au theme template">
 
     <!-- Title Page-->
-    <title>Scoreboard</title>
+    <title>Profile</title>
 
     <!-- Fontfaces CSS-->
     <link href="css/font-face.css" rel="stylesheet" media="all">
-    <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
     <link href="vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
     <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 
     <!-- Bootstrap CSS-->
@@ -186,7 +186,7 @@
                             <a href="chart">
                                 <i class="fas fa-chart-bar"></i>Charts</a>
                         </li>
-                        <li class="active">
+                        <li>
                             <a href="table">
                                 <i class="fas fa-table"></i>Tables</a>
                         </li>
@@ -217,7 +217,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="has-sub">
+                        <li class="active has-sub">
                             <a class="js-arrow" href="#">
                                 <i class="fas fa-desktop"></i>UI Elements</a>
                             <ul class="list-unstyled navbar__sub-list js-sub-list">
@@ -436,68 +436,204 @@
                     </div>
                 </div>
             </header>
-            <!-- END HEADER DESKTOP-->
+            <!-- HEADER DESKTOP-->
 
             <!-- MAIN CONTENT-->
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
-                        
                         <div class="row">
-                            
-                            <div class="col-lg-10">
-                                <!-- TOP CAMPAIGN-->
-                                <div class="top-campaign">
-                                    <h3 class="title-3 m-b-30">Scoreboard</h3>
-                                    <div class="table-responsive">
-                                        <table class="table table-top-campaign" id="scoreboard">
-                                            <thead>
-                                                <tr>
-                                                <th>Name</th>
-                                                <th>Score</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
+
+                            <div class="col-md-10" style="text-align: center; margin: 0 auto;">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <i class="fa fa-user"></i>
+                                        <strong class="card-title pl-2">Profile</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mx-auto d-block">
+                                            <img class="rounded-circle mx-auto d-block" src="uploads/<%= profilePic %>" alt="Card image cap" id="profile-picture" style="width: 150px; height: 150px;">
+                                            <div class="upload-icon-container">
+                                                <i class="fa fa-upload" id="upload-button"></i>
+                                            </div>
+                                            <input type="file" id="profile-picture-upload" name="profile-picture" style="display: none;">
+                                            <script>
+                                                const profilePicture = document.getElementById('profile-picture');
+                                                const uploadLogo = document.getElementById('upload-button');
+                                                const profilePictureUpload = document.getElementById('profile-picture-upload');
+
+                                                profilePicture.addEventListener('click', function() {
+                                                    profilePictureUpload.click();
+                                                });
+
+                                                uploadLogo.addEventListener('click', function() {
+                                                    profilePictureUpload.click();
+                                                });
+
+                                                profilePictureUpload.addEventListener('change', function() {
+                                                    const file = profilePictureUpload.files[0];
+                                                    const formData = new FormData();
+                                                    formData.append('file', file);
+
+                                                    // Send the image data to the server using an AJAX request
+                                                    fetch('/api/profile/upload', {
+                                                        method: 'POST',
+                                                        body: formData
+                                                    })
+                                                    .then(response => response.json())
+                                                    .then(data => {
+                                                        // Update the user's profile picture on the client-side
+                                                        profilePicture.src = '/uploads/' + data.profilePic;
+                                                    })
+                                                    .catch(error => console.error(error));
+                                                });
+                                            </script>
+                                            <h5 class="text-sm-center mt-2 mb-1" id="username-field">username</h5>
+                                            <div class="text-sm-center" id="user-score">score</div>
+                                        </div>
+                                        <hr>
                                     </div>
                                 </div>
-                                <!--  END TOP CAMPAIGN-->
                             </div>
-                        </div>
-                        
-                        <script>
-                            // Make an HTTP GET request to the "/scoreboard" API endpoint
-                            fetch('/api/scores')
-                              .then(response => response.json())
-                              .then(data => {
-                                // Generate the HTML markup for the scoreboard table
-                                const tableRows = data.scores.map(row => {
-                                    console.log(`${row.username} => ${row.score}`);
-                                  return `<tr><td>${row.username}</td><td>${row.score}</td></tr>`;
-                                }).join('');
-                                const scoreboardTable = document.getElementById('scoreboard');
-                                scoreboardTable.querySelector('tbody').innerHTML = tableRows;
-                              });
-                          </script>
-                        
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="copyright">
-                                    
+
+                            <div class="col-md-10" style="text-align: center; margin: 0 auto;">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <strong class="card-title">User Settings</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                            <div class="col-12 col-md-19" style="text-align: center; margin: 0 auto;">
+                                                <form action="" method="post" id="user-details-form">
+                                                    <div class="form-group">
+                                                        <label>Enter current password</label>
+                                                        <input class="au-input au-input--full" type="password" name="current_password" placeholder="Password">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Enter new password</label>
+                                                        <input class="au-input au-input--full" type="password" name="password" placeholder="Password">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Enter new password</label>
+                                                        <input class="au-input au-input--full" type="password" name="confirm_password" placeholder="Password">
+                                                    </div>
+                                                    <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">Update Password</button>
+                                                    <div class="register-link" id="message-div1"></div>
+                                                </form>
+                                                <script>
+                                                    const userDetailsForm = document.getElementById("user-details-form");
+                                                    userDetailsForm.addEventListener("submit", e => {
+                                                    e.preventDefault();
+                                                    const formData = new FormData(userDetailsForm);
+                                                    fetch("/api/profile", {
+                                                        method: "POST",
+                                                        body: JSON.stringify(Object.fromEntries(formData)),
+                                                        headers: { "Content-Type": "application/json" }
+                                                    })
+                                                    .then(r => r.json())
+                                                    .then(data => {
+                                                        if (data.status === "success") {
+                                                            for (let i = 0; i < userDetailsForm.elements.length; i++) {
+                                                                const element = userDetailsForm.elements[i];
+                                                                if (element.type !== 'submit' && element.type !== 'button') {
+                                                                    element.value = '';
+                                                                }
+                                                            }
+                                                            document.getElementById("message-div1").innerHTML = '<div class="alert alert-success" role="alert">' + data.message + '</div>';
+                                                            setTimeout(function(){document.getElementById("message-div1").innerHTML=''}, 5000)
+                                                        }
+                                                        else {
+                                                            for (let i = 0; i < userDetailsForm.elements.length; i++) {
+                                                                const element = userDetailsForm.elements[i];
+                                                                if (element.type !== 'submit' && element.type !== 'button') {
+                                                                    element.value = '';
+                                                                }
+                                                            }
+                                                            document.getElementById("message-div1").innerHTML = '<div class="alert alert-danger" role="alert">' + data.message + '</div>';
+                                                            setTimeout(function(){document.getElementById("message-div1").innerHTML=''}, 5000)
+                                                        }
+                                                    })
+                                                    .catch(console.error);
+                                                    });
+                                                </script>
+                                            </div>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        <strong class="card-title">My Note</strong>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                            <div class="col-12 col-md-19" style="text-align: center; margin: 0 auto;">
+                                                <form action="" method="post" id="user-note-form">
+                                                    <textarea id="user-note" rows="4" name="note" class="form-control"></textarea>
+                                                    <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">Add/Update Note</button>
+                                                    <div class="register-link" id="message-div2"></div>
+                                                </form>
+                                                <script>
+                                                    const noteForm = document.getElementById("user-note-form");
+                                                    noteForm.addEventListener("submit", e => {
+                                                    e.preventDefault();
+                                                    const formData = new FormData(noteForm);
+                                                    fetch("/api/challenge1/addNote", {
+                                                        method: "POST",
+                                                        body: JSON.stringify(Object.fromEntries(formData)),
+                                                        headers: { "Content-Type": "application/json" }
+                                                    })
+                                                    .then(r => r.json())
+                                                    .then(data => {
+                                                        if (data.status === "success") {
+                                                            document.getElementById("message-div2").innerHTML = '<div class="alert alert-success" role="alert">' + data.message + '</div>';
+                                                            setTimeout(function(){document.getElementById("message-div2").innerHTML=''}, 5000)
+                                                        }
+                                                        else {
+                                                            document.getElementById("message-div2").innerHTML = '<div class="alert alert-danger" role="alert">' + data.message + '</div>';
+                                                            setTimeout(function(){document.getElementById("message-div2").innerHTML=''}, 5000)
+                                                        }
+                                                    })
+                                                    .catch(console.error);
+                                                    });
+                                                </script>
+                                            </div>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
+                            <script>
+                                fetch('/api/profile')
+                                .then(response => response.json())
+                                .then(data => {
+                                    document.querySelector('#username-field').textContent = data.user.username;
+                                    document.querySelector('#user-score').textContent = `Score: ${data.user.score}`;
+                                    fetch('/api/challenge1/getNote?username=' + data.user.username)
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        if(!data.note) {
+                                            document.querySelector('#user-note').value = "";
+                                            document.querySelector('#user-note').placeholder = "Add your note";
+                                        }
+                                        else {
+                                            document.querySelector('#user-note').value = data.note;
+                                        }
+                                    })
+                                    .catch(error => console.error(error));
+                                })
+                                .catch(error => console.error(error));
+                                
+                                
+                            </script>
+                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- END PAGE CONTAINER-->
 
     </div>
-    <script>
-        year = new Date().getFullYear();
-        document.getElementsByClassName("copyright")[0].innerHTML = '<p>Copyright © ' + year +' Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>';
-    </script>
+
     <!-- Jquery JS-->
     <script src="vendor/jquery-3.2.1.min.js"></script>
     <!-- Bootstrap JS-->

@@ -79,7 +79,7 @@
                             .then(r => r.json())
                             .then(data => {
                                 if (data.status === "success") window.location.href = "/login";
-                                else document.getElementById("message-div").innerText = data.message;
+                                else document.getElementById("message-div").innerHTML = '<div class="alert alert-danger" role="alert">' + data.message + '</div>';
                             })
                             .catch(console.error);
                             });

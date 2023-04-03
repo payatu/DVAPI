@@ -10,7 +10,8 @@ const userSchema = new mongoose.Schema({
   secretNote: { type: String, required: false, default: "" },
   score: { type: Number, default: 0 },
   profilePic: { type: String, default: "" },
-  status: { type: String, default: "ACTIVE"} // ACTIVE, BANNED
+  status: { type: String, default: "ACTIVE"}, // ACTIVE, BANNED
+  solves: { type: Object, default: {1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,10:0} }
 });
 
 // Hash the user password before saving to the database
