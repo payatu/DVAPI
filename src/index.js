@@ -17,7 +17,6 @@ app.use('/css', express.static(__dirname + '/frontend/css'));
 app.use('/images', express.static(__dirname + '/frontend/images'));
 app.use('/fonts', express.static(__dirname + '/frontend/fonts'));
 app.use('/js', express.static(__dirname + '/frontend/js'));
-app.use('/media', express.static(__dirname + '/frontend/media'));
 app.use('/uploads', express.static(__dirname + '/uploads'));
 app.set('views', './frontend')
 app.set('view engine', 'ejs');

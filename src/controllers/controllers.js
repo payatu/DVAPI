@@ -218,7 +218,7 @@ exports.uploadProfileImage = (req, res, next) => {
     if (!allowedExtensions.includes(fileExtension)) { // Check extension if file is an image
       return res.status(400).send('Invalid file type. Only PNG, JPG, and JPEG files are allowed.');
     }
-    const uploadPath = path.join(__dirname, '../uploads', req.userId + '.' + fileExtension);
+    const uploadPath = path.join(__dirname, '../uploads', req.userId + fileExtension);
     const normalizedPath = path.normalize(uploadPath);
     if (!normalizedPath.startsWith(path.join(__dirname, '../uploads'))) {
       return res.status(400).send('Invalid file path');
@@ -239,11 +239,11 @@ exports.uploadProfileImage = (req, res, next) => {
           console.log(updatedUser)
           if(fileSize >= (1024)) {
             if(fileSize >= (1024*50)) {
-              return res.status(200).json({ message: 'File uploaded successfully', profilePic: req.userId + '.' + fileExtension, size: `${(fileSize/1024).toFixed(2)} MB`, flag: 'flag{file_size_is_important}' });
+              return res.status(200).json({ message: 'File uploaded successfully', profilePic: req.userId + fileExtension, size: `${(fileSize/1024).toFixed(2)} MB`, flag: 'flag{file_size_is_important}' });
             }
-            return res.status(200).json({ message: 'File uploaded successfully', profilePic: req.userId + '.' + fileExtension, size: `${(fileSize/1024).toFixed(2)} MB` });
+            return res.status(200).json({ message: 'File uploaded successfully', profilePic: req.userId + fileExtension, size: `${(fileSize/1024).toFixed(2)} MB` });
           }
-          return res.status(200).json({ message: 'File uploaded successfully', profilePic: req.userId + '.' + fileExtension, size: `${fileSize} KB` });
+          return res.status(200).json({ message: 'File uploaded successfully', profilePic: req.userId + fileExtension, size: `${fileSize} KB` });
         } catch (error) { // handle error
           console.log('Failed to update user:', error);
           return res.status(500).json({ message: 'Failed to update user profile pic' });
