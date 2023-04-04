@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const Challenge = require('../models/challenge')
 const path = require('path');
+const fs = require('fs');
 
 const dummyusers = [
   { username: 'admin', password: 'admin*$@@!#!4565422', score: 0, status: 'ACTIVE', secretNote: 'flag{bola_15_ev3rywh3r3}'},
@@ -217,6 +218,12 @@ exports.uploadProfileImage = (req, res, next) => {
     const fileExtension = path.extname(file.name).toLowerCase();
     if (!allowedExtensions.includes(fileExtension)) { // Check extension if file is an image
       return res.status(400).send('Invalid file type. Only PNG, JPG, and JPEG files are allowed.');
+    }
+    const uploadDir = path.join(__dirname, '../uploads');
+    if (!fs.existsSync(uploadDir)) {
+      // Create directory if it doesn't exist
+      fs.mkdirSync(uploadDir);
+      console.log(`Created directory: ${uploadDir}`);
     }
     const uploadPath = path.join(__dirname, '../uploads', req.userId + fileExtension);
     const normalizedPath = path.normalize(uploadPath);
