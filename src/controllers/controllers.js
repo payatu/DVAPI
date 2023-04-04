@@ -233,7 +233,7 @@ exports.uploadProfileImage = (req, res, next) => {
         try {
           const updatedUser = await User.findOneAndUpdate(  // Update the user's profile pic
             { _id: userId },
-            { profilePic: req.userId + file.name },
+            { profilePic: req.userId + fileExtension },
             { new: true }
           );
           console.log(updatedUser)
@@ -307,16 +307,16 @@ exports.registerPage = (req, res, next) => {
 }
 
 exports.scoreboardPage = (req, res, next) => {
-  res.render('scoreboard', {})
+  res.render('scoreboard', {user: req.user})
 }
 
 exports.profilePage = (req, res, next) => {
-  res.render('profile', {profilePic: req.user.profilePic})
+  res.render('profile', {user: req.user})
 }
 
 exports.challengePage = (req, res, next) => {
   console.log(req.user)
-  res.render('challenges', {profilePic: req.user.profilePic})
+  res.render('challenges', {user: req.user})
 }
 
 exports.logout = (req, res, next) => {

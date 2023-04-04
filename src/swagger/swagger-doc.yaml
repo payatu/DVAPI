@@ -1,0 +1,72 @@
+openapi: 3.0.0
+info:
+  title: API TEST
+  version: 1.0.0
+  description: API Test Collection from Postman
+paths:
+  /api/login:
+    post:
+      summary: Login user
+      operationId: login
+      tags:
+        - login
+      responses:
+        '200':
+          description: Login to obtain JWT token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                username:
+                  type: string
+                  example: user
+                password:
+                  type: string
+                  example: pass
+              required:
+                - username
+                - password
+  /api/profile:
+    get:
+      summary: Get profile
+      operationId: getProfile
+      tags:
+        - getProfile
+      responses:
+        '200':
+          description: Profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+        - CookieAuth: []
+  /api/profile/upload:
+    post:
+      summary: Upload profile picture
+      operationId: uploadProfilePic
+      tags:
+        - uploadProfilePic
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Profile picture uploaded successfully
+      security:
+        - CookieAuth: []
+security:
+  - CookieAuth: []
+components:
+  securitySchemes:
+    CookieAuth:
+      type: apiKey
+      in: cookie
+      name: auth

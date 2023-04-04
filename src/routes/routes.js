@@ -24,8 +24,8 @@ router.get('/register', controller.registerPage);
 router.get('/scoreboard', auth.verifyTokenforPage, controller.scoreboardPage);
 router.get('/profile', auth.verifyTokenforPage, controller.profilePage);
 router.get('/challenges', auth.verifyTokenforPage, controller.challengePage);
+router.get('*', controller.get404);
 router.get('/:page', controller.viewPage);
 
-// router.get('*', controller.get404);
 
 module.exports = router;
