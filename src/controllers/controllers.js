@@ -64,7 +64,7 @@ exports.get404 = (req, res, next) => {
     };
 
 exports.verify = (req, res, next) => {
-    res.json({ message: 'Authentication successful' });
+    res.json({ status: 'success', message: 'Authentication successful', user: req.user });
 }
 
 exports.getProfile = (req, res, next) => {

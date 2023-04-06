@@ -40,10 +40,17 @@ exports.login = async (req, res) => {
     console.log(user)
     const token = jwt.sign({ userId: user._id, username: user.username }, JWT_SECRET);
     if(username == "admin") {
-      return res.cookie('auth', token, { httpOnly: true }).json({ status: "success", message: 'Authentication successful', flag: "flag{eZ_n0SQLi_pWn}" });
+      // res.cookie('token', token, {
+      //   httpOnly: true, // Set the cookie as HTTP-only
+      // });
+      res.set('Authorization', `Bearer ${token}`);
+      return res.json({ status: 'success', message: 'Authentication successful', flag: "flag{eZ_n0SQLi_pWn}" });
     }
-    // return res.json({ token });
-    return res.cookie('auth', token, { httpOnly: true }).json({ status: "success", message: 'Authentication successful' });
+    // res.cookie('token', token, {
+    //   httpOnly: true, // Set the cookie as HTTP-only
+    // });
+    res.set('Authorization', `Bearer ${token}`);
+    return res.json({ status: 'success', message: 'Authentication successful' });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Internal server error' });
@@ -54,7 +61,10 @@ exports.login = async (req, res) => {
 exports.verifyToken = async (req, res, next) => {
   try {
     // Get the token from the Authorization header
-    const token = req.cookies.auth;
+    const authHeader = req.headers['authorization'];
+    console.log(req.headers)
+    console.log(authHeader)
+    const token = authHeader.split(' ')[1];
     if (!token) {
       return res.status(401).json({ status: "error", message: 'Authentication failed. No token supplied' });
     }
@@ -85,7 +95,8 @@ exports.verifyToken = async (req, res, next) => {
 exports.verifyTokenforPage = async (req, res, next) => {
   try {
     // Get the token from the Authorization header
-    const token = req.cookies.auth;
+    const authHeader = req.headers['authorization'];
+    const token = authHeader.split(' ')[1];
     if (!token) {
       // return res.status(401).json({ status: "error", message: 'Authentication failed. No token supplied' });
       return res.status(301).redirect('/login');
@@ -113,7 +124,8 @@ exports.verifyTokenforPage = async (req, res, next) => {
 exports.verifyTokenError = async (req, res, next) => {
   try {
     // Get the token from the Authorization header
-    const token = req.cookies.auth;
+    const authHeader = req.headers['authorization'];
+    const token = authHeader.split(' ')[1];
     if (!token) {
       return res.status(401).json({ status: "error", message: 'Authentication failed. No token supplied' });
     }

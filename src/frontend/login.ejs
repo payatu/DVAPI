@@ -76,7 +76,20 @@
                                 body: JSON.stringify(Object.fromEntries(formData)),
                                 headers: { "Content-Type": "application/json" }
                             })
-                            .then(r => r.json())
+                            .then(r => {
+                                if (r.status >= 200 && r.status <= 299 && r.headers.has('Authorization')) {
+                                // Get the "Authorization" header value
+                                const authorizationHeader = r.headers.get('Authorization');
+
+                                // Extract the JWT token from the authorization header
+                                if (authorizationHeader.startsWith('Bearer ')) {
+                                    const jwtToken = authorizationHeader.substr(7);
+                                    localStorage.setItem('auth', jwtToken);
+                                    console.log('JWT Token:', jwtToken); // JWT token obtained from the "Authorization" header
+                                }
+                                }
+                                return r.json();
+                            })
                             .then(data => {
                                 if (data.status === "success") window.location.href = "/challenges";
                                 else document.getElementById("message-div").innerHTML = '<div class="alert alert-danger" role="alert">' + data.message + '</div>';
