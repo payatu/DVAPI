@@ -68,13 +68,7 @@
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <div class="header-wrap">
-                            <form class="form-header" action="" method="POST">
-                                <input class="au-input au-input--xl" type="text" name="search" placeholder="Search for datas &amp; reports..." />
-                                <button class="au-btn--submit" type="submit">
-                                    <i class="zmdi zmdi-search"></i>
-                                </button>
-                            </form>
-                            <div class="header-button">
+                            <div class="header-button" style="position:absolute;right:0px; margin: 25px;">
                                 <div class="noti-wrap">
                                     <div class="noti__item js-item-menu">
                                         <i class="fa fa-ticket" onclick="document.getElementById('ticket-button').click();"></i>
@@ -150,13 +144,13 @@
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">
-                                            Challenge Description goes here.
-                                        </p>
+                                            BOLA vulnerabilities can arise when the object access is not properly checked for user authorization. Proper object level authorization should be implemented on all API endpoints that perform CRUD operations on objects.                                        </p>
                                         <br>
                                         <!-- <br> -->
                                         <div class="input-group">
                                             <form id="challenge-1" class="flag-submit-form">
                                                 <input type="text" id="flag" name="flag" placeholder="Flag" class="form-control">
+                                                <br>
                                                 <div class="input-group-btn">
                                                     <button class="btn btn-primary">Submit</button>
                                                 </div>
@@ -170,7 +164,7 @@
                             <div class="col-md-4">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong class="card-title">API1:2023 Broken Object Level Authorization
+                                        <strong class="card-title">API2:2023 Broken Authentication
                                             <small>
                                                 <span class="badge badge-success float-right mt-1" id="challenge-card-2">Solved</span>
                                             </small>
@@ -178,13 +172,13 @@
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">
-                                            Challenge Description goes here.
-                                        </p>
+                                            Authentication endpoints, which are typically public-facing, are a common target for attackers. To prevent attacks, these endpoints should have extra protection measures in place. However, misconfigurations can occur due to insufficient threat modeling.                                        </p>
                                         <br>
                                         <!-- <br> -->
                                         <div class="input-group">
                                             <form id="challenge-2" class="flag-submit-form">
                                                 <input type="text" id="flag" name="flag" placeholder="Flag" class="form-control">
+                                                <br>
                                                 <div class="input-group-btn">
                                                     <button class="btn btn-primary">Submit</button>
                                                 </div>
@@ -198,7 +192,7 @@
                             <div class="col-md-4">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong class="card-title">API1:2023 Broken Object Level Authorization
+                                        <strong class="card-title">API3:2023 Broken Object Property Level Authorization
                                             <small>
                                                 <span class="badge badge-success float-right mt-1" id="challenge-card-3"></span>
                                             </small>
@@ -206,13 +200,13 @@
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">
-                                            Challenge Description goes here.
-                                        </p>
+                                            APIs perform actions on objects and their properties. Developers may neglect property level authorization, allowing users to modify object properties they shouldn't access, despite having object level authorization.                                        </p>
                                         <br>
                                         <!-- <br> -->
                                         <div class="input-group">
                                             <form id="challenge-3" class="flag-submit-form">
                                                 <input type="text" id="flag" name="flag" placeholder="Flag" class="form-control">
+                                                <br>
                                                 <div class="input-group-btn">
                                                     <button class="btn btn-primary">Submit</button>
                                                 </div>
@@ -226,7 +220,7 @@
                             <div class="col-md-4">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong class="card-title">API1:2023 Broken Object Level Authorization
+                                        <strong class="card-title">API4:2023 Unrestricted Resource Consumption
                                             <small>
                                                 <span class="badge badge-success float-right mt-1" id="challenge-card-4"></span>
                                             </small>
@@ -234,13 +228,13 @@
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">
-                                            Challenge Description goes here.
-                                        </p>
+                                            API requests consume resources such as CPU/memory, bandwidth, storage, and integrations with other services. Attackers can cause high resource consumption by sending excessive requests, leading to unresponsive APIs or increased business expenses.                                        </p>
                                         <br>
                                         <!-- <br> -->
                                         <div class="input-group">
                                             <form id="challenge-4" class="flag-submit-form">
                                                 <input type="text" id="flag" name="flag" placeholder="Flag" class="form-control">
+                                                <br>
                                                 <div class="input-group-btn">
                                                     <button class="btn btn-primary">Submit</button>
                                                 </div>
@@ -254,7 +248,7 @@
                             <div class="col-md-4">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong class="card-title">API1:2023 Broken Object Level Authorization
+                                        <strong class="card-title">API5:2023 Broken Function Level Authorization
                                             <small>
                                                 <span class="badge badge-success float-right mt-1" id="challenge-card-5"></span>
                                             </small>
@@ -262,13 +256,13 @@
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">
-                                            Challenge Description goes here.
-                                        </p>
+                                            APIs enable users to perform specific functions on API objects, with some of these functions restricted to certain user permissions. It is crucial to implement proper authorization checks for API functions to ensure users are granted the correct privileges for object manipulation.                                        </p>
                                         <br>
                                         <!-- <br> -->
                                         <div class="input-group">
                                             <form id="challenge-5" class="flag-submit-form">
                                                 <input type="text" id="flag" name="flag" placeholder="Flag" class="form-control">
+                                                <br>
                                                 <div class="input-group-btn">
                                                     <button class="btn btn-primary">Submit</button>
                                                 </div>
@@ -282,7 +276,7 @@
                             <div class="col-md-4">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong class="card-title">API1:2023 Broken Object Level Authorization
+                                        <strong class="card-title">API6:2023 Server Side Request Forgery
                                             <small>
                                                 <span class="badge badge-success float-right mt-1" id="challenge-card-6"></span>
                                             </small>
@@ -290,13 +284,14 @@
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">
-                                            Challenge Description goes here.
+                                            Server-Side Request Forgery (SSRF) flaws occur whenever an API is fetching a remote resource without validating the user-supplied URL. It allows an attacker to coerce the application to send a crafted request to an unexpected destination, even when protected by a firewall or a VPN.
                                         </p>
                                         <br>
                                         <!-- <br> -->
                                         <div class="input-group">
                                             <form id="challenge-6" class="flag-submit-form">
                                                 <input type="text" id="flag" name="flag" placeholder="Flag" class="form-control">
+                                                <br>
                                                 <div class="input-group-btn">
                                                     <button class="btn btn-primary">Submit</button>
                                                 </div>
@@ -310,7 +305,7 @@
                             <div class="col-md-4">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong class="card-title">API1:2023 Broken Object Level Authorization
+                                        <strong class="card-title">API7:2023 Security Misconfiguration
                                             <small>
                                                 <span class="badge badge-success float-right mt-1" id="challenge-card-7"></span>
                                             </small>
@@ -318,13 +313,14 @@
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">
-                                            Challenge Description goes here.
+                                            A security misconfiguration arises when essential security settings are either not implemented or implemented with errors
                                         </p>
                                         <br>
                                         <!-- <br> -->
                                         <div class="input-group">
                                             <form id="challenge-7" class="flag-submit-form">
                                                 <input type="text" id="flag" name="flag" placeholder="Flag" class="form-control">
+                                                <br>
                                                 <div class="input-group-btn">
                                                     <button class="btn btn-primary">Submit</button>
                                                 </div>
@@ -338,7 +334,7 @@
                             <div class="col-md-4">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong class="card-title">API1:2023 Broken Object Level Authorization
+                                        <strong class="card-title">API8:2023 Lack of Protection from Automated Threats
                                             <small>
                                                 <span class="badge badge-success float-right mt-1" id="challenge-card-8"></span>
                                             </small>
@@ -346,13 +342,14 @@
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">
-                                            Challenge Description goes here.
+                                            An automated threat is a type of computer security threat to a computer network or web application, characterised by the malicious use of automated tools such as Internet bots, Using large amounts of repetitive tasks with almost no cost to execute.
                                         </p>
                                         <br>
                                         <!-- <br> -->
                                         <div class="input-group">
                                             <form id="challenge-8" class="flag-submit-form">
                                                 <input type="text" id="flag" name="flag" placeholder="Flag" class="form-control">
+                                                <br>
                                                 <div class="input-group-btn">
                                                     <button class="btn btn-primary">Submit</button>
                                                 </div>
@@ -366,7 +363,8 @@
                             <div class="col-md-4">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong class="card-title">API1:2023 Broken Object Level Authorization
+                                        <strong class="card-title">API9:2023 Improper Inventory Management
+
                                             <small>
                                                 <span class="badge badge-success float-right mt-1" id="challenge-card-9"></span>
                                             </small>
@@ -374,13 +372,14 @@
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">
-                                            Challenge Description goes here.
+                                            Improper management of APIs refers to instances when the production APIs are built, utilized, and then no longer managed without being terminated. 
                                         </p>
                                         <br>
                                         <!-- <br> -->
                                         <div class="input-group">
                                             <form id="challenge-9" class="flag-submit-form">
                                                 <input type="text" id="flag" name="flag" placeholder="Flag" class="form-control">
+                                                <br>
                                                 <div class="input-group-btn">
                                                     <button class="btn btn-primary">Submit</button>
                                                 </div>
@@ -394,7 +393,7 @@
                             <div class="col-md-4">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong class="card-title">API1:2023 Broken Object Level Authorization
+                                        <strong class="card-title">API10:2023 Unsafe Consumption of APIs
                                             <small>
                                                 <span class="badge badge-success float-right mt-1" id="challenge-card-10"></span>
                                             </small>
@@ -402,13 +401,15 @@
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">
-                                            Challenge Description goes here.
+                                            Developers tend to trust data received from third-party APIs more than user input. This is especially true for APIs offered by well-known companies. Because of that, developers tend to adopt weaker security standards, for instance, in regards to input validation and sanitization.
+
                                         </p>
                                         <br>
                                         <!-- <br> -->
                                         <div class="input-group">
                                             <form id="challenge-10" class="flag-submit-form">
                                                 <input type="text" id="flag" name="flag" placeholder="Flag" class="form-control">
+                                                <br>
                                                 <div class="input-group-btn">
                                                     <button class="btn btn-primary">Submit</button>
                                                 </div>
@@ -441,13 +442,9 @@
                                                         if (data.status === "success") {
                                                             alert(data.message);
                                                             updateProgressBar(data);
-                                                            // document.getElementById("message-div2").innerHTML = '<div class="alert alert-success" role="alert">' + data.message + '</div>';
-                                                            // setTimeout(function(){document.getElementById("message-div2").innerHTML=''}, 5000)
                                                         }
                                                         else {
                                                             alert(data.message);
-                                                            // document.getElementById("message-div2").innerHTML = '<div class="alert alert-danger" role="alert">' + data.message + '</div>';
-                                                            // setTimeout(function(){document.getElementById("message-div2").innerHTML=''}, 5000)
                                                         }
                                                     })
                                                     .catch(console.error);

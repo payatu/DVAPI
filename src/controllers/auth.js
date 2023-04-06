@@ -31,25 +31,17 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { username, password } = req.body;
-    // Find the user with the given username
-    // const {username, password } = req.query;
+    // Find the user with the given username and password
     const user = await User.findOne({ username: username, password: password });
     if (!user) {
       return res.status(401).json({ message: 'Authentication failed' });
     }
-    // Check if the password matches
-    // const isMatch = await user.comparePassword(password);
-    // console.log(password)
-    // const isMatch = user.password === password;
-    // if (!isMatch) {
-    //   return res.status(401).json({ message: 'Authentication failed' });
-    // }
     // Generate a JWT token and send it in the response
     console.log(user)
+    const token = jwt.sign({ userId: user._id, username: user.username }, JWT_SECRET);
     if(username == "admin") {
       return res.cookie('auth', token, { httpOnly: true }).json({ status: "success", message: 'Authentication successful', flag: "flag{eZ_n0SQLi_pWn}" });
     }
-    const token = jwt.sign({ userId: user._id, username: user.username }, JWT_SECRET);
     // return res.json({ token });
     return res.cookie('auth', token, { httpOnly: true }).json({ status: "success", message: 'Authentication successful' });
   } catch (err) {
@@ -115,5 +107,36 @@ exports.verifyTokenforPage = async (req, res, next) => {
   } catch (err) {
     console.error(err);
     return res.status(301).redirect('/login');
+  }
+};
+
+exports.verifyTokenError = async (req, res, next) => {
+  try {
+    // Get the token from the Authorization header
+    const token = req.cookies.auth;
+    if (!token) {
+      return res.status(401).json({ status: "error", message: 'Authentication failed. No token supplied' });
+    }
+    // Verify the token
+    const decoded = jwt.verify(token, JWT_SECRET);
+    decoded_count = Object.keys(decoded).length;
+    if(decoded) {
+        const user = await User.findOne({ _id: decoded.userId });
+        if (!user) {
+            return res.status(401).json({ status: "error", message: 'Authentication failed. Invalid user.' });
+        }
+        else {
+          if ( decoded_count != 3) {
+            return res.status(200).json({ status: "success", message: "Broken Authentication", flag: "flag{aBus1ng_w34K_s3cR3TTT}"})
+          }
+            console.log(user);
+            req.userId = decoded.userId;
+            req.user = user
+            next();
+        }
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(401).json({ status: "error", err, stack: err.stack,message: 'Sever Misconfiguration', flag: "flag{St4cK_tR4c3_eRR0R}" });
   }
 };

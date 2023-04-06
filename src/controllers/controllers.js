@@ -2,12 +2,22 @@ const User = require('../models/user');
 const Challenge = require('../models/challenge')
 const path = require('path');
 const fs = require('fs');
+const http = require('http');
+const request = require('request');
+const Ticket = require('../models/ticket');
+const crypto = require('crypto');
+
+function generateRandomString(length) {
+  return crypto.randomBytes(Math.ceil(length/2))
+          .toString('hex')
+          .slice(0,length);
+}
 
 const dummyusers = [
-  { username: 'admin', password: 'admin*$@@!#!4565422', score: 0, status: 'ACTIVE', secretNote: 'flag{bola_15_ev3rywh3r3}'},
-  { username: 'Alice', password: 'AlicePassword1@44', score: 100, secretNote: 'I like pizza. Definitely gonna eat one!' },
-  { username: 'Bob', password: 'BobtheBuild3r512!', score: 200, secretNote: 'I must win this CTF!'},
-  { username: 'Charlie', password: 'CharlieCharlie11333377', score: 300, secretNote: 'What do I write here???' }
+  { username: 'admin', password: generateRandomString(32), score: 0, status: 'ACTIVE', secretNote: 'flag{bola_15_ev3rywh3r3}'},
+  { username: 'Alice', password: generateRandomString(32), score: 100, secretNote: 'I like pizza. Definitely gonna eat one!' },
+  { username: 'Bob', password: generateRandomString(32), score: 200, secretNote: 'I must win this CTF!'},
+  { username: 'Charlie', password: generateRandomString(32), score: 300, secretNote: 'What do I write here???' }
 ];
 
 // Add dummy users to the database
@@ -301,30 +311,44 @@ exports.flagSubmit = async (req, res, next) => {
   }
 }
 
-exports.submitTicket = (req, res, next) => {
-  return res.json({ status: "success", message: "Ticket has been received"});
-}
+exports.submitTicket = (req, res ) => {
+  try{
+    const {message}= req.body
+  if(!message){
+    res.status(400).send({Error:"message parameter required"})
+  }
+  let ticketId = generateId();
+  console.log(ticketId)
+  try {
+  const ticket = new Ticket ({
+    ticketId: ticketId,
+      message: message,
+      new: true
+  });
+  ticket.save().then()
+      res.send({status:"success", Message: "Ticket Created your ticketId is :" + ticketId });
+  }catch(err){
+      res.status(400).send({Error: "Ticket could not be generated try again !!"});
+  };
+  function generateId() {
+    return '10' + Math.floor(1000 + Math.random() * 9000);
+  }
+}catch (err) {
+  console.error(err.message);
+  res.status(500).send({Error:"Something went wrong"});
+}};
 
 exports.getUser = async (req, res, next) => {
-  user = req.params.username;
-  const userProfile = await User.findOne({ username: user }, { _id: false, password: false, secretNote: false, status: false});
+  const user = req.params.username;
+  const userProfile = await User.findOne({ username: user }, {
+    _id: false,
+    password: false,
+    secretNote: false,
+    status: false
+  });
   res.json({ status: 'success', user: userProfile });
 }
 
-exports.deleteUser = async (req, res, next) => {
-  user = req.params.username;
-  if ( user === 'admin' ) {
-    return res.json({ status: 'error', message: 'Cannot delete this account' });
-  }
-  const deletedUser = await User.deleteOne({ username: user });
-  console.log(deletedUser.deletedCount)
-  if ( deletedUser.deletedCount > 0 ) {
-    return res.json({ status: 'success', message: 'User deleted successfully' });  
-  }
-  else {
-    return res.json({ status: 'error', message: 'User does not exist' });  
-  }
-}
 
 exports.loginPage = (req, res, next) => {
   res.render('login', {});
@@ -360,3 +384,166 @@ exports.viewPage = (req, res, next) => {
   const page = req.params.page;
     res.render(page);
 }
+
+
+// Add note with any link
+exports.addNoteWithLink = (req, res) => {
+  const { url } = req.body; //get the URL from the request body
+  if(!url){
+    return res.send('url parameter missing');}
+  console.log(url)
+    request(url, (err, response, body) => { //make an HTTP request to that URL
+    try {
+      const note = body.split('\n').slice(0,1).join('\n');
+      console.log(note)
+      async function updateUserSecretNote(userId) {
+        try {
+          const updatedUser = await User.findOneAndUpdate(
+            { _id: userId },
+            { secretNote: note },
+            { new: true }
+          );
+          console.log('User updated:', updatedUser);
+          return res.json({ message: 'Successfully added a note', note });
+        } catch (error) { // handle error
+          console.log('Error updating user:', error);
+          res.json({ message: 'Failed to add note' });
+        }
+      }
+      updateUserSecretNote(req.userId);
+    }
+    catch(err){
+      res.status(500).send('There was an error: ');
+    }
+});
+}
+
+
+
+// exports.submitTicket = (req, res) => {
+//   try{
+//     const {message}= req.body
+//   if(!message){
+//     res.status(400).send({Error:"message parameter required"})
+//   }
+//   let ticketId = generateId();
+//   console.log(ticketId)
+//   try {
+//   const ticket = new Ticket ({
+//     ticketId: ticketId,
+//       message: message,
+//       new: true
+//   });
+//   ticket.save().then()
+//       res.send('Ticket Created your ticketId is : '+ ticketId);
+//   }catch(err){
+//       res.status(400).send({Error: "Ticket could not be generated try again !!"});
+//   };
+//   function generateId() {
+//     return '10' + Math.floor(1000 + Math.random() * 9000);
+//   }
+// }catch (err) {
+//   console.error(err.message);
+//   res.status(500).send({Error:"Something went wrong"});
+// }};
+
+
+
+
+exports.checkTicket = (req, res) => {
+  const { ticketno } = req.body;
+  if(!ticketno){
+    res.status(400).send({Error:"ticketno parameter required"})
+  }
+  async function checkTicket(ticketId){
+  try {
+  const ticketCount = await Ticket.find(ticketId).count();
+    console.log(ticketCount)
+  if (ticketCount > 100) {
+    return res.status(200).json({ msg: 'Lack of Protection from Automated Threats', flag:'flag{n0_r4t3_L1m1T?}' });
+  }
+  else{
+  const ticket = await Ticket.findOne({ ticketId: ticketno });
+
+  if (!ticket) {
+    return res.status(404).json({ msg: 'Ticket not found' });
+  }
+  else{
+  res.json({ticket:ticket.message,ticketno});
+  }
+}
+}  
+ catch (err) {
+  console.error(err.message);
+  res.status(500).send({Error:"Something went wrong"});
+}
+}
+checkTicket(req.ticketId);
+}
+
+
+
+const challenge =  [
+  'Challenge 1 - released',
+  'Challenge 2 - released',
+  'Challenge 3 - released',
+  'Challenge 4 - released',
+  'Challenge 5 - released',
+  'Challenge 6 - released',
+  'Challenge 7 - released',
+  'Challenge 8 - released',
+  'Challenge 9 - released',
+  'Challenge 10 - released'
+];
+
+const allchallenges =  [
+  'Challenge 11 - unreleased',
+  'Challenge 12 - unreleased_flag{a553Ts_m4N4g3m3NT_g0n3_wR0ng}'
+];
+
+
+exports.getChallenges = (req, res) => {
+ 
+  res.json(challenge);
+};
+
+exports.allChallenges = (req, res) => {
+  const { unreleased } = req.body;
+  const { released } = req.body;
+  if(unreleased === 1) {
+    res.json(allchallenges);
+  } 
+  else if (released === 1) {
+    res.json(challenge);
+  }
+  else {
+    return res.status(500).json({ message: "Error !!!!" });
+  }
+};
+    
+exports.deleteUser = async (req, res, next) => { 
+  const user = req.params.username; 
+  if ( user === 'admin' ) { 
+    return res.json({ status: 'error', message: 'Cannot delete this account' }); } 
+    const deletedUser = await User.deleteOne({ username: user }); 
+    console.log(deletedUser.deletedCount) 
+    if ( deletedUser.deletedCount > 0 ) { 
+      return res.json({ status: 'success', message: 'User deleted successfully',flag:"flag{n0_fUncTi0N_L3v3L_aUtH???}" }); 
+    } 
+      else { 
+        return res.json({ status: 'error', message: 'User does not exist' }); 
+      } } 
+
+
+const HOST = 'localhost';
+const PORT = 8443;
+
+const server = http.createServer((request, response) => {
+  response.statusCode = 200;
+  response.setHeader('Content-Type', 'text/plain');
+  response.end('flag{55RF_c4n_wR3AK_h4v0c}\n');
+});
+
+server.listen(PORT, HOST, () => {
+  console.log(`Server running at http://${HOST}:${PORT}/`);
+});
