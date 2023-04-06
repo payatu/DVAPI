@@ -377,7 +377,7 @@ exports.userPage = (req, res, next) => {
 }
 
 exports.logout = (req, res, next) => {
-  return res.clearCookie('auth').redirect('/login');
+  return res.redirect('/login');
 }
 
 exports.viewPage = (req, res, next) => {
