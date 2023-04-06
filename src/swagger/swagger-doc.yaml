@@ -1,53 +1,15 @@
 openapi: 3.0.0
 info:
-  title: API TEST
+  title: DVAPI Test
   version: 1.0.0
-  description: API Test Collection from Postman
+servers:
+  - url: http://localhost:3000
 paths:
-  /api/login:
-    post:
-      summary: Login user
-      operationId: login
-      tags:
-        - login
-      responses:
-        '200':
-          description: Login to obtain JWT token
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                username:
-                  type: string
-                  example: user
-                password:
-                  type: string
-                  example: pass
-              required:
-                - username
-                - password
-  /api/profile:
-    get:
-      summary: Get profile
-      operationId: getProfile
-      tags:
-        - getProfile
-      responses:
-        '200':
-          description: Profile retrieved successfully
-          content:
-            application/json:
-              schema:
-                type: object
-      security:
-        - CookieAuth: []
   /api/profile/upload:
     post:
-      summary: Upload profile picture
-      operationId: uploadProfilePic
       tags:
-        - uploadProfilePic
+        - default
+      summary: Upload
       requestBody:
         content:
           multipart/form-data:
@@ -57,16 +19,37 @@ paths:
                 file:
                   type: string
                   format: binary
+      parameters:
+        - name: Cookie
+          in: header
+          schema:
+            type: string
+          example: >-
+            auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDIzZTQ0YzI3NmFjMTJjMTQwZGFkM2IiLCJ1c2VybmFtZSI6ImFhIiwiaWF0IjoxNjgwMDczODA3fQ.SYgViC9FtYy_1j-HEVfr87UMv7ojsVVQAIBl5Im1Xh8
       responses:
         '200':
-          description: Profile picture uploaded successfully
-      security:
-        - CookieAuth: []
-security:
-  - CookieAuth: []
-components:
-  securitySchemes:
-    CookieAuth:
-      type: apiKey
-      in: cookie
-      name: auth
+          description: Successful response
+          content:
+            application/json: {}
+  /api/profile:
+    get:
+      tags:
+        - default
+      summary: Profile
+      parameters:
+        - name: Cookie
+          in: header
+          schema:
+            type: string
+          example: >-
+            auth=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NDIzZTQ0YzI3NmFjMTJjMTQwZGFkM2IiLCJ1c2VybmFtZSI6ImFhIiwiaWF0IjoxNjgwMDczODA3fQ.SYgViC9FtYy_1j-HEVfr87UMv7ojsVVQAIBl5Im1Xh8
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}

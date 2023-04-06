@@ -475,7 +475,7 @@
                         </div>
                         <form action="" method="post" id="ticket-form">
                             <div class="modal-body">
-                                <textarea id="ticket" rows="4" name="ticket" class="form-control" maxlength="500"></textarea>
+                                <textarea id="message" rows="4" name="message" class="form-control" maxlength="500"></textarea>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" id="close-modal" data-dismiss="modal">Cancel</button>
@@ -518,7 +518,7 @@
                     icon.style.color = originalColor;
                 }, 3000);
                 document.getElementById('close-modal').click();
-                document.getElementById('ticket').value = "";
+                document.getElementById('message').value = "";
             })
             .catch(console.error);
             });

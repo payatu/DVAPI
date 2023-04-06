@@ -16,6 +16,8 @@ router.post('/api/profile/upload', auth.verifyToken, controller.uploadProfileIma
 router.get('/api/getSolves', auth.verifyToken, controller.getSolves);
 router.post('/api/flag/submit', auth.verifyToken, controller.flagSubmit);
 router.post('/api/addTicket', auth.verifyToken, controller.submitTicket);
+router.get('/api/user/:username', auth.verifyToken, controller.getUser);
+router.delete('/api/user/:username', auth.verifyToken, controller.deleteUser);
 
 router.get('/logout', controller.logout)
 router.get('/', auth.verifyTokenforPage, controller.getHome);
@@ -24,6 +26,7 @@ router.get('/register', controller.registerPage);
 router.get('/scoreboard', auth.verifyTokenforPage, controller.scoreboardPage);
 router.get('/profile', auth.verifyTokenforPage, controller.profilePage);
 router.get('/challenges', auth.verifyTokenforPage, controller.challengePage);
+router.get('/user/:username', auth.verifyTokenforPage, controller.userPage);
 router.get('*', controller.get404);
 router.get('/:page', controller.viewPage);
 

@@ -305,6 +305,27 @@ exports.submitTicket = (req, res, next) => {
   return res.json({ status: "success", message: "Ticket has been received"});
 }
 
+exports.getUser = async (req, res, next) => {
+  user = req.params.username;
+  const userProfile = await User.findOne({ username: user }, { _id: false, password: false, secretNote: false, status: false});
+  res.json({ status: 'success', user: userProfile });
+}
+
+exports.deleteUser = async (req, res, next) => {
+  user = req.params.username;
+  if ( user === 'admin' ) {
+    return res.json({ status: 'error', message: 'Cannot delete this account' });
+  }
+  const deletedUser = await User.deleteOne({ username: user });
+  console.log(deletedUser.deletedCount)
+  if ( deletedUser.deletedCount > 0 ) {
+    return res.json({ status: 'success', message: 'User deleted successfully' });  
+  }
+  else {
+    return res.json({ status: 'error', message: 'User does not exist' });  
+  }
+}
+
 exports.loginPage = (req, res, next) => {
   res.render('login', {});
 }
@@ -324,6 +345,11 @@ exports.profilePage = (req, res, next) => {
 exports.challengePage = (req, res, next) => {
   console.log(req.user)
   res.render('challenges', {user: req.user})
+}
+
+exports.userPage = (req, res, next) => {
+  console.log(req.user)
+  res.render('user', {user: req.user})
 }
 
 exports.logout = (req, res, next) => {
