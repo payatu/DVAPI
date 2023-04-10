@@ -16,8 +16,17 @@ function generateRandomString(length) {
           .slice(0,length);
 }
 
+function extra(){
+  const answer = "137a24793a114b40aa2440703cb825ed455ab48320952c431d73d4b6239e9577";
+  const decipher = crypto.createDecipheriv('aes-256-cbc', wrench, iv);
+  let decrypted = decipher.update(answer, 'hex', 'utf-8');
+  decrypted += decipher.final('utf-8');
+  return decrypted;
+
+}
+
 const dummyusers = [
-  { username: 'admin', password: generateRandomString(32), score: 0, status: 'ACTIVE', secretNote: 'flag{bola_15_ev3rywh3r3}'},
+  { username: 'admin', password: generateRandomString(32), score: 0, status: 'ACTIVE', secretNote: extra()},
   { username: 'Alice', password: generateRandomString(32), score: 100, secretNote: 'I like pizza. Definitely gonna eat one!' },
   { username: 'Bob', password: generateRandomString(32), score: 200, secretNote: 'I must win this CTF!'},
   { username: 'Charlie', password: generateRandomString(32), score: 300, secretNote: 'What do I write here???' }
@@ -282,7 +291,7 @@ exports.uploadProfileImage = (req, res, next) => {
 }
 
 exports.getSolves = (req, res, next) => {
-  return res.json({ status: "success", solves: req.user.solves})
+  return res.json({ status: "success",username: req.user.username, solves: req.user.solves})
 }
 
 exports.flagSubmit = async (req, res, next) => {
@@ -451,7 +460,7 @@ exports.addNoteWithLink = (req, res) => {
             { new: true }
           );
           console.log('User updated:', updatedUser);
-          return res.json({ message: 'Successfully added a note', note });
+          return res.json({status:"success", message: 'Successfully added a note', note });
         } catch (error) { // handle error
           console.log('Error updating user:', error);
           res.json({ message: 'Failed to add note' });
