@@ -4,7 +4,7 @@ const YAML = require('yamljs');
 
 const app = express();
 
-const swaggerDocument = YAML.load('./swagger/swagger-doc.yaml');
+const swaggerDocument = YAML.load('./swagger/DVAPI.postman_collection.yaml');
 
 app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

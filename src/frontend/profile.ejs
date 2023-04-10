@@ -278,7 +278,7 @@
                                                     noteForm.addEventListener("submit", e => {
                                                     e.preventDefault();
                                                     const formData = new FormData(noteForm);
-                                                    fetch("/api/challenge1/addNote", {
+                                                    fetch("/api/addNote", {
                                                         method: "POST",
                                                         body: JSON.stringify(Object.fromEntries(formData)),
                                                         headers: { "Content-Type": "application/json", 'Authorization': `Bearer ${localStorage.getItem('auth')}` }
@@ -310,7 +310,7 @@
                                 .then(data => {
                                     document.querySelector('#username-field').textContent = data.user.username;
                                     document.querySelector('#user-score').textContent = `Score: ${data.user.score}`;
-                                    fetch('/api/challenge1/getNote?username=' + data.user.username, {
+                                    fetch('/api/getNote?username=' + data.user.username, {
                                         headers: {'Authorization': `Bearer ${localStorage.getItem('auth')}`}
                                     })
                                     .then(response => response.json())

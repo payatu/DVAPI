@@ -1,0 +1,253 @@
+openapi: 3.0.0
+info:
+  title: DVAPI
+  description: "Test testtest"
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /api/register:
+    post:
+      tags:
+        - default
+      summary: Register
+      description: "this is the register api"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                username: 'user'
+                password: 'user'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/login:
+    post:
+      tags:
+        - default
+      summary: Login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                username: '0001'
+                password: '0000'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/profile:
+    get:
+      tags:
+        - default
+      summary: Profile
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/challenge7/profileError:
+    get:
+      tags:
+        - default
+      summary: Profile Error
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/challenge6/addNoteWithLink:
+    post:
+      tags:
+        - default
+      summary: Add Note With Link
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                url: http://LOCALHOST:8443
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/flag/submit:
+    post:
+      tags:
+        - default
+      summary: CheckFlags
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                challengeNo: 1
+                flag: flag{bola_15_ev3rywh3r3}
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/getChallenges:
+    get:
+      tags:
+        - default
+      summary: Challenges
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/challenge9/allChallenges:
+    post:
+      tags:
+        - default
+      summary: All Challenges
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                unreleased: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/scores:
+    get:
+      tags:
+        - default
+      summary: Scores
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/user/0001:
+    get:
+      tags:
+        - default
+      summary: Get User
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/challenge1/getNote:
+    get:
+      tags:
+        - default
+      summary: Get Note
+      parameters:
+        - name: username
+          in: query
+          schema:
+            type: integer
+          example: '0001'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/challenge1/addNote:
+    post:
+      tags:
+        - default
+      summary: Add Note
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                note: hi new text
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/addTicket:
+    post:
+      tags:
+        - default
+      summary: Submit Ticket
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                message: 'test '
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/getticket:
+    post:
+      tags:
+        - default
+      summary: Get Ticket
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                ticketno: 100001
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/profile/upload:
+    post:
+      tags:
+        - default
+      summary: Upload ProfilePic
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/getSolves:
+    get:
+      tags:
+        - default
+      summary: Get Solves
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /logout:
+    get:
+      tags:
+        - default
+      summary: Logout
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
