@@ -190,7 +190,7 @@
                                     <div class="card-header">
                                         <strong class="card-title">API2:2023 Broken Authentication
                                             <small>
-                                                <span class="badge badge-success float-right mt-1" id="challenge-card-2">Solved</span>
+                                                <span class="badge badge-success float-right mt-1" id="challenge-card-2"></span>
                                             </small>
                                         </strong>
                                     </div>
@@ -469,6 +469,7 @@
                                                         }
                                                         else {
                                                             alert(data.message);
+                                                            updateProgressBar(data);
                                                         }
                                                     })
                                                     .catch(console.error);

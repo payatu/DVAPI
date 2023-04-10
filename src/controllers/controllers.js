@@ -6,6 +6,9 @@ const http = require('http');
 const request = require('request');
 const Ticket = require('../models/ticket');
 const crypto = require('crypto');
+const wrench = 'c6a1d2f21b69f31b87e19348747d41fc'; 
+const iv = Buffer.from('0123456789abcdef0123456789abcdef', 'hex');
+
 
 function generateRandomString(length) {
   return crypto.randomBytes(Math.ceil(length/2))
@@ -32,16 +35,16 @@ async function addDummyUsers() {
 addDummyUsers();
 
 const challenges = [
-  { challengeNo: 1, flag: 'flag{bola_15_ev3rywh3r3}' },
-  { challengeNo: 2, flag: 'flag{aBus1ng_w34K_s3cR3TTT}' },
-  { challengeNo: 3, flag: 'flag{br0k3n_oBj3cT_Pr0p3rTy_L3v3L_Auth0RiS4Ti0N}' },
-  { challengeNo: 4, flag: 'flag{file_size_is_important}' },
-  { challengeNo: 5, flag: 'flag{n0_fUncTi0N_L3v3L_aUtH???}' },
-  { challengeNo: 6, flag: 'flag{55RF_c4n_wR3AK_h4v0c}' },
-  { challengeNo: 7, flag: 'flag{St4cK_tR4c3_eRR0R}' },
-  { challengeNo: 8, flag: 'flag{n0_r4t3_L1m1T?}' },
-  { challengeNo: 9, flag: 'flag{a553Ts_m4N4g3m3NT_g0n3_wR0ng}' },
-  { challengeNo: 10, flag: 'flag{eZ_n0SQLi_pWn}' },
+  { challengeNo: 1, flag: '137a24793a114b40aa2440703cb825ed455ab48320952c431d73d4b6239e9577' },
+  { challengeNo: 2, flag: '855814a7a4e6a9a0643d69405df664514e46e04e679a0334636e861f1dafdce2' },
+  { challengeNo: 3, flag: '998790259c33c4472ff8f4fa34b49508bb9f4a899afa012629cae567767eb7f1d513bbe40aee8b3e819c87f6e2e1174b0d421351aea407f4dabf2eb515956e0e' },
+  { challengeNo: 4, flag: '332c59d1e864dd1af2d5c1ea9b9022c04a3a23ec625ce60427d2d9b1f1dd0a71' },
+  { challengeNo: 5, flag: '303cf4f43951747393edf9fb2149e1c59fe47620d48950968a70146b5ec0ec07' },
+  { challengeNo: 6, flag: 'ffac5a84466d1a69a59c589cf63489f8303f6528260e323d80c39ffa0a16e219' },
+  { challengeNo: 7, flag: 'e437a249928eaf337ce67e299848876eca1f10e1799d38b393d29305321ad70e' },
+  { challengeNo: 8, flag: '008fd3e6fca2e8b095fd098186052c5e711ef63215d9c1479c585fd2113378d1' },
+  { challengeNo: 9, flag: 'c7b29f2076be7df2f1502c55ee40286e385f27d0bcda065f30678e85b040327e882d7711cd643cb94fdd438863e49758' },
+  { challengeNo: 10, flag: '6c09249f4efc5d6b95ce3419d1790952b3a37ee634aea77d5a68a3055decf2d1' },
 ];
 
 // Add flags to the database
@@ -174,7 +177,11 @@ exports.getScores = (req, res, next) => {
   }
   getUserScores().then(scores => {
     if (req.user.score >= 10000) {
-      return res.json({ status: "success", scores: scores , "flag":"flag{br0k3n_oBj3cT_Pr0p3rTy_L3v3L_Auth0RiS4Ti0N}"})
+      answer = '998790259c33c4472ff8f4fa34b49508bb9f4a899afa012629cae567767eb7f1d513bbe40aee8b3e819c87f6e2e1174b0d421351aea407f4dabf2eb515956e0e';
+      const decipher = crypto.createDecipheriv('aes-256-cbc', wrench, iv);
+      let decrypted = decipher.update(answer, 'hex', 'utf-8');
+      decrypted += decipher.final('utf-8');
+      return res.json({ status: "success", scores: scores , "flag":decrypted})
     }
     return res.json({ status: "success", scores: scores })
   }).catch(err => {
@@ -184,37 +191,37 @@ exports.getScores = (req, res, next) => {
   
 }
 
-exports.updateUserStatus = (req, res, next) => { // TODO
-  async function updateUserStatus() {
-    const { username, status } = req.body;
-    console.log(username, status)
-    if (!username || !status) { // Check if username and status are provided
-      return res.status(400).json({ status: "error", message: 'username and status required' });
-    }
-    try {
-      if (status !== 'ACTIVE' && status !== 'BANNED') { // Check if status is valid
-        return res.status(400).json({ status: "error", message: 'status must be ACTIVE or BANNED' });
-      }
-      const updatedUser = await User.findOneAndUpdate(  // Update the user status
-        { username: username },
-        { status: status },
-        { new: false }
-      );
-      if(!updatedUser){ 
-        return res.json({ status: "error", message: 'User does not exist' }); // show this message if user does not exist
-      }
-      if(updatedUser.status === status){
-        return res.json({ status: "error", message: 'User status is already ' + status });  // show this message if user status is already the same
-      }
-      return res.json({ status: "success", message: "User status has been successfully updated to " + status, flag: "flag{n0_fUncTi0N_L3v3L_aUtH???}" });  // show this message if user status is updated
-    }
-    catch (err) {
-      console.error(err);
-      return res.json({ status: "error", message: 'Failed to update user status' });  // show this message if there is an error
-    }
-  }
-  updateUserStatus(req.userId)
-}
+// exports.updateUserStatus = (req, res, next) => { // TODO
+//   async function updateUserStatus() {
+//     const { username, status } = req.body;
+//     console.log(username, status)
+//     if (!username || !status) { // Check if username and status are provided
+//       return res.status(400).json({ status: "error", message: 'username and status required' });
+//     }
+//     try {
+//       if (status !== 'ACTIVE' && status !== 'BANNED') { // Check if status is valid
+//         return res.status(400).json({ status: "error", message: 'status must be ACTIVE or BANNED' });
+//       }
+//       const updatedUser = await User.findOneAndUpdate(  // Update the user status
+//         { username: username },
+//         { status: status },
+//         { new: false }
+//       );
+//       if(!updatedUser){ 
+//         return res.json({ status: "error", message: 'User does not exist' }); // show this message if user does not exist
+//       }
+//       if(updatedUser.status === status){
+//         return res.json({ status: "error", message: 'User status is already ' + status });  // show this message if user status is already the same
+//       }
+//       return res.json({ status: "success", message: "User status has been successfully updated to " + status, flag: });  // show this message if user status is updated
+//     }
+//     catch (err) {
+//       console.error(err);
+//       return res.json({ status: "error", message: 'Failed to update user status' });  // show this message if there is an error
+//     }
+//   }
+//   updateUserStatus(req.userId)
+// }
 
 exports.uploadProfileImage = (req, res, next) => {
     if (!req.files || Object.keys(req.files).length === 0) {
@@ -256,7 +263,11 @@ exports.uploadProfileImage = (req, res, next) => {
           console.log(updatedUser)
           if(fileSize >= (1024)) {
             if(fileSize >= (1024*50)) {
-              return res.status(200).json({ message: 'File uploaded successfully', profilePic: req.userId + fileExtension, size: `${(fileSize/1024).toFixed(2)} MB`, flag: 'flag{file_size_is_important}' });
+              answer = '332c59d1e864dd1af2d5c1ea9b9022c04a3a23ec625ce60427d2d9b1f1dd0a71';
+              const decipher = crypto.createDecipheriv('aes-256-cbc', wrench, iv);
+              let decrypted = decipher.update(answer, 'hex', 'utf-8');
+              decrypted += decipher.final('utf-8');
+              return res.status(200).json({ message: 'File uploaded successfully', profilePic: req.userId + fileExtension, size: `${(fileSize/1024).toFixed(2)} MB`, flag: decrypted });
             }
             return res.status(200).json({ message: 'File uploaded successfully', profilePic: req.userId + fileExtension, size: `${(fileSize/1024).toFixed(2)} MB` });
           }
@@ -275,68 +286,104 @@ exports.getSolves = (req, res, next) => {
 }
 
 exports.flagSubmit = async (req, res, next) => {
-  const { flag } = req.body;
-  const challengeNo = parseInt(req.body.challengeNo); 
-  if (isNaN(challengeNo) || challengeNo < 1 || challengeNo > 10) {
-    return res.status(400).json({ status: "error", message: 'Invalid challenge no' });
-  }
-  if (!flag || typeof flag !== 'string') {
-    return res.status(400).json({ status: "error", message: "Incorrect Flag", solves: req.user.solves});
-  }
-  // Check flag for challenge
-  const checkFlag = await Challenge.findOne({ challengeNo: challengeNo, flag: flag})
-  const alreadySolved = await User.findOne({ _id: req.userId, [`solves.${challengeNo}`]: 1})
-  console.log("alreadySolved :", alreadySolved);
-  if (alreadySolved) {
-    return res.status(400).json({ status: "error", message: "Challenge already solved!", solves: req.user.solves});
-  }
-  if(checkFlag) {
-      try {
-        const updatedUser = await User.findOneAndUpdate(
-          { _id: req.userId },
-          { $set: { [`solves.${challengeNo}`]: 1, score: req.user.score + 100 } },
-          { new: true }
-        );
-        console.log('Challenge solved!');
-        return res.json({ status: "success", message: 'Challenge solved!', solves:  updatedUser.solves });
-      } 
-      catch (error) {
-        console.log(error)
-        console.log('Something went wrong while submitting the flag');
-        return res.status(400).json({ status: "error", message: 'Something went wrong while submitting the flag' });
-      }
-  }
-  else {
-    return res.status(400).json({ status: "error", message: "Incorrect Flag", solves: req.user.solves});
+  try {
+    const { flag } = req.body;
+    const cipher = crypto.createCipheriv('aes-256-cbc', wrench, iv);
+    let encrypted = cipher.update(flag, 'utf-8', 'hex');
+    encrypted += cipher.final('hex');
+    console.log(encrypted)
+    const challengeNo = parseInt(req.body.challengeNo); 
+    if (isNaN(challengeNo) || challengeNo < 1 || challengeNo > 10) {
+      return res.status(400).json({ status: "error", message: 'Invalid challenge no' });
+    }
+    if (!encrypted || typeof encrypted !== 'string') {
+      return res.status(400).json({ status: "error", message: "Incorrect Flag", solves: req.user.solves});
+    }
+    // Check flag for challenge
+    const checkFlag = await Challenge.findOne({ challengeNo: challengeNo, flag: encrypted})
+    const alreadySolved = await User.findOne({ _id: req.userId, [`solves.${challengeNo}`]: 1})
+    console.log("alreadySolved :", alreadySolved);
+    if (alreadySolved) {
+      return res.status(400).json({ status: "error", message: "Challenge already solved!", solves: req.user.solves});
+    }
+    if(checkFlag) {
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: req.userId },
+        { $set: { [`solves.${challengeNo}`]: 1, score: req.user.score + 100 } },
+        { new: true }
+      );
+      console.log('Challenge solved!');
+      return res.json({ status: "success", message: 'Challenge solved!', solves:  updatedUser.solves });
+    }
+    else {
+      return res.status(400).json({ status: "error", message: "Incorrect Flag", solves: req.user.solves});
+    }
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).json({ status: "error", message: 'Something went wrong while submitting the flag' });
   }
 }
 
-exports.submitTicket = (req, res ) => {
-  try{
-    const {message}= req.body
-  if(!message){
-    res.status(400).send({Error:"message parameter required"})
-  }
-  let ticketId = generateId();
-  console.log(ticketId)
+exports.submitTicket = (req, res) => {
   try {
-  const ticket = new Ticket ({
-    ticketId: ticketId,
-      message: message,
-      new: true
-  });
-  ticket.save().then()
-      res.send({status:"success", Message: "Ticket Created your ticketId is :" + ticketId });
-  }catch(err){
-      res.status(400).send({Error: "Ticket could not be generated try again !!"});
-  };
-  function generateId() {
-    return '10' + Math.floor(1000 + Math.random() * 9000);
+    const { message } = req.body;
+
+    if (!message) {
+      return res.status(400).send({ Error: "message parameter required" });
+    }
+
+    const ticketId = generateId();
+    console.log(ticketId);
+
+    checkTicket(ticketId)
+      .then(() => {
+        const ticket = new Ticket({
+          ticketId: ticketId,
+          message: message,
+          new: true
+        });
+
+        ticket.save().then(() => {
+          res.send({ status: "success", Message: "Ticket Created your ticketId is :" + ticketId });
+        }).catch(() => {
+          res.status(400).send({ Error: "Ticket could not be generated try again !!" });
+        });
+      })
+      .catch((err) => {
+        answer = '008fd3e6fca2e8b095fd098186052c5e711ef63215d9c1479c585fd2113378d1';
+        const decipher = crypto.createDecipheriv('aes-256-cbc', wrench, iv);
+        let decrypted = decipher.update(answer, 'hex', 'utf-8');
+        decrypted += decipher.final('utf-8');
+        res.status(200).json({ msg: 'Lack of Protection from Automated Threats', flag :decrypted });
+      });
+
+    function generateId() {
+      return '10' + Math.floor(1000 + Math.random() * 9000);
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send({ Error: "Something went wrong" });
   }
-}catch (err) {
-  console.error(err.message);
-  res.status(500).send({Error:"Something went wrong"});
-}};
+};
+
+async function checkTicket(ticketId,req, res) {
+  try {
+    const ticketCount = await Ticket.countDocuments(ticketId );
+    console.log(ticketCount);
+
+    if (ticketCount > 150) {
+      return Promise.reject();
+    } else {
+      return Promise.resolve();
+    }
+  } catch (err) {
+    console.error(err.message);
+    return Promise.reject();
+  }
+}
+
+
+
 
 exports.getUser = async (req, res, next) => {
   const user = req.params.username;
@@ -377,8 +424,8 @@ exports.userPage = (req, res, next) => {
 }
 
 exports.logout = (req, res, next) => {
-  return res.redirect('/login');
-}
+  return res.clearCookie('auth').redirect('/login');
+  }
 
 exports.viewPage = (req, res, next) => {
   const page = req.params.page;
@@ -452,34 +499,29 @@ exports.addNoteWithLink = (req, res) => {
 
 exports.checkTicket = (req, res) => {
   const { ticketno } = req.body;
-  if(!ticketno){
-    res.status(400).send({Error:"ticketno parameter required"})
+  if (!ticketno) {
+    return res.status(400).send({ Error: "ticketno parameter required" });
   }
-  async function checkTicket(ticketId){
-  try {
-  const ticketCount = await Ticket.find(ticketId).count();
-    console.log(ticketCount)
-  if (ticketCount > 100) {
-    return res.status(200).json({ msg: 'Lack of Protection from Automated Threats', flag:'flag{n0_r4t3_L1m1T?}' });
-  }
-  else{
-  const ticket = await Ticket.findOne({ ticketId: ticketno });
 
-  if (!ticket) {
-    return res.status(404).json({ msg: 'Ticket not found' });
+  async function checkTicket(ticketId) {
+    try {
+      const ticket = await Ticket.findOne({ ticketId: ticketno });
+
+      if (!ticket) {
+        return res.status(404).json({ msg: "Ticket not found" });
+      } else {
+        res.json({ ticket: ticket.message, ticketno });
+      }
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send({ Error: "Something went wrong" });
+    }
   }
-  else{
-  res.json({ticket:ticket.message,ticketno});
-  }
-}
-}  
- catch (err) {
-  console.error(err.message);
-  res.status(500).send({Error:"Something went wrong"});
-}
-}
-checkTicket(req.ticketId);
-}
+
+  checkTicket(req.ticketId);
+};
+
+
 
 
 
@@ -498,7 +540,7 @@ const challenge =  [
 
 const allchallenges =  [
   'Challenge 11 - unreleased',
-  'Challenge 12 - unreleased_flag{a553Ts_m4N4g3m3NT_g0n3_wR0ng}'
+  'Challenge 12 - unreleased'
 ];
 
 
@@ -511,7 +553,11 @@ exports.allChallenges = (req, res) => {
   const { unreleased } = req.body;
   const { released } = req.body;
   if(unreleased === 1) {
-    res.json(allchallenges);
+    const answer ="c7b29f2076be7df2f1502c55ee40286e385f27d0bcda065f30678e85b040327e882d7711cd643cb94fdd438863e49758";
+    const decipher = crypto.createDecipheriv('aes-256-cbc', wrench, iv);
+    let decrypted = decipher.update(answer, 'hex', 'utf-8');
+    decrypted += decipher.final('utf-8'); 
+    res.json(allchallenges +"    " + decrypted);
   } 
   else if (released === 1) {
     res.json(challenge);
@@ -523,12 +569,16 @@ exports.allChallenges = (req, res) => {
     
 exports.deleteUser = async (req, res, next) => { 
   const user = req.params.username; 
+  const answer= '303cf4f43951747393edf9fb2149e1c59fe47620d48950968a70146b5ec0ec07';
   if ( user === 'admin' ) { 
     return res.json({ status: 'error', message: 'Cannot delete this account' }); } 
     const deletedUser = await User.deleteOne({ username: user }); 
     console.log(deletedUser.deletedCount) 
-    if ( deletedUser.deletedCount > 0 ) { 
-      return res.json({ status: 'success', message: 'User deleted successfully',flag:"flag{n0_fUncTi0N_L3v3L_aUtH???}" }); 
+    if ( deletedUser.deletedCount > 0 ) {
+      const decipher = crypto.createDecipheriv('aes-256-cbc', wrench, iv);
+      let decrypted = decipher.update(answer, 'hex', 'utf-8');
+      decrypted += decipher.final('utf-8'); 
+      return res.json({ status: 'success', message: 'User deleted successfully',flag:decrypted }); 
     } 
       else { 
         return res.json({ status: 'error', message: 'User does not exist' }); 
@@ -538,10 +588,14 @@ exports.deleteUser = async (req, res, next) => {
 const HOST = 'localhost';
 const PORT = 8443;
 
-const server = http.createServer((request, response) => {
-  response.statusCode = 200;
-  response.setHeader('Content-Type', 'text/plain');
-  response.end('flag{55RF_c4n_wR3AK_h4v0c}\n');
+const server = http.createServer((req, res) => {
+  answer="ffac5a84466d1a69a59c589cf63489f8303f6528260e323d80c39ffa0a16e219";
+  const decipher = crypto.createDecipheriv('aes-256-cbc', wrench, iv);
+  let decrypted = decipher.update(answer, 'hex', 'utf-8');
+  decrypted += decipher.final('utf-8');
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  return res.end(decrypted);
 });
 
 server.listen(PORT, HOST, () => {

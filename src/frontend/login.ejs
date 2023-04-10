@@ -71,22 +71,27 @@
                             form.addEventListener("submit", e => {
                             e.preventDefault();
                             const formData = new FormData(form);
+                            function getCookie(name) {
+                                var cookieString = document.cookie;
+                                var cookies = cookieString.split(';');
+                                for (var i = 0; i < cookies.length; i++) {
+                                    var cookie = cookies[i].trim();
+                                    if (cookie.indexOf(name + '=') === 0) {
+                                    return cookie.substring(name.length + 1);
+                                    }
+                                }
+                                // Return null if the cookie with the given name is not found
+                                return null;
+                            }
                             fetch("/api/login", {
                                 method: "POST",
                                 body: JSON.stringify(Object.fromEntries(formData)),
                                 headers: { "Content-Type": "application/json" }
                             })
                             .then(r => {
-                                if (r.status >= 200 && r.status <= 299 && r.headers.has('Authorization')) {
-                                // Get the "Authorization" header value
-                                const authorizationHeader = r.headers.get('Authorization');
-
-                                // Extract the JWT token from the authorization header
-                                if (authorizationHeader.startsWith('Bearer ')) {
-                                    const jwtToken = authorizationHeader.substr(7);
-                                    localStorage.setItem('auth', jwtToken);
-                                    console.log('JWT Token:', jwtToken); // JWT token obtained from the "Authorization" header
-                                }
+                                if (r.status >= 200 && r.status <= 299) {
+                                    // Set the 'auth' cookie value to localStorage
+                                    localStorage.setItem('auth', getCookie('auth'));
                                 }
                                 return r.json();
                             })

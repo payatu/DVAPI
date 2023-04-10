@@ -11,7 +11,7 @@ router.get('/api/verify', auth.verifyToken, controller.verify);
 router.post('/api/challenge1/addNote', auth.verifyToken, controller.addNote);
 router.get('/api/challenge1/getNote', auth.verifyToken, controller.getNote);
 router.get('/api/scores', auth.verifyToken, controller.getScores);
-router.post('/api/admin/updateStatus', auth.verifyToken, controller.updateUserStatus);
+// router.post('/api/admin/updateStatus', auth.verifyToken, controller.updateUserStatus);
 router.post('/api/profile/upload', auth.verifyToken, controller.uploadProfileImage);
 router.post('/api/challenge6/addNoteWithLink', auth.verifyToken, controller.addNoteWithLink);
 router.get('/api/challenge7/profileError', auth.verifyTokenError, controller.getProfile);
@@ -25,13 +25,13 @@ router.get('/api/user/:username', auth.verifyToken, controller.getUser);
 router.delete('/api/user/:username', auth.verifyToken, controller.deleteUser);
 
 router.get('/logout', controller.logout)
-router.get('/', controller.getHome);
+router.get('/', auth.verifyTokenforPage, controller.getHome);
 router.get('/login', controller.loginPage);
 router.get('/register', controller.registerPage);
-router.get('/scoreboard', controller.scoreboardPage);
-router.get('/profile', controller.profilePage);
-router.get('/challenges', controller.challengePage);
-router.get('/user/:username', controller.userPage);
+router.get('/scoreboard', auth.verifyTokenforPage, controller.scoreboardPage);
+router.get('/profile', auth.verifyTokenforPage, controller.profilePage);
+router.get('/challenges', auth.verifyTokenforPage, controller.challengePage);
+router.get('/user/:username', auth.verifyTokenforPage, controller.userPage);
 router.get('*', controller.get404);
 // router.get('/:page', controller.viewPage);
 
