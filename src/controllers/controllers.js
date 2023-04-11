@@ -168,7 +168,6 @@ exports.updateProfile = (req, res, next) => {
     }
   }
   updateUserDetails(req.userId);
-  
 }
 
 exports.getScores = (req, res, next) => {
@@ -197,7 +196,6 @@ exports.getScores = (req, res, next) => {
     console.error(err);
     res.json({ status: "error", message: 'Failed to get scores' });
   });
-  
 }
 
 // exports.updateUserStatus = (req, res, next) => { // TODO
@@ -391,9 +389,6 @@ async function checkTicket(ticketId,req, res) {
   }
 }
 
-
-
-
 exports.getUser = async (req, res, next) => {
   const user = req.params.username;
   const userProfile = await User.findOne({ username: user }, {
@@ -404,7 +399,6 @@ exports.getUser = async (req, res, next) => {
   });
   res.json({ status: 'success', user: userProfile });
 }
-
 
 exports.loginPage = (req, res, next) => {
   res.render('login', {});
@@ -471,40 +465,8 @@ exports.addNoteWithLink = (req, res) => {
     catch(err){
       res.status(500).send('There was an error: ');
     }
-});
+  });
 }
-
-
-
-// exports.submitTicket = (req, res) => {
-//   try{
-//     const {message}= req.body
-//   if(!message){
-//     res.status(400).send({Error:"message parameter required"})
-//   }
-//   let ticketId = generateId();
-//   console.log(ticketId)
-//   try {
-//   const ticket = new Ticket ({
-//     ticketId: ticketId,
-//       message: message,
-//       new: true
-//   });
-//   ticket.save().then()
-//       res.send('Ticket Created your ticketId is : '+ ticketId);
-//   }catch(err){
-//       res.status(400).send({Error: "Ticket could not be generated try again !!"});
-//   };
-//   function generateId() {
-//     return '10' + Math.floor(1000 + Math.random() * 9000);
-//   }
-// }catch (err) {
-//   console.error(err.message);
-//   res.status(500).send({Error:"Something went wrong"});
-// }};
-
-
-
 
 exports.checkTicket = (req, res) => {
   const { ticketno } = req.body;
@@ -526,13 +488,8 @@ exports.checkTicket = (req, res) => {
       res.status(500).send({ Error: "Something went wrong" });
     }
   }
-
   checkTicket(req.ticketId);
 };
-
-
-
-
 
 const challenge =  [
   'Challenge 1 - released',
@@ -551,7 +508,6 @@ const allchallenges =  [
   'Challenge 11 - unreleased',
   'Challenge 12 - unreleased'
 ];
-
 
 exports.getChallenges = (req, res) => {
  
@@ -592,7 +548,6 @@ exports.deleteUser = async (req, res, next) => {
       else { 
         return res.json({ status: 'error', message: 'User does not exist' }); 
       } } 
-
 
 const HOST = 'localhost';
 const PORT = 8443;

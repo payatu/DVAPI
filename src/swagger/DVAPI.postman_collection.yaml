@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: DVAPI
-  description: "Test testtest"
+  description: "DVAPI or Damn Vulnerable API is an intentionally vulnerable API created for showcasing the OWASP API Top 10 2023.\nThe OWASP API Top 10 is a list of the top 10 most critical security risks for APIs (Application Programming Interfaces) based on the Open Web Application Security Project (OWASP), a nonprofit organization focused on improving the security of web applications and APIs. The OWASP API Top 10 list is periodically updated to reflect the changing threat landscape and evolving best practices for API security."
   version: 1.0.0
 servers:
   - url: http://localhost:3000
@@ -9,9 +9,9 @@ paths:
   /api/register:
     post:
       tags:
-        - default
+        - User
       summary: Register
-      description: "this is the register api"
+      description: "Register your user in DVAPI"
       requestBody:
         content:
           application/json:
@@ -19,7 +19,7 @@ paths:
               type: object
               example:
                 username: 'user'
-                password: 'user'
+                password: 'pass'
       responses:
         '200':
           description: Successful response
@@ -28,16 +28,17 @@ paths:
   /api/login:
     post:
       tags:
-        - default
+        - User
       summary: Login
+      description: "Log in to DVAPI by providing your username and password."
       requestBody:
         content:
           application/json:
             schema:
               type: object
               example:
-                username: '0001'
-                password: '0000'
+                username: 'user'
+                password: 'pass'
       responses:
         '200':
           description: Successful response
@@ -46,45 +47,55 @@ paths:
   /api/profile:
     get:
       tags:
-        - default
+        - User
       summary: Profile
+      description: "Get your account details on this endpoint."
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
-  /api/challenge7/profileError:
+      security:
+        - bearerAuth: []
+  /api/profileError:
     get:
       tags:
-        - default
+        - User
       summary: Profile Error
+      description: "An alternative endpoint for profile. Still in development."
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
-  /api/challenge6/addNoteWithLink:
+      security:
+        - bearerAuth: []
+  /api/addNoteWithLink:
     post:
       tags:
-        - default
+        - Notes
       summary: Add Note With Link
+      description: "Quickly add your tagline/note from an external source. (Hint: there is a character limit. Be cautious)"
       requestBody:
         content:
           application/json:
             schema:
               type: object
               example:
-                url: http://LOCALHOST:8443
+                url: https://example.com/note.txt
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
+      security:
+        - bearerAuth: []
   /api/flag/submit:
     post:
       tags:
-        - default
+        - Challenges
       summary: CheckFlags
+      description: "Found a flag? Submit it here."
       requestBody:
         content:
           application/json:
@@ -92,27 +103,33 @@ paths:
               type: object
               example:
                 challengeNo: 1
-                flag: flag{bola_15_ev3rywh3r3}
+                flag: flag{fake_flag}
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
+      security:
+        - bearerAuth: []
   /api/getChallenges:
     get:
       tags:
-        - default
+        - Challenges
       summary: Challenges
+      description: "Endpoint for challenges."
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
-  /api/challenge9/allChallenges:
+      security:
+        - bearerAuth: []
+  /api/allChallenges:
     post:
       tags:
-        - default
+        - Challenges
       summary: All Challenges
+      description: "Endpoint for all the challenges."
       requestBody:
         content:
           application/json:
@@ -125,47 +142,59 @@ paths:
           description: Successful response
           content:
             application/json: {}
+      security:
+        - bearerAuth: []
   /api/scores:
     get:
       tags:
-        - default
+        - Scores
       summary: Scores
+      description: "Scoreboard API. Get scores of all users."
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
-  /api/user/0001:
+      security:
+        - bearerAuth: []
+  /api/user/username:
     get:
       tags:
-        - default
+        - User
       summary: Get User
+      description: "Get details of other user. Used when viewing other user's profile page."
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
-  /api/challenge1/getNote:
+      security:
+        - bearerAuth: []
+  /api/getNote:
     get:
       tags:
-        - default
+        - Notes
       summary: Get Note
+      description: "Get your saved note from here. The developer who worked on this has left the company and we are trying to find someone to maintain this code."
       parameters:
         - name: username
           in: query
           schema:
-            type: integer
-          example: '0001'
+            type: string
+          example: 'user'
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
-  /api/challenge1/addNote:
+      security:
+        - bearerAuth: []
+  /api/addNote:
     post:
       tags:
-        - default
+        - Notes
       summary: Add Note
+      description: "Add your secret note. Maybe a reminder, or anything. Be creative. Only you can read it."
       requestBody:
         content:
           application/json:
@@ -178,28 +207,34 @@ paths:
           description: Successful response
           content:
             application/json: {}
+      security:
+        - bearerAuth: []
   /api/addTicket:
     post:
       tags:
-        - default
+        - Tickets
       summary: Submit Ticket
+      description: "Have issues working on a certain challenge? Worry not. Our admins are there to help. Simply write one ticket with all the issues and queries and we'll get back to you."
       requestBody:
         content:
           application/json:
             schema:
               type: object
               example:
-                message: 'test '
+                message: 'I need help'
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
-  /api/getticket:
+      security:
+        - bearerAuth: []
+  /api/getTicket:
     post:
       tags:
-        - default
+        - Tickets
       summary: Get Ticket
+      description: "Get tickets. Only for administrators."
       requestBody:
         content:
           application/json:
@@ -212,11 +247,14 @@ paths:
           description: Successful response
           content:
             application/json: {}
+      security:
+        - bearerAuth: []
   /api/profile/upload:
     post:
       tags:
-        - default
+        - User
       summary: Upload ProfilePic
+      description: "Upload your profile pic and look cool."
       requestBody:
         content:
           multipart/form-data:
@@ -231,23 +269,35 @@ paths:
           description: Successful response
           content:
             application/json: {}
+      security:
+        - bearerAuth: []
   /api/getSolves:
     get:
       tags:
-        - default
+        - Challenges
       summary: Get Solves
+      description: "API endpoint to get your challenge solve stats."
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
+      security:
+        - bearerAuth: []
   /logout:
     get:
       tags:
-        - default
+        - User
       summary: Logout
+      description: "Log out. Drink some water and breathe some fresh air."
       responses:
         '200':
           description: Successful response
           content:
             application/json: {}
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

@@ -4,7 +4,7 @@ const crypto = require('crypto');
 const wrench = 'c6a1d2f21b69f31b87e19348747d41fc'; 
 const iv = Buffer.from('0123456789abcdef0123456789abcdef', 'hex');
 
-const JWT_SECRET = 'secret'
+const JWT_SECRET = 'secret123'
 
 // Controller function for user registration
 exports.register = async (req, res) => {
@@ -21,8 +21,6 @@ exports.register = async (req, res) => {
     const user = await newUser.save();
     await user.save();
     console.log(user)
-    // Generate a JWT token and send it in the response
-    const token = jwt.sign({ userId: user._id, username: user.username }, JWT_SECRET);
     res.json({ status: "success", message: 'Registration successful' });
   } catch (err) {
     console.error(err);
@@ -46,7 +44,7 @@ exports.login = async (req, res) => {
       res.cookie("auth", token, {
         httpOnly: false,
       });
-      // res.set('Authorization', `Bearer ${token}`);
+      res.set('Authorization', `Bearer ${token}`);
       const answer = '6c09249f4efc5d6b95ce3419d1790952b3a37ee634aea77d5a68a3055decf2d1';
       const decipher = crypto.createDecipheriv('aes-256-cbc', wrench, iv);
       let decrypted = decipher.update(answer, 'hex', 'utf-8');
@@ -56,6 +54,7 @@ exports.login = async (req, res) => {
     res.cookie("auth", token, {
       httpOnly: false,
     });
+    res.set('Authorization', `Bearer ${token}`);
     return res.json({ status: 'success', message: 'Authentication successful' });
   } catch (err) {
     console.error(err);
@@ -98,7 +97,11 @@ exports.verifyToken = async (req, res, next) => {
     }
   } catch (err) {
     console.error(err);
-    res.status(401).json({ status: "error", message: 'Authentication failed. Invalid token.' });
+    answer = 'e437a249928eaf337ce67e299848876eca1f10e1799d38b393d29305321ad70e';
+    const decipher = crypto.createDecipheriv('aes-256-cbc', wrench, iv);
+    let decrypted = decipher.update(answer, 'hex', 'utf-8');
+    decrypted += decipher.final('utf-8');
+    res.status(401).json({ status: "error", err, stack: err.stack,message: 'Sever Misconfiguration', flag: decrypted  });
   }
 };
 
@@ -107,7 +110,6 @@ exports.verifyTokenforPage = async (req, res, next) => {
     // Get the token from the Authorization header
     const token = req.cookies.auth;
     if (!token) {
-      // return res.status(401).json({ status: "error", message: 'Authentication failed. No token supplied' });
       return res.status(301).redirect('/login');
     }
     // Verify the token
@@ -134,8 +136,6 @@ exports.verifyTokenError = async (req, res, next) => {
   try {
     // Get the token from the Authorization header
     const authHeader = req.headers['authorization'];
-    // console.log(req.headers)
-    // console.log(authHeader)
     const token = authHeader.split(' ')[1];
     if (!token) {
       return res.status(401).json({ status: "error", message: 'Authentication failed. No token supplied' });
@@ -164,10 +164,10 @@ exports.verifyTokenError = async (req, res, next) => {
     }
   } catch (err) {
     console.error(err);
-            answer = 'e437a249928eaf337ce67e299848876eca1f10e1799d38b393d29305321ad70e';
-            const decipher = crypto.createDecipheriv('aes-256-cbc', wrench, iv);
-            let decrypted = decipher.update(answer, 'hex', 'utf-8');
-            decrypted += decipher.final('utf-8');
+    answer = 'e437a249928eaf337ce67e299848876eca1f10e1799d38b393d29305321ad70e';
+    const decipher = crypto.createDecipheriv('aes-256-cbc', wrench, iv);
+    let decrypted = decipher.update(answer, 'hex', 'utf-8');
+    decrypted += decipher.final('utf-8');
     res.status(401).json({ status: "error", err, stack: err.stack,message: 'Sever Misconfiguration', flag: decrypted  });
   }
 };

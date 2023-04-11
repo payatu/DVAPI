@@ -33,7 +33,6 @@ router.get('/profile', auth.verifyTokenforPage, controller.profilePage);
 router.get('/challenges', auth.verifyTokenforPage, controller.challengePage);
 router.get('/user/:username', auth.verifyTokenforPage, controller.userPage);
 router.get('*', controller.get404);
-// router.get('/:page', controller.viewPage);
 
 
 module.exports = router;
