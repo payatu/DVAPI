@@ -14,8 +14,8 @@
 
     <!-- Fontfaces CSS-->
     <link href="/css/font-face.css" rel="stylesheet" media="all">
-    <link href="/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
     <link href="/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
     <link href="/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
 
     <!-- Bootstrap CSS-->
@@ -175,7 +175,7 @@
                                 // Generate the HTML markup for the scoreboard table
                                 const tableRows = data.scores.map(row => {
                                     console.log(`${row.username} => ${row.score}`);
-                                  return `<tr><td>${row.username}</td><td>${row.score}</td></tr>`;
+                                  return `<tr><td><a href="/user/${row.username}">${row.username}</a></td><td>${row.score}</td></tr>`;
                                 }).join('');
                                 const scoreboardTable = document.getElementById('scoreboard');
                                 scoreboardTable.querySelector('tbody').innerHTML = tableRows;
