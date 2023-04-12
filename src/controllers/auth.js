@@ -66,10 +66,12 @@ exports.login = async (req, res) => {
 exports.verifyToken = async (req, res, next) => {
   try {
     // Get the token from the Authorization header
-    const authHeader = req.headers['authorization'];
-    console.log(req.headers);
-    console.log(authHeader);
-    const token = authHeader.split(' ')[1];
+    var token = undefined;
+    if(req.headers['authorization']){
+      const authHeader = req.headers['authorization'];
+      token = authHeader.split(' ')[1];
+      console.log(token)
+    }
     if (!token) {
       return res.status(401).json({ status: "error", message: 'Authentication failed. No token supplied' });
     }
