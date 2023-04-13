@@ -426,12 +426,6 @@ exports.logout = (req, res, next) => {
   return res.clearCookie('auth').redirect('/login');
   }
 
-exports.viewPage = (req, res, next) => {
-  const page = req.params.page;
-    res.render(page);
-}
-
-
 // Add note with any link
 exports.addNoteWithLink = (req, res) => {
   const { url } = req.body; //get the URL from the request body
