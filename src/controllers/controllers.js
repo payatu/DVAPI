@@ -75,10 +75,6 @@ exports.get404 = (req, res, next) => {
     res.render('404', {});
     };
 
-exports.verify = (req, res, next) => {
-    res.json({ status: 'success', message: 'Authentication successful', user: req.user });
-}
-
 exports.getProfile = (req, res, next) => {
   async function getUserDetails(userId) {
     try {

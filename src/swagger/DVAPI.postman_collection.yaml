@@ -1,7 +1,17 @@
 openapi: 3.0.0
 info:
   title: DVAPI
-  description: "DVAPI or Damn Vulnerable API is an intentionally vulnerable API created for showcasing the OWASP API Top 10 2023.\nThe OWASP API Top 10 is a list of the top 10 most critical security risks for APIs (Application Programming Interfaces) based on the Open Web Application Security Project (OWASP), a nonprofit organization focused on improving the security of web applications and APIs. The OWASP API Top 10 list is periodically updated to reflect the changing threat landscape and evolving best practices for API security."
+  description: >-
+    DVAPI or Damn Vulnerable API is an intentionally vulnerable API created for
+    showcasing the OWASP API Top 10 2023.
+
+
+    The OWASP API Top 10 is a list of the top 10 most critical security risks
+    for APIs (Application Programming Interfaces) based on the Open Web
+    Application Security Project (OWASP), a nonprofit organization focused on
+    improving the security of web applications and APIs. The OWASP API Top 10
+    list is periodically updated to reflect the changing threat landscape and
+    evolving best practices for API security.
   version: 1.0.0
 servers:
   - url: http://localhost:3000
@@ -11,91 +21,144 @@ paths:
       tags:
         - User
       summary: Register
-      description: "Register your user in DVAPI"
+      description: Register your user in DVAPI
       requestBody:
         content:
           application/json:
             schema:
               type: object
               example:
-                username: 'user'
-                password: 'pass'
+                username: user
+                password: pass
       responses:
         '200':
-          description: Successful response
+          description: OK
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+              example:
+                status: success
+                message: Registration successful
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: Username already registered
   /api/login:
     post:
       tags:
         - User
       summary: Login
-      description: "Log in to DVAPI by providing your username and password."
+      description: Log in to DVAPI by providing your username and password.
       requestBody:
         content:
           application/json:
             schema:
               type: object
               example:
-                username: 'user'
-                password: 'pass'
+                username: user
+                password: pass
       responses:
         '200':
-          description: Successful response
+          description: OK
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+              example:
+                status: success
+                message: Authentication successful
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                message: Authentication failed
   /api/profile:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - User
       summary: Profile
-      description: "Get your account details on this endpoint."
+      description: Get your account details on this endpoint.
       responses:
         '200':
-          description: Successful response
+          description: OK
           content:
-            application/json: {}
-      security:
-        - bearerAuth: []
-  /api/profileError:
-    get:
-      tags:
-        - User
-      summary: Profile Error
-      description: "An alternative endpoint for profile. Still in development."
-      responses:
-        '200':
-          description: Successful response
+            application/json:
+              schema:
+                type: object
+              example:
+                status: success
+                user:
+                  id: 6437971a4914b6277cf6f007
+                  username: user
+                  score: 0
+                  profilePic: avatar.jpg
+        '401':
+          description: Unauthorized
           content:
-            application/json: {}
-      security:
-        - bearerAuth: []
+            application/json:
+              schema:
+                type: object
+              example:
+                status: error
+                message: Authentication failed. No token supplied
   /api/addNoteWithLink:
     post:
+      security:
+        - bearerAuth: []
       tags:
         - Notes
       summary: Add Note With Link
-      description: "Quickly add your tagline/note from an external source. (Hint: there is a character limit. Be cautious)"
+      description: >-
+        Quickly add your tagline/note from an external source. (Hint: there is a
+        character limit. Be cautious)
       requestBody:
         content:
           application/json:
             schema:
               type: object
               example:
-                url: https://example.com/note.txt
+                url: http://linktoyournote.com/note.txt
       responses:
         '200':
-          description: Successful response
+          description: OK
           content:
-            application/json: {}
-      security:
-        - bearerAuth: []
+            application/json:
+              schema:
+                type: object
+              example:
+                status: success
+                message: Successfully added a note
+                note: <!doctype html>
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: error
+                message: Authentication failed. No token supplied
   /api/flag/submit:
     post:
+      security:
+        - bearerAuth: []
       tags:
         - Challenges
       summary: CheckFlags
-      description: "Found a flag? Submit it here."
+      description: |-
+        Found a flag? Submit it here.
+
+        Format: `flag{fake_flag}`
       requestBody:
         content:
           application/json:
@@ -106,135 +169,381 @@ paths:
                 flag: flag{fake_flag}
       responses:
         '200':
-          description: Successful response
+          description: OK
           content:
-            application/json: {}
-      security:
-        - bearerAuth: []
+            application/json:
+              schema:
+                type: object
+              example:
+                status: success
+                message: Challenge solved!
+                solves:
+                  '1': 1
+                  '2': 0
+                  '3': 0
+                  '4': 0
+                  '5': 0
+                  '6': 0
+                  '7': 0
+                  '8': 0
+                  '9': 0
+                  '10': 0
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Incorrect Flag
+                  value:
+                    status: error
+                    message: Incorrect Flag
+                    solves:
+                      '1': 1
+                      '2': 0
+                      '3': 0
+                      '4': 0
+                      '5': 0
+                      '6': 0
+                      '7': 0
+                      '8': 0
+                      '9': 0
+                      '10': 0
+                example-1:
+                  summary: Already Solved
+                  value:
+                    status: error
+                    message: Challenge already solved!
+                    solves:
+                      '1': 1
+                      '2': 0
+                      '3': 0
+                      '4': 0
+                      '5': 0
+                      '6': 0
+                      '7': 0
+                      '8': 0
+                      '9': 0
+                      '10': 0
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: error
+                message: Authentication failed. No token supplied
   /api/getChallenges:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Challenges
       summary: Challenges
-      description: "Endpoint for challenges."
+      description: Endpoint for challenges.
       responses:
         '200':
-          description: Successful response
+          description: OK
           content:
-            application/json: {}
-      security:
-        - bearerAuth: []
+            application/json:
+              schema:
+                type: object
+              example:
+                - Challenge 1 - released
+                - Challenge 2 - released
+                - Challenge 3 - released
+                - Challenge 4 - released
+                - Challenge 5 - released
+                - Challenge 6 - released
+                - Challenge 7 - released
+                - Challenge 8 - released
+                - Challenge 9 - released
+                - Challenge 10 - released
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: error
+                message: Authentication failed. No token supplied
   /api/allChallenges:
     post:
+      security:
+        - bearerAuth: []
       tags:
         - Challenges
       summary: All Challenges
-      description: "Endpoint for all the challenges."
+      description: Endpoint for all the challenges.
       requestBody:
         content:
           application/json:
             schema:
               type: object
               example:
-                unreleased: 1
+                released: 1
       responses:
         '200':
-          description: Successful response
+          description: OK
           content:
-            application/json: {}
-      security:
-        - bearerAuth: []
+            application/json:
+              schema:
+                type: object
+              example:
+                - Challenge 1 - released
+                - Challenge 2 - released
+                - Challenge 3 - released
+                - Challenge 4 - released
+                - Challenge 5 - released
+                - Challenge 6 - released
+                - Challenge 7 - released
+                - Challenge 8 - released
+                - Challenge 9 - released
+                - Challenge 10 - released
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: error
+                message: Authentication failed. No token supplied
   /api/scores:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Scores
       summary: Scores
-      description: "Scoreboard API. Get scores of all users."
+      description: Scoreboard API. Get scores of all users.
       responses:
         '200':
-          description: Successful response
+          description: OK
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+              example:
+                status: success
+                scores:
+                  - username: Charlie
+                    score: 300
+                  - username: Bob
+                    score: 200
+                  - username: Alice
+                    score: 100
+                  - username: user
+                    score: 100
+                  - username: admin
+                    score: 0
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: error
+                message: Authentication failed. No token supplied
+  /api/user/user:
+    get:
       security:
         - bearerAuth: []
-  /api/user/username:
-    get:
       tags:
         - User
       summary: Get User
-      description: "Get details of other user. Used when viewing other user's profile page."
+      description: |-
+        Get details of other user. Used when viewing other user's profile page.
+
+        Eg: `/api/user/jack`
       responses:
         '200':
-          description: Successful response
+          description: OK
           content:
-            application/json: {}
-      security:
-        - bearerAuth: []
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Valid User
+                  value:
+                    status: success
+                    user:
+                      username: user
+                      score: 100
+                      profilePic: avatar.jpg
+                      solves:
+                        '1': 1
+                        '2': 0
+                        '3': 0
+                        '4': 0
+                        '5': 0
+                        '6': 0
+                        '7': 0
+                        '8': 0
+                        '9': 0
+                        '10': 0
+                      __v: 0
+                example-1:
+                  summary: Invalid User
+                  value:
+                    status: success
+                    user: null
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: error
+                message: Authentication failed. No token supplied
   /api/getNote:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Notes
       summary: Get Note
-      description: "Get your saved note from here. The developer who worked on this has left the company and we are trying to find someone to maintain this code."
+      description: >-
+        Get your saved note from here. The developer who worked on this has left
+        the company and we are trying to find someone to maintain this code.
       parameters:
         - name: username
           in: query
           schema:
             type: string
-          example: 'user'
+          example: user
       responses:
         '200':
-          description: Successful response
+          description: OK
           content:
-            application/json: {}
-      security:
-        - bearerAuth: []
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: Success
+                  value:
+                    status: success
+                    note: Hello World
+                example-1:
+                  summary: Error
+                  value:
+                    status: error
+                    message: Error finding user
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: error
+                message: Authentication failed. No token supplied
   /api/addNote:
     post:
+      security:
+        - bearerAuth: []
       tags:
         - Notes
       summary: Add Note
-      description: "Add your secret note. Maybe a reminder, or anything. Be creative. Only you can read it."
+      description: >-
+        Add your secret note. Maybe a reminder, or anything. Be creative. Only
+        you can read it.
       requestBody:
         content:
           application/json:
             schema:
               type: object
               example:
-                note: hi new text
+                note: Hello World
       responses:
         '200':
-          description: Successful response
+          description: OK
           content:
-            application/json: {}
-      security:
-        - bearerAuth: []
+            application/json:
+              schema:
+                type: object
+              example:
+                status: success
+                message: Successfully updated note
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: error
+                message: Note is required
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: error
+                message: Authentication failed. No token supplied
   /api/addTicket:
     post:
+      security:
+        - bearerAuth: []
       tags:
         - Tickets
       summary: Submit Ticket
-      description: "Have issues working on a certain challenge? Worry not. Our admins are there to help. Simply write one ticket with all the issues and queries and we'll get back to you."
+      description: >-
+        Have issues working on a certain challenge? Worry not. Our admins are
+        there to help. Simply write one ticket with all the issues and queries
+        and we'll get back to you.
       requestBody:
         content:
           application/json:
             schema:
               type: object
               example:
-                message: 'I need help'
+                message: I need help
       responses:
         '200':
-          description: Successful response
+          description: OK
           content:
-            application/json: {}
+            application/json:
+              schema:
+                type: object
+              example:
+                status: success
+                Message: Ticket Created your ticketId is :104918
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                Error: message parameter required
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: error
+                message: Authentication failed. No token supplied
+  /api/getticket:
+    post:
       security:
         - bearerAuth: []
-  /api/getTicket:
-    post:
       tags:
         - Tickets
       summary: Get Ticket
-      description: "Get tickets. Only for administrators."
+      description: Get tickets. Only for administrators.
       requestBody:
         content:
           application/json:
@@ -244,17 +553,39 @@ paths:
                 ticketno: 100001
       responses:
         '200':
-          description: Successful response
+          description: OK
           content:
-            application/json: {}
-      security:
-        - bearerAuth: []
+            application/json:
+              schema:
+                type: object
+              example:
+                ticket: I need help
+                ticketno: 104918
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: error
+                message: Authentication failed. No token supplied
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                msg: Ticket not found
   /api/profile/upload:
     post:
+      security:
+        - bearerAuth: []
       tags:
         - User
       summary: Upload ProfilePic
-      description: "Upload your profile pic and look cool."
+      description: Upload your profile pic and look cool.
       requestBody:
         content:
           multipart/form-data:
@@ -266,32 +597,77 @@ paths:
                   format: binary
       responses:
         '200':
-          description: Successful response
+          description: OK
           content:
-            application/json: {}
-      security:
-        - bearerAuth: []
+            application/json:
+              schema:
+                type: object
+              example:
+                message: File uploaded successfully
+                profilePic: 6437971a4914b6277cf6f007.jpg
+                size: 1.59 MB
+        '400':
+          description: Bad Request
+          content:
+            text/plain:
+              schema:
+                type: string
+              example: No files were uploaded.
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: error
+                message: Authentication failed. No token supplied
   /api/getSolves:
     get:
+      security:
+        - bearerAuth: []
       tags:
         - Challenges
       summary: Get Solves
-      description: "API endpoint to get your challenge solve stats."
+      description: API endpoint to get your challenge solve stats.
       responses:
         '200':
-          description: Successful response
+          description: OK
           content:
-            application/json: {}
-      security:
-        - bearerAuth: []
+            application/json:
+              schema:
+                type: object
+              example:
+                status: success
+                username: user
+                solves:
+                  '1': 1
+                  '2': 0
+                  '3': 0
+                  '4': 0
+                  '5': 0
+                  '6': 0
+                  '7': 0
+                  '8': 0
+                  '9': 0
+                  '10': 0
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: error
+                message: Authentication failed. No token supplied
   /logout:
     get:
       tags:
         - User
       summary: Logout
-      description: "Log out. Drink some water and breathe some fresh air."
+      description: Log out. Drink some water and breathe some fresh air.
       responses:
-        '200':
+        '302':
           description: Successful response
           content:
             application/json: {}

@@ -1,19 +1,19 @@
 {
 	"info": {
-		"_postman_id": "dd550d79-03cd-4e7b-a46a-28b7d761b163",
+		"_postman_id": "c30159b2-f778-4d47-a0c4-ccbc69531e9e",
 		"name": "DVAPI",
+		"description": "DVAPI or Damn Vulnerable API is an intentionally vulnerable API created for showcasing the OWASP API Top 10 2023.\n\nThe OWASP API Top 10 is a list of the top 10 most critical security risks for APIs (Application Programming Interfaces) based on the Open Web Application Security Project (OWASP), a nonprofit organization focused on improving the security of web applications and APIs. The OWASP API Top 10 list is periodically updated to reflect the changing threat landscape and evolving best practices for API security.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "24180577"
+		"_exporter_id": "26578790"
 	},
 	"item": [
 		{
 			"name": "Register",
 			"request": {
 				"method": "POST",
-				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\":\"\",\r\n    \"password\":\"\"\r\n}",
+					"raw": "{\r\n    \"username\":\"user\",\r\n    \"password\":\"pass\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -22,6 +22,7 @@
 				},
 				"url": {
 					"raw": "http://localhost:3000/api/register",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
@@ -30,9 +31,75 @@
 						"api",
 						"register"
 					]
-				}
+				},
+				"description": "Register your user in DVAPI"
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"user\",\r\n    \"password\":\"pass\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"register"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Registration successful\"\n}"
+				},
+				{
+					"name": "Error",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"user\",\r\n    \"password\":\"pass\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"register"
+							]
+						}
+					},
+					"status": "Conflict",
+					"code": 409,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"message\": \"Username already registered\"\n}"
+				}
+			]
 		},
 		{
 			"name": "Login",
@@ -41,8 +108,21 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"// const setCookieValue = postman.getResponseHeader('Set-Cookie');\r",
-							"// postman.setGlobalVariable(\"Cookie\", setCookieValue);"
+							"// Extract the bearer token from the response cookie\r",
+							"var cookieHeader = pm.response.headers.get(\"Set-Cookie\");\r",
+							"var bearerToken = null;\r",
+							"if (cookieHeader) {\r",
+							"  var match = cookieHeader.match(/auth=([^;]+)/);\r",
+							"  if (match && match.length > 1) {\r",
+							"    bearerToken = match[1];\r",
+							"  }\r",
+							"}\r",
+							"\r",
+							"// Set the bearer token as an environment variable\r",
+							"if (bearerToken) {\r",
+							"  pm.environment.set(\"bearer_token\", bearerToken);\r",
+							"}\r",
+							""
 						],
 						"type": "text/javascript"
 					}
@@ -50,10 +130,9 @@
 			],
 			"request": {
 				"method": "POST",
-				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"username\":\"0001\",\r\n    \"password\":\"0000\"\r\n}",
+					"raw": "{\r\n    \"username\":\"user\",\r\n    \"password\":\"pass\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -62,6 +141,7 @@
 				},
 				"url": {
 					"raw": "http://localhost:3000/api/login",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
@@ -70,17 +150,83 @@
 						"api",
 						"login"
 					]
-				}
+				},
+				"description": "Log in to DVAPI by providing your username and password."
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"user\",\r\n    \"password\":\"pass\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Authentication successful\"\n}"
+				},
+				{
+					"name": "Error",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"user\",\r\n    \"password\":\"pass\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"message\": \"Authentication failed\"\n}"
+				}
+			]
 		},
 		{
 			"name": "Profile",
 			"request": {
 				"method": "GET",
-				"header": [],
 				"url": {
 					"raw": "http://localhost:3000/api/profile",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
@@ -89,38 +235,65 @@
 						"api",
 						"profile"
 					]
-				}
+				},
+				"description": "Get your account details on this endpoint."
 			},
-			"response": []
-		},
-		{
-			"name": "Profile Error",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:3000/api/challenge7/profileError",
-					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"api",
-						"challenge7",
-						"profileError"
-					]
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:3000/api/profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"profile"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"user\": {\n        \"id\": \"6437971a4914b6277cf6f007\",\n        \"username\": \"user\",\n        \"score\": 0,\n        \"profilePic\": \"avatar.jpg\"\n    }\n}"
+				},
+				{
+					"name": "Unauthorized",
+					"originalRequest": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:3000/api/profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"profile"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Authentication failed. No token supplied\"\n}"
 				}
-			},
-			"response": []
+			]
 		},
 		{
 			"name": "Add Note With Link",
 			"request": {
 				"method": "POST",
-				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"url\":\"http://LOCALHOST:8443\"\r\n}\r\n",
+					"raw": "{\r\n    \"url\":\"http://linktoyournote.com/note.txt\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -128,28 +301,93 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/api/challenge6/addNoteWithLink",
+					"raw": "http://localhost:3000/api/addNoteWithLink",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
 						"api",
-						"challenge6",
 						"addNoteWithLink"
 					]
-				}
+				},
+				"description": "Quickly add your tagline/note from an external source. (Hint: there is a character limit. Be cautious)"
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"url\":\"http://linktoyournote.com/note.txt\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/addNoteWithLink",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"addNoteWithLink"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Successfully added a note\",\n    \"note\": \"<!doctype html>\"\n}"
+				},
+				{
+					"name": "Unauthorized",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"url\":\"http://linktoyournote.com/note.txt\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/addNoteWithLink",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"addNoteWithLink"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Authentication failed. No token supplied\"\n}"
+				}
+			]
 		},
 		{
 			"name": "CheckFlags",
 			"request": {
 				"method": "POST",
-				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"challengeNo\":1,\r\n    \"flag\":\"flag{bola_15_ev3rywh3r3}\"\r\n}",
+					"raw": "{\r\n    \"challengeNo\":1,\r\n    \"flag\":\"flag{fake_flag}\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -158,6 +396,7 @@
 				},
 				"url": {
 					"raw": "http://localhost:3000/api/flag/submit",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
@@ -167,17 +406,151 @@
 						"flag",
 						"submit"
 					]
-				}
+				},
+				"description": "Found a flag? Submit it here.\n\nFormat: `flag{fake_flag}`"
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Correct Flag",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"challengeNo\":1,\r\n    \"flag\":\"flag{fake_flag}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/flag/submit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"flag",
+								"submit"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Challenge solved!\",\n    \"solves\": {\n        \"1\": 1,\n        \"2\": 0,\n        \"3\": 0,\n        \"4\": 0,\n        \"5\": 0,\n        \"6\": 0,\n        \"7\": 0,\n        \"8\": 0,\n        \"9\": 0,\n        \"10\": 0\n    }\n}"
+				},
+				{
+					"name": "Incorrect Flag",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"challengeNo\":2,\r\n    \"flag\":\"flag{fake_flag}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/flag/submit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"flag",
+								"submit"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Incorrect Flag\",\n    \"solves\": {\n        \"1\": 1,\n        \"2\": 0,\n        \"3\": 0,\n        \"4\": 0,\n        \"5\": 0,\n        \"6\": 0,\n        \"7\": 0,\n        \"8\": 0,\n        \"9\": 0,\n        \"10\": 0\n    }\n}"
+				},
+				{
+					"name": "Already Solved",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"challengeNo\":1,\r\n    \"flag\":\"flag{fake_flag}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/flag/submit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"flag",
+								"submit"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Challenge already solved!\",\n    \"solves\": {\n        \"1\": 1,\n        \"2\": 0,\n        \"3\": 0,\n        \"4\": 0,\n        \"5\": 0,\n        \"6\": 0,\n        \"7\": 0,\n        \"8\": 0,\n        \"9\": 0,\n        \"10\": 0\n    }\n}"
+				},
+				{
+					"name": "Unauthorized",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"challengeNo\":1,\r\n    \"flag\":\"flag{fake_flag}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/flag/submit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"flag",
+								"submit"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Authentication failed. No token supplied\"\n}"
+				}
+			]
 		},
 		{
 			"name": "Challenges",
 			"request": {
 				"method": "GET",
-				"header": [],
 				"url": {
 					"raw": "http://localhost:3000/api/getChallenges",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
@@ -186,18 +559,65 @@
 						"api",
 						"getChallenges"
 					]
-				}
+				},
+				"description": "Endpoint for challenges."
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Challenges",
+					"originalRequest": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:3000/api/getChallenges",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"getChallenges"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "[\n    \"Challenge 1 - released\",\n    \"Challenge 2 - released\",\n    \"Challenge 3 - released\",\n    \"Challenge 4 - released\",\n    \"Challenge 5 - released\",\n    \"Challenge 6 - released\",\n    \"Challenge 7 - released\",\n    \"Challenge 8 - released\",\n    \"Challenge 9 - released\",\n    \"Challenge 10 - released\"\n]"
+				},
+				{
+					"name": "Unauthorized",
+					"originalRequest": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:3000/api/getChallenges",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"getChallenges"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Authentication failed. No token supplied\"\n}"
+				}
+			]
 		},
 		{
 			"name": "All Challenges",
 			"request": {
 				"method": "POST",
-				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"unreleased\": 1\r\n}",
+					"raw": "{\r\n    \"released\": 1\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -205,27 +625,93 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/api/challenge9/allChallenges",
+					"raw": "http://localhost:3000/api/allChallenges",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
 						"api",
-						"challenge9",
 						"allChallenges"
 					]
-				}
+				},
+				"description": "Endpoint for all the challenges."
 			},
-			"response": []
+			"response": [
+				{
+					"name": "All Challenges",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"released\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/allChallenges",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"allChallenges"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "[\n    \"Challenge 1 - released\",\n    \"Challenge 2 - released\",\n    \"Challenge 3 - released\",\n    \"Challenge 4 - released\",\n    \"Challenge 5 - released\",\n    \"Challenge 6 - released\",\n    \"Challenge 7 - released\",\n    \"Challenge 8 - released\",\n    \"Challenge 9 - released\",\n    \"Challenge 10 - released\"\n]"
+				},
+				{
+					"name": "Unauthorized",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"released\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/allChallenges",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"allChallenges"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Authentication failed. No token supplied\"\n}"
+				}
+			]
 		},
 		{
 			"name": "Scores",
 			"request": {
 				"method": "GET",
-				"header": [],
 				"url": {
 					"raw": "http://localhost:3000/api/scores",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
@@ -234,9 +720,57 @@
 						"api",
 						"scores"
 					]
-				}
+				},
+				"description": "Scoreboard API. Get scores of all users."
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Scores",
+					"originalRequest": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:3000/api/scores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"scores"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"scores\": [\n        {\n            \"username\": \"Charlie\",\n            \"score\": 300\n        },\n        {\n            \"username\": \"Bob\",\n            \"score\": 200\n        },\n        {\n            \"username\": \"Alice\",\n            \"score\": 100\n        },\n        {\n            \"username\": \"user\",\n            \"score\": 100\n        },\n        {\n            \"username\": \"admin\",\n            \"score\": 0\n        }\n    ]\n}"
+				},
+				{
+					"name": "Unauthorized",
+					"originalRequest": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:3000/api/scores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"scores"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Authentication failed. No token supplied\"\n}"
+				}
+			]
 		},
 		{
 			"name": "Get User",
@@ -245,7 +779,6 @@
 			},
 			"request": {
 				"method": "GET",
-				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": "",
@@ -256,7 +789,8 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/api/user/0001",
+					"raw": "http://localhost:3000/api/user/user",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
@@ -264,46 +798,234 @@
 					"path": [
 						"api",
 						"user",
-						"0001"
+						"user"
 					]
-				}
+				},
+				"description": "Get details of other user. Used when viewing other user's profile page.\n\nEg: `/api/user/jack`"
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Valid User",
+					"originalRequest": {
+						"method": "GET",
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/user/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"user"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"user\": {\n        \"username\": \"user\",\n        \"score\": 100,\n        \"profilePic\": \"avatar.jpg\",\n        \"solves\": {\n            \"1\": 1,\n            \"2\": 0,\n            \"3\": 0,\n            \"4\": 0,\n            \"5\": 0,\n            \"6\": 0,\n            \"7\": 0,\n            \"8\": 0,\n            \"9\": 0,\n            \"10\": 0\n        },\n        \"__v\": 0\n    }\n}"
+				},
+				{
+					"name": "Invalid User",
+					"originalRequest": {
+						"method": "GET",
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/user/user123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"user123"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"user\": null\n}"
+				},
+				{
+					"name": "Unauthorized",
+					"originalRequest": {
+						"method": "GET",
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/user/username",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"username"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Authentication failed. No token supplied\"\n}"
+				}
+			]
 		},
 		{
 			"name": "Get Note",
 			"request": {
 				"method": "GET",
-				"header": [],
 				"url": {
-					"raw": "http://localhost:3000/api/challenge1/getNote?username=0001",
+					"raw": "http://localhost:3000/api/getNote?username=user",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
 						"api",
-						"challenge1",
 						"getNote"
 					],
 					"query": [
 						{
 							"key": "username",
-							"value": "0001"
+							"value": "user"
 						}
 					]
-				}
+				},
+				"description": "Get your saved note from here. The developer who worked on this has left the company and we are trying to find someone to maintain this code."
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:3000/api/getNote?username=user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"getNote"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "user"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"note\": \"Hello World\"\n}"
+				},
+				{
+					"name": "Error",
+					"originalRequest": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:3000/api/getNote?username=user123",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"getNote"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "user123"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Error finding user\"\n}"
+				},
+				{
+					"name": "Unauthorized",
+					"originalRequest": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:3000/api/getNote?username=user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"getNote"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "user"
+								}
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Authentication failed. No token supplied\"\n}"
+				}
+			]
 		},
 		{
 			"name": "Add Note",
 			"request": {
 				"method": "POST",
-				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"note\":\"hi new text\"\r\n}",
+					"raw": "{\r\n    \"note\":\"Hello World\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -311,28 +1033,125 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/api/challenge1/addNote",
+					"raw": "http://localhost:3000/api/addNote",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
 						"api",
-						"challenge1",
 						"addNote"
 					]
-				}
+				},
+				"description": "Add your secret note. Maybe a reminder, or anything. Be creative. Only you can read it."
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"note\":\"Hello World\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/addNote",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"addNote"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"message\": \"Successfully updated note\"\n}"
+				},
+				{
+					"name": "Error",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"note\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/addNote",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"addNote"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Note is required\"\n}"
+				},
+				{
+					"name": "Unauthorized",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"note\":\"Hello World\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/addNote",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"addNote"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Authentication failed. No token supplied\"\n}"
+				}
+			]
 		},
 		{
 			"name": "Submit Ticket",
 			"request": {
 				"method": "POST",
-				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"message\":\"test \"\r\n}",
+					"raw": "{\r\n    \"message\":\"I need help\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -341,6 +1160,7 @@
 				},
 				"url": {
 					"raw": "http://localhost:3000/api/addTicket",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
@@ -349,15 +1169,112 @@
 						"api",
 						"addTicket"
 					]
-				}
+				},
+				"description": "Have issues working on a certain challenge? Worry not. Our admins are there to help. Simply write one ticket with all the issues and queries and we'll get back to you."
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\":\"I need help\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/addTicket",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"addTicket"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"Message\": \"Ticket Created your ticketId is :104918\"\n}"
+				},
+				{
+					"name": "Error",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/addTicket",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"addTicket"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"Error\": \"message parameter required\"\n}"
+				},
+				{
+					"name": "Unauthorized",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\":\"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/addTicket",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"addTicket"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Authentication failed. No token supplied\"\n}"
+				}
+			]
 		},
 		{
 			"name": "Get Ticket",
 			"request": {
 				"method": "POST",
-				"header": [],
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"ticketno\":100001\r\n}",
@@ -369,6 +1286,7 @@
 				},
 				"url": {
 					"raw": "http://localhost:3000/api/getticket",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
@@ -377,27 +1295,125 @@
 						"api",
 						"getticket"
 					]
-				}
+				},
+				"description": "Get tickets. Only for administrators."
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ticketno\":104918\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/getticket",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"getticket"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"ticket\": \"I need help\",\n    \"ticketno\": 104918\n}"
+				},
+				{
+					"name": "Error",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ticketno\":1049128\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/getticket",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"getticket"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"msg\": \"Ticket not found\"\n}"
+				},
+				{
+					"name": "Unauthorized",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ticketno\":100001\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/getticket",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"getticket"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Authentication failed. No token supplied\"\n}"
+				}
+			]
 		},
 		{
 			"name": "Upload ProfilePic",
 			"request": {
 				"method": "POST",
-				"header": [],
 				"body": {
 					"mode": "formdata",
 					"formdata": [
 						{
 							"key": "file",
 							"type": "file",
-							"src": "/C:/Users/SamuelValmiki/OneDrive - Payatu Security Consulting Private Limited/Pictures/the-defeated-batman-5k-7l.jpg"
+							"src": []
 						}
 					]
 				},
 				"url": {
 					"raw": "http://localhost:3000/api/profile/upload",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
@@ -407,17 +1423,121 @@
 						"profile",
 						"upload"
 					]
-				}
+				},
+				"description": "Upload your profile pic and look cool."
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/profile/upload",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"profile",
+								"upload"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"message\": \"File uploaded successfully\",\n    \"profilePic\": \"6437971a4914b6277cf6f007.jpg\",\n    \"size\": \"1.59 MB\"\n}"
+				},
+				{
+					"name": "Error",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/profile/upload",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"profile",
+								"upload"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "html",
+					"cookie": [],
+					"body": "No files were uploaded."
+				},
+				{
+					"name": "Unauthorized",
+					"originalRequest": {
+						"method": "POST",
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/profile/upload",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"profile",
+								"upload"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Authentication failed. No token supplied\"\n}"
+				}
+			]
 		},
 		{
 			"name": "Get Solves",
 			"request": {
 				"method": "GET",
-				"header": [],
 				"url": {
 					"raw": "http://localhost:3000/api/getSolves",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
@@ -426,17 +1546,77 @@
 						"api",
 						"getSolves"
 					]
-				}
+				},
+				"description": "API endpoint to get your challenge solve stats."
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:3000/api/getSolves",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"getSolves"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"success\",\n    \"username\": \"user\",\n    \"solves\": {\n        \"1\": 1,\n        \"2\": 0,\n        \"3\": 0,\n        \"4\": 0,\n        \"5\": 0,\n        \"6\": 0,\n        \"7\": 0,\n        \"8\": 0,\n        \"9\": 0,\n        \"10\": 0\n    }\n}"
+				},
+				{
+					"name": "Unauthorized",
+					"originalRequest": {
+						"method": "GET",
+						"url": {
+							"raw": "http://localhost:3000/api/getSolves",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"getSolves"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"cookie": [],
+					"body": "{\n    \"status\": \"error\",\n    \"message\": \"Authentication failed. No token supplied\"\n}"
+				}
+			]
 		},
 		{
 			"name": "Logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"bearer_token\", \"\");\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
-				"header": [],
 				"url": {
 					"raw": "http://localhost:3000/logout",
+					"protocol": "http",
 					"host": [
 						"localhost"
 					],
@@ -444,9 +1624,40 @@
 					"path": [
 						"logout"
 					]
-				}
+				},
+				"description": "Log out. Drink some water and breathe some fresh air."
 			},
 			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{bearer_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
