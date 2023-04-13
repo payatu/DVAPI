@@ -79,7 +79,7 @@
                         <li>
                             <a href="/scoreboard">
                                 <i class="fa  fa-bar-chart-o"></i>Scoreboard</a>
-                        </li>
+                            </li>
                         <li>
                             <a href="/Swagger">
                                 <i class="fa fa-arrow-circle-o-right"></i>API Swagger</a>
@@ -149,7 +149,7 @@
                         <div class="row">
 
                             <div class="col-md-10" style="text-align: center; margin: 0 auto;">
-                                <div class="card">
+                                <div class="card" style="height:auto">
                                     <div class="card-header">
                                         <i class="fa fa-user"></i>
                                         <strong class="card-title pl-2">Profile</strong>
@@ -202,7 +202,7 @@
                             </div>
 
                             <div class="col-md-10" style="text-align: center; margin: 0 auto;">
-                                <div class="card">
+                                <div class="card" style="height:auto">
                                     <div class="card-header">
                                         <strong class="card-title">User Settings</strong>
                                     </div>
@@ -265,7 +265,7 @@
                                         </p>
                                     </div>
                                 </div>
-                                <div class="card">
+                                <div class="card" style="height: auto;">
                                     <div class="card-header">
                                         <strong class="card-title">My Note</strong>
                                     </div>
@@ -275,35 +275,76 @@
                                                 <form action="" method="post" id="user-note-form">
                                                     <textarea id="user-note" rows="4" name="note" class="form-control"></textarea>
                                                     <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">Add/Update Note</button>
-                                                    <div class="register-link" id="message-div2"></div>
+                                                    <div class="register-link" id="message-div1"></div>
                                                 </form>
                                                 <script>
                                                     const noteForm = document.getElementById("user-note-form");
                                                     noteForm.addEventListener("submit", e => {
-                                                    e.preventDefault();
-                                                    const formData = new FormData(noteForm);
-                                                    fetch("/api/addNote", {
-                                                        method: "POST",
-                                                        body: JSON.stringify(Object.fromEntries(formData)),
-                                                        headers: { "Content-Type": "application/json", 'Authorization': `Bearer ${localStorage.getItem('auth')}` }
-                                                    })
-                                                    .then(r => r.json())
-                                                    .then(data => {
-                                                        if (data.status === "success") {
-                                                            document.getElementById("message-div2").innerHTML = '<div class="alert alert-success" role="alert">' + data.message + '</div>';
-                                                            setTimeout(function(){document.getElementById("message-div2").innerHTML=''}, 5000)
-                                                        }
-                                                        else {
-                                                            document.getElementById("message-div2").innerHTML = '<div class="alert alert-danger" role="alert">' + data.message + '</div>';
-                                                            setTimeout(function(){document.getElementById("message-div2").innerHTML=''}, 5000)
-                                                        }
-                                                    })
-                                                    .catch(console.error);
+                                                        e.preventDefault();
+                                                        const formData = new FormData(noteForm);
+                                                        fetch("/api/challenge1/addNote", {
+                                                            method: "POST",
+                                                            body: JSON.stringify(Object.fromEntries(formData)),
+                                                            headers: { "Content-Type": "application/json", 'Authorization': `Bearer ${localStorage.getItem('auth')}` }
+                                                        })
+                                                        .then(r => r.json())
+                                                        .then(data => {
+                                                            if (data.status === "success") {
+                                                                document.getElementById("message-div1").innerHTML = '<div class="alert alert-success" role="alert">' + data.message + '</div>';
+                                                                setTimeout(function(){document.getElementById("message-div1").innerHTML=''}, 5000)
+                                                            }
+                                                            else {
+                                                                document.getElementById("message-div1").innerHTML = '<div class="alert alert-danger" role="alert">' + data.message + '</div>';
+                                                                setTimeout(function(){document.getElementById("message-div1").innerHTML=''}, 5000)
+                                                            }
+                                                        })
+                                                        .catch(console.error);
                                                     });
                                                 </script>
                                             </div>
                                         </p>
                                     </div>
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                            <div class="col-12 col-md-19" style="text-align: center; margin: 0 auto;">
+                                                <form action="/api/addNoteWithLink" method="post" id="user-note-form-link">
+                                                    <textarea id="user-note-link" rows="4" name="url" class="form-control"></textarea>
+                                                    <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">Update Note with Link</button>
+                                                    <div class="register-link" id="message-div2"></div>
+                                                </form>
+                                                <script>
+                                                    const noteFormLink = document.getElementById("user-note-form-link");
+                                                    noteFormLink.addEventListener("submit", a => {
+                                                        a.preventDefault();
+                                                        const formData2 = new FormData(noteFormLink);
+                                                        fetch("/api/addNoteWithLink", {
+                                                            method: "POST",
+                                                            body: JSON.stringify(Object.fromEntries(formData2)),
+                                                            headers: { "Content-Type": "application/json", 'Authorization': `Bearer ${localStorage.getItem('auth')}` }
+                                                        })
+                                                        .then(r => r.json())
+                                                        .then(data => {
+                                                            if (data.status === "success") {
+                                                                document.getElementById("message-div2").innerHTML = '<div class="alert alert-success" role="alert">' + data.message + data.note +'</div>';
+                                                                setTimeout(function() {
+                                                                    document.getElementById("message-div2").innerHTML = ''
+                                                                }, 5000)
+                                                            } else {
+                                                                document.getElementById("message-div2").innerHTML = '<div class="alert alert-danger" role="alert">' + data.message  + '</div>';
+                                                    setTimeout(function() {
+                                                    document.getElementById("message-div2").innerHTML = ''
+                                                    }, 5000)
+                                                }
+                                                })
+                                                .catch(console.error);
+                                            });
+                                        </script>
+                                    </div>
+                                    </p>
+                                </div>
+                                        </p>
+                                    </div>
+                                    
                                 </div>
                             </div>
                             <script>
@@ -314,7 +355,7 @@
                                 .then(data => {
                                     document.querySelector('#username-field').textContent = data.user.username;
                                     document.querySelector('#user-score').textContent = `Score: ${data.user.score}`;
-                                    fetch('/api/getNote?username=' + data.user.username, {
+                                    fetch('/api/challenge1/getNote?username=' + data.user.username, {
                                         headers: {'Authorization': `Bearer ${localStorage.getItem('auth')}`}
                                     })
                                     .then(response => response.json())
