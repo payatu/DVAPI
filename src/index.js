@@ -3,9 +3,11 @@ const app = express();
 const port = 3000;
 const router = require('./routes/routes');
 const cookieParser = require('cookie-parser');
+const fileUpload = require('express-fileupload');
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(fileUpload());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('static'));
 app.use(router);

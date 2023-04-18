@@ -1,4 +1,24 @@
-const User = require('../models/user'); // assuming you have a User model
+const User = require('../models/user');
+const path = require('path');
+
+const dummyusers = [
+  { username: 'admin', password: 'admin*$@@!#!4565422', score: 0, status: 'ACTIVE', secretNote: 'flag{bola_15_ev3rywh3r3}'},
+  { username: 'Alice', password: 'AlicePassword1@44', score: 100, secretNote: 'I like pizza. Definitely gonna eat one!' },
+  { username: 'Bob', password: 'BobtheBuild3r512!', score: 200, secretNote: 'I must win this CTF!'},
+  { username: 'Charlie', password: 'CharlieCharlie11333377', score: 300, secretNote: 'What do I write here???' }
+];
+
+// Add dummy users to the database
+async function addDummyUsers() {
+  for (const user of dummyusers) {
+    const existinguser = await User.findOne({ username: user.username });
+    if (!existinguser) {
+      await new User(user).save();
+    }
+  }
+}
+addDummyUsers()
+
 
 exports.getHome = (req, res, next) => {
     res.render('index', {});
@@ -12,42 +32,45 @@ exports.verify = (req, res, next) => {
     res.json({ message: 'Authentication successful' });
 }
 
-exports.profile = (req, res, next) => {
-  async function getProfile(userId) {
+exports.getProfile = (req, res, next) => {
+  async function getUserDetails(userId) {
     try {
       console.log('userId:', userId);
       const user = await User.findOne({ _id: userId });
-      console.log('User found:', user);
       if(!user){
         return res.json({ message: 'User does not exist' });
       }
-      return res.json({ user: user });
+      return res.json({ status: "success", user: {
+        id: user._id,
+        username: user.username,
+        score: user.score,
+      } });
     } catch (error) { // handle error
       console.log('Error finding user:', error);
-      return res.json({ message: 'Error finding user' });
+      return res.json({ status: "error", message: 'Error finding user' });
     }
   }
-  getProfile(req.userId);
+  getUserDetails(req.userId);
   
 }
 
 exports.addNote = (req, res, next) => {
     const { note } = req.body;
     if (!note) {
-        return res.status(400).json({ message: 'Note is required' });
+        return res.status(400).json({ status: "error", message: 'Note is required' });
     }
     async function updateUserSecretNote(userId) {
         try {
-          const updatedUser = await User.findOneAndUpdate(
+          const updatedUser = await User.findOneAndUpdate(  // Update the user's secret note
             { _id: userId },
             { secretNote: note },
             { new: true }
           );
           console.log('User updated:', updatedUser);
-          return res.json({ message: 'Successfully added a note' });
+          return res.json({ status: "success", message: 'Successfully added a note' });
         } catch (error) { // handle error
           console.log('Error updating user:', error);
-          res.json({ message: 'Failed to add note' });
+          res.json({ status: "error", message: 'Failed to add note' });
         }
       }
       updateUserSecretNote(req.userId);
@@ -59,13 +82,148 @@ exports.getNote = (req, res, next) => {
           const user = await User.findOne({ username: req.query.username });
           console.log('User found:', user);
           if(!user.secretNote || user.secretNote == ""){
-            return res.json({ message: 'No note found' });
+            return res.json({ status: "error", message: 'No note found' });
           }
-          return res.json({ note: user.secretNote });
+          return res.json({ status: "success", note: user.secretNote });
         } catch (error) { // handle error
           console.log('Error finding user:', error);
-          return res.json({ message: 'Error finding user' });
+          return res.json({ status: "error", message: 'Error finding user' });
         }
       }
       getUserSecretNote();
 }
+
+exports.updateProfile = (req, res, next) => {
+  console.log(req.body);
+  const { password, confirm_password } = req.body;
+    if (!password || !confirm_password) { // check if password and confirm_password are provided
+      return res.status(400).json({ status: "error", message: 'password and confirm_password required' });
+    }
+    if(password !== confirm_password){  // check if password and confirm_password match
+      return res.status(400).json({ status: "error", message: 'password and confirm_password must match' });
+    }
+  async function updateUserDetails(userId) {
+    try {
+      console.log('userId:', userId);
+      const updatedUser = await User.findOneAndUpdate(  // Update the user's password
+        { _id: userId },
+        { password: password },
+        { new: true }
+      );
+      return res.json({ status: "success", message: "User has been successfully updated", user: {
+        id: updatedUser._id,
+        username: updatedUser.username,
+      } });
+    } catch (error) { // handle error
+      console.log('Failed to update user:', error);
+      return res.json({ status: "error", message: 'Failed to update user' });
+    }
+  }
+  updateUserDetails(req.userId);
+  
+}
+
+exports.getScores = (req, res, next) => {
+  async function getUserScores() {
+    try {
+      // Find all users with status ACTIVE and return only the username and score in descending order
+      const users = await User.find({ status: "ACTIVE" }, { _id: 0, username: 1, score: 1 }).sort({score: -1});
+      // Return the username and score for each user
+      return users.map(user => ({ username: user.username, score: user.score }));
+    } catch (err) {
+      console.error(err);
+      // Return an empty array if there is an error
+      return [];
+    }
+  }
+  getUserScores().then(scores => {
+    if (req.user.score >= 10000) {
+      return res.json({ status: "success", scores: scores , "flag":"flag{br0k3n_oBj3cT_Pr0p3rTy_L3v3L_Auth0RiS4Ti0N}"})
+    }
+    return res.json({ status: "success", scores: scores })
+  }).catch(err => {
+    console.error(err);
+    res.json({ status: "error", message: 'Failed to get scores' });
+  });
+  
+}
+
+exports.updateUserStatus = (req, res, next) => {
+  async function updateUserStatus() {
+    const { username, status } = req.body;
+    console.log(username, status)
+    if (!username || !status) { // Check if username and status are provided
+      return res.status(400).json({ status: "error", message: 'username and status required' });
+    }
+    try {
+      if (status !== 'ACTIVE' && status !== 'BANNED') { // Check if status is valid
+        return res.status(400).json({ status: "error", message: 'status must be ACTIVE or BANNED' });
+      }
+      const updatedUser = await User.findOneAndUpdate(  // Update the user status
+        { username: username },
+        { status: status },
+        { new: false }
+      );
+      if(!updatedUser){ 
+        return res.json({ status: "error", message: 'User does not exist' }); // show this message if user does not exist
+      }
+      if(updatedUser.status === status){
+        return res.json({ status: "error", message: 'User status is already ' + status });  // show this message if user status is already the same
+      }
+      return res.json({ status: "success", message: "User status has been successfully updated to " + status, flag: "flag{n0_fUncTi0N_L3v3L_aUtH???}" });  // show this message if user status is updated
+    }
+    catch (err) {
+      console.error(err);
+      return res.json({ status: "error", message: 'Failed to update user status' });  // show this message if there is an error
+    }
+  }
+  updateUserStatus(req.userId)
+}
+
+exports.uploadProfileImage = (req, res, next) => {
+    if (!req.files || Object.keys(req.files).length === 0) {
+      return res.status(400).send('No files were uploaded.');
+    }
+    const file = req.files.file;
+    // ADD FILE SIZE CHECK HERE
+    const fileSize = (file.size/1024).toFixed(2);
+    const allowedExtensions = ['.png', '.jpg', '.jpeg'];
+    const fileExtension = path.extname(file.name).toLowerCase();
+    if (!allowedExtensions.includes(fileExtension)) { // Check extension if file is an image
+      return res.status(400).send('Invalid file type. Only PNG, JPG, and JPEG files are allowed.');
+    }
+    const uploadPath = path.join(__dirname, '../uploads', req.userId + file.name);
+    const normalizedPath = path.normalize(uploadPath);
+    if (!normalizedPath.startsWith(path.join(__dirname, '../uploads'))) {
+      return res.status(400).send('Invalid file path');
+    }
+  
+    file.mv(uploadPath, (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send(err);
+      }
+      async function updateUserProfilePic(userId) {
+        try {
+          const updatedUser = await User.findOneAndUpdate(  // Update the user's profile pic
+            { _id: userId },
+            { profilePic: req.userId + file.name },
+            { new: true }
+          );
+          console.log(updatedUser)
+          if(fileSize >= (1024)) {
+            if(fileSize >= (1024*50)) {
+              return res.status(200).json({ message: 'File uploaded successfully', profilePic: req.userId + file.name, size: `${(fileSize/1024).toFixed(2)} MB`, flag: 'flag{file_size_is_important}' });
+            }
+            return res.status(200).json({ message: 'File uploaded successfully', profilePic: req.userId + file.name, size: `${(fileSize/1024).toFixed(2)} MB` });
+          }
+          return res.status(200).json({ message: 'File uploaded successfully', profilePic: req.userId + file.name, size: `${fileSize} KB` });
+        } catch (error) { // handle error
+          console.log('Failed to update user:', error);
+          return res.status(500).json({ message: 'Failed to update user profile pic' });
+        }
+      }
+      updateUserProfilePic(req.userId);
+    });
+}
+  
