@@ -39,7 +39,7 @@ exports.login = async (req, res) => {
     }
     // Generate a JWT token and send it in the response
     console.log(user)
-    const token = jwt.sign({ userId: user._id, username: user.username }, JWT_SECRET);
+    const token = jwt.sign({ userId: user._id, username: user.username, isAdmin: "false" }, JWT_SECRET);
     if(username == "admin") {
       res.cookie("auth", token, {
         httpOnly: false,
@@ -84,7 +84,7 @@ exports.verifyToken = async (req, res, next) => {
             return res.status(401).json({ status: "error", message: 'Authentication failed. Invalid user.' });
         }
         else {
-          if ( decoded_count != 3) {
+          if ( decoded.isAdmin == "true" ) {
             const answer = '855814a7a4e6a9a0643d69405df664514e46e04e679a0334636e861f1dafdce2';
             const decipher = crypto.createDecipheriv('aes-256-cbc', wrench, iv);
             let decrypted = decipher.update(answer, 'hex', 'utf-8');
