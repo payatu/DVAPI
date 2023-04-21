@@ -11,15 +11,15 @@
             left: 50%;
             transform: translate(-50%, -50%);
             padding: 20px;
-            background-color: rgba(172, 177, 185, 0.781);
-            box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+            background-color: rgba(237, 240, 243, 0.781);
+            box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.425);
             border-radius: 5px;
             display: none;
             z-index: 1;
             margin: 10px;
             width: 1400px; /* Updated width */
             height: 700px; /* Updated height */
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
 		}
 
 		.overlay {
@@ -31,7 +31,31 @@
 			background-color: rgba(255, 255, 255, 0);
 			display: none;
 			z-index: 1;
+            
 		}
+        .card-body {
+  position: relative;
+}
+
+.input-group {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 10px;
+  background-color: #f5f5f500;
+  box-sizing: border-box;
+}
+
+.form-control {
+  width: 100%;
+  margin-bottom: 10px;
+  bottom: 0;
+}
+
+.btn {
+  width: 100%;
+}
+        
     </style>
     <!-- Required meta tags-->
     <meta charset="UTF-8">
@@ -95,9 +119,7 @@
         <!-- MENU SIDEBAR-->
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
-                <a href="#">
-                    <img src="/uploads/logo.png" alt="Cool Admin" />
-                </a>
+                    <img src="/images/icon/logo.png" alt="DVAPI" />
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
@@ -230,16 +252,15 @@
                                         </strong>
                                     </div>
                                     <div class="card-body">
-                                        <a href="#" onclick="showCard('<h2>Heading 1</h2><p>Paragraph 1</p>')">Link 1</a>
-                                        <!-- <p class="card-text">
-                                            BOLA vulnerabilities can arise when the object access is not properly checked for user authorization. Proper object level authorization should be implemented on all API endpoints that perform CRUD operations on objects.                                        </p> -->
-                                           
+                                        <p class="card-text">Custom Decription</p>
+                                            <a href="#" onclick="showCard('<h2>Learn More - Broken Object Level Authorization</h2><br><p>Authentication endpoints, which are typically public-facing, are a common target for attackers. To prevent attacks, these endpoints should have extra protection measures in place. However, misconfigurations can occur due to insufficient threat modeling.</p>')">Read More</a>
+
 
                                               
 
                                             <br>
                                         <!-- <br> -->
-                                        <div class="input-group">
+                                        <div class="input-group wrapper">
                                             <form id="challenge-1" class="flag-submit-form">
                                                 <input type="text" id="flag" name="flag" placeholder="Flag" class="form-control">
                                                 <br>
@@ -263,10 +284,9 @@
                                         </strong>
                                     </div>
                                     <div class="card-body">
-                                        <a href="#" onclick="showCard('<h2>Heading 2</h2><p>Paragraph 2</p>')">Link 2</a>                                       
-                                        <p class="card-text">
-                                            Authentication endpoints, which are typically public-facing, are a common target for attackers. To prevent attacks, these endpoints should have extra protection measures in place. However, misconfigurations can occur due to insufficient threat modeling.                                        </p>
-                                        <br>
+                                        <p class="card-text">Custom Description</p>
+                                            <a href="#" onclick="showCard('<h2>Learn More - Broken Authentication</h2><br><p>Authentication endpoints, which are typically public-facing, are a common target for attackers. To prevent attacks, these endpoints should have extra protection measures in place. However, misconfigurations can occur due to insufficient threat modeling.</p>')">Read More</a>                                       
+                                            <br>
                                         <!-- <br> -->
                                         <div class="input-group">
                                             <form id="challenge-2" class="flag-submit-form">
@@ -292,9 +312,10 @@
                                         </strong>
                                     </div>
                                     <div class="card-body">
-                                        <p class="card-text">
-                                            APIs perform actions on objects and their properties. Developers may neglect property level authorization, allowing users to modify object properties they shouldn't access, despite having object level authorization.                                        </p>
-                                        <br>
+                                        <p class="card-text">Custom Description</p>
+                                            <a href="#" onclick="showCard('<h2>Lear More - Broken Object Property Level Authorization</h2><br><p>APIs perform actions on objects and their properties. Developers may neglect property level authorization, allowing users to modify object properties they shouldn\'t access, despite having object level authorization.</p>')">Read More</a>
+
+                                            <br>
                                         <!-- <br> -->
                                         <div class="input-group">
                                             <form id="challenge-3" class="flag-submit-form">
@@ -320,9 +341,10 @@
                                         </strong>
                                     </div>
                                     <div class="card-body">
-                                        <p class="card-text">
-                                            API requests consume resources such as CPU/memory, bandwidth, storage, and integrations with other services. Attackers can cause high resource consumption by sending excessive requests, leading to unresponsive APIs or increased business expenses.                                        </p>
-                                        <br>
+                                        <p class="card-text">Costum description</p>                                            
+                                        <a href="#" onclick="showCard('<h2>Learn More - Unrestricted Resource Consumption</h2><br><p>API requests consume resources such as CPU/memory, bandwidth, storage, and integrations with other services. Attackers can cause high resource consumption by sending excessive requests, leading to unresponsive APIs or increased business expenses.</p>')">Read More</a>
+
+                                            <br>
                                         <!-- <br> -->
                                         <div class="input-group">
                                             <form id="challenge-4" class="flag-submit-form">
@@ -348,9 +370,10 @@
                                         </strong>
                                     </div>
                                     <div class="card-body">
-                                        <p class="card-text">
-                                            APIs enable users to perform specific functions on API objects, with some of these functions restricted to certain user permissions. It is crucial to implement proper authorization checks for API functions to ensure users are granted the correct privileges for object manipulation.                                        </p>
-                                        <br>
+                                        <p class="card-text">Custom Description</p>
+                                        <a href="#" onclick="showCard('<h2>Learn More - Broken Function Level Authorization</h2><br><p>APIs enable users to perform specific functions on API objects, with some of these functions restricted to certain user permissions. It is crucial to implement proper authorization checks for API functions to ensure users are granted the correct privileges for object manipulation.</p>')">Read More</a>
+
+                                            <br>
                                         <!-- <br> -->
                                         <div class="input-group">
                                             <form id="challenge-5" class="flag-submit-form">
@@ -376,9 +399,8 @@
                                         </strong>
                                     </div>
                                     <div class="card-body">
-                                        <p class="card-text">
-                                            Server-Side Request Forgery (SSRF) flaws occur whenever an API is fetching a remote resource without validating the user-supplied URL. It allows an attacker to coerce the application to send a crafted request to an unexpected destination, even when protected by a firewall or a VPN.
-                                        </p>
+                                        <p class="card-text">Custom Description</p>
+                                        <a href="#" onclick="showCard('<h2>Learn More - Server Side Request Forgery</h2><br><p>Server-Side Request Forgery (SSRF) flaws occur whenever an API is fetching a remote resource without validating the user-supplied URL. It allows an attacker to coerce the application to send a crafted request to an unexpected destination, even when protected by a firewall or a VPN.</p>')">Read More</a>
                                         <br>
                                         <!-- <br> -->
                                         <div class="input-group">
@@ -405,9 +427,8 @@
                                         </strong>
                                     </div>
                                     <div class="card-body">
-                                        <p class="card-text">
-                                            A security misconfiguration arises when essential security settings are either not implemented or implemented with errors
-                                        </p>
+                                        <p class="card-text">Custom Description</p>
+                                        <a href="#" onclick="showCard('<h2>Learn More - Security Misconfiguration</h2><br><p>A security misconfiguration arises when essential security settings are either not implemented or implemented with errors.</p>')">Read More</a>
                                         <br>
                                         <!-- <br> -->
                                         <div class="input-group">
@@ -434,9 +455,8 @@
                                         </strong>
                                     </div>
                                     <div class="card-body">
-                                        <p class="card-text">
-                                            An automated threat is a type of computer security threat to a computer network or web application, characterised by the malicious use of automated tools such as Internet bots, Using large amounts of repetitive tasks with almost no cost to execute.
-                                        </p>
+                                        <p class="card-text">Custom Description</p>
+                                        <a href="#" onclick="showCard('<h2>Learn More - Lack of Protection from Automated Threats</h2><br><p>An automated threat is a type of computer security threat to a computer network or web application, characterised by the malicious use of automated tools such as Internet bots, Using large amounts of repetitive tasks with almost no cost to execute.</p>')">Read More</a>
                                         <br>
                                         <!-- <br> -->
                                         <div class="input-group">
@@ -464,9 +484,8 @@
                                         </strong>
                                     </div>
                                     <div class="card-body">
-                                        <p class="card-text">
-                                            Improper management of APIs refers to instances when the production APIs are built, utilized, and then no longer managed without being terminated. 
-                                        </p>
+                                        <p class="card-text">Custom Description</p>
+                                        <a href="#" onclick="showCard('<h2>Learn More - Improper Inventory Management</h2><br><p>Improper management of APIs refers to instances when the production APIs are built, utilized, and then no longer managed without being terminated.</p>')">Read More</a>
                                         <br>
                                         <!-- <br> -->
                                         <div class="input-group">
@@ -493,10 +512,8 @@
                                         </strong>
                                     </div>
                                     <div class="card-body">
-                                        <p class="card-text">
-                                            Developers tend to trust data received from third-party APIs more than user input. This is especially true for APIs offered by well-known companies. Because of that, developers tend to adopt weaker security standards, for instance, in regards to input validation and sanitization.
-
-                                        </p>
+                                        <p class="card-text">Custom Description</p>
+                                        <a href="#" onclick="showCard('<h2>Learn More - Unsafe Consumption of APIs</h2><br><p>Developers tend to trust data received from third-party APIs more than user input. This is especially true for APIs offered by well-known companies. Because of that, developers tend to adopt weaker security standards, for instance, in regards to input validation and sanitization.</p>')">Read More</a>
                                         <br>
                                         <!-- <br> -->
                                         <div class="input-group">
