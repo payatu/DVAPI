@@ -4,56 +4,34 @@
 <head>
 
     <style>
-  
+		/* Styling for the card and overlay */
+		.card2 {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: rgba(172, 177, 185, 0.781);
+            box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            display: none;
+            z-index: 1;
+            margin: 10px;
+            width: 1400px; /* Updated width */
+            height: 700px; /* Updated height */
+            backdrop-filter: blur(5px);
+		}
 
-  :root {
-  font-size: 20px;
-  box-sizing: inherit;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
-
-p {
-  margin: 0;
-}
-
-p:not(:last-child) {
-  margin-bottom: 1.5em;
-}
-
-.card2 {
-  min-height: 1000px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 9999;
-
-  max-width: 100%;
-  height: 300px;
-  padding: 35px;
-
-  border: 1px solid rgba(255, 255, 255, .25);
-  border-radius: 20px;
-  background-color: rgba(48, 35, 35, 0.45);
-  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.25);
-
-  backdrop-filter: blur(15px);
-}
-
-.card2-footer {
-  font-size: 0.65em;
-  color: #446;
-
-}
+		.overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(255, 255, 255, 0);
+			display: none;
+			z-index: 1;
+		}
     </style>
     <!-- Required meta tags-->
     <meta charset="UTF-8">
@@ -118,7 +96,7 @@ p:not(:last-child) {
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
                 <a href="#">
-                    <img src="/images/icon/logo.png" alt="Cool Admin" />
+                    <img src="/uploads/logo.png" alt="Cool Admin" />
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
@@ -212,12 +190,33 @@ p:not(:last-child) {
                         </div>
                         <div class="row">
                             <!-- Use for loop to loop all challenges -->
-                            <div id="card-container">
-                                <div class="card2">
-                                  <p>A glass-like card to demonstrate the <strong>Glassmorphism UI design</strong> trend.</p>
-                                  <p class="card2-footer">Created by Rahul C.</p>
-                                </div>
-                              </div>
+                            <div id="card2" class="card2"></div>
+                            <div id="overlay" class="overlay"></div>
+                            <script>
+                                var card = document.getElementById("card2");
+                                var overlay = document.getElementById("overlay");
+                        
+                                function showCard(content) {
+                                    // Set the content of the card
+                                    card.innerHTML = content;
+                        
+                                    // Show the card and overlay
+                                    card.style.display = "block";
+                                    overlay.style.display = "block";
+                        
+                                    // Add a click event listener to the overlay to hide the card when clicked
+                                    overlay.addEventListener("click", hideCard);
+                                }
+                        
+                                function hideCard() {
+                                    // Hide the card and overlay
+                                    card.style.display = "none";
+                                    overlay.style.display = "none";
+                        
+                                    // Remove the click event listener from the overlay
+                                    overlay.removeEventListener("click", hideCard);
+                                }
+                            </script>
                               
                             
                             <!-- Challenge card -->
@@ -231,20 +230,7 @@ p:not(:last-child) {
                                         </strong>
                                     </div>
                                     <div class="card-body">
-                                        <a href="#" id="card-link">Click me to show the card</a>
-                                        <script>
-                                            const cardLink = document.getElementById('card-link');
-                                            const cardContainer = document.getElementById('card-container');
-                                            
-                                            cardLink.addEventListener('click', function() {
-                                              cardContainer.style.display = 'block';
-                                            });
-                                            
-                                            document.addEventListener('click', function(event) {
-                                              if (!cardContainer.contains(event.target) && event.target !== cardLink) {
-                                                cardContainer.style.display = 'none';
-                                              }
-                                            });</script>
+                                        <a href="#" onclick="showCard('<h2>Heading 1</h2><p>Paragraph 1</p>')">Link 1</a>
                                         <!-- <p class="card-text">
                                             BOLA vulnerabilities can arise when the object access is not properly checked for user authorization. Proper object level authorization should be implemented on all API endpoints that perform CRUD operations on objects.                                        </p> -->
                                            
@@ -277,6 +263,7 @@ p:not(:last-child) {
                                         </strong>
                                     </div>
                                     <div class="card-body">
+                                        <a href="#" onclick="showCard('<h2>Heading 2</h2><p>Paragraph 2</p>')">Link 2</a>                                       
                                         <p class="card-text">
                                             Authentication endpoints, which are typically public-facing, are a common target for attackers. To prevent attacks, these endpoints should have extra protection measures in place. However, misconfigurations can occur due to insufficient threat modeling.                                        </p>
                                         <br>
