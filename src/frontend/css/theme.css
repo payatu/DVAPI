@@ -1587,9 +1587,10 @@ section {
 }
 
 .menu-sidebar .logo {
-    background: #f5f5f5;
+    background: #f5f5f500;
     height: 75px;
     padding: 0 35px;
+    margin-top: 10px;
     display: -webkit-box;
     display: -webkit-flex;
     display: -moz-box;
@@ -1600,10 +1601,10 @@ section {
     -moz-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
-    -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
-    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
-    border-right: 1px solid #e5e5e5;
+    -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0);
+    -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0);
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0);
+    border-right: 1px solid #e5e5e500;
     position: relative;
     z-index: 3;
 }
