@@ -1182,7 +1182,7 @@ section {
 
 /* ----- Header ----- */
 .header-desktop {
-    background: #f5f5f5;
+    background: #1a1919;
     -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1);
@@ -1619,10 +1619,10 @@ section {
 }
 
 .menu-sidebar__content {
-    position: relative;
-    height: -webkit-calc(100vh - 75px);
+    position: absolute;
+    /* height: -webkit-calc(100vh - 75px);
     height: -moz-calc(100vh - 75px);
-    height: calc(100vh - 75px);
+    height: calc(100vh - 75px); */
 }
 
 .navbar-sidebar {
