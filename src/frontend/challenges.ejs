@@ -6,36 +6,41 @@
     <style>
 		/* Styling for the card and overlay */
 		.card2 {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px;
-            background-color: rgba(237, 240, 243, 0.781);
-            box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.425);
-            border-radius: 5px;
-            display: none;
-            z-index: 1;
-            margin: 10px;
-            width: 1400px; /* Updated width */
-            height: 700px; /* Updated height */
-            backdrop-filter: blur(10px);
-		}
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        background-color: rgb(237, 240, 243);
+        box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.425);
+        border-radius: 5px;
+        display: none;
+        z-index: 1;
+        margin: 10px;
+        width: 1400px;
+        height: 700px;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+    }
 
-		.overlay {
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background-color: rgba(255, 255, 255, 0);
-			display: none;
-			z-index: 1;
-            
-		}
-        .card-body {
-  position: relative;
-}
+    .card2.show {
+        opacity: 1;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0);
+        display: none;
+        z-index: 1;
+    }
+
+    .card-body {
+        position: relative;
+    }
 
 .input-group {
   position: absolute;
@@ -214,30 +219,40 @@
                             <!-- Use for loop to loop all challenges -->
                             <div id="overlay" class="overlay"></div>
                             <div id="card2" class="card2"></div>
+
                             <script>
                                 var card = document.getElementById("card2");
                                 var overlay = document.getElementById("overlay");
-                        
+
                                 function showCard(content) {
                                     // Set the content of the card
                                     card.innerHTML = content;
-                        
+
                                     // Show the card and overlay
                                     card.style.display = "block";
                                     overlay.style.display = "block";
-                        
+                                    setTimeout(function () {
+                                        card.classList.add('show');
+                                    }, 0);
+
                                     // Add a click event listener to the overlay to hide the card when clicked
                                     overlay.addEventListener("click", hideCard);
                                 }
-                        
+                                event.preventDefault();
+
                                 function hideCard() {
                                     // Hide the card and overlay
-                                    card.style.display = "none";
-                                    overlay.style.display = "none";
-                        
+                                    card.classList.remove('show');
+                                    setTimeout(function () {
+                                        card.style.display = "none";
+                                        overlay.style.display = "none";
+                                    }, 500);
+
                                     // Remove the click event listener from the overlay
                                     overlay.removeEventListener("click", hideCard);
                                 }
+
+                                
                             </script>
                               
                             
@@ -246,14 +261,19 @@
                                 <div class="card" style="height: 90%; ">
                                     <div class="card-header">
                                         <strong class="card-title">API1:2023 Broken Object Level Authorization
-                                            <small>
+                                            <!-- <small>
                                                 <span class="badge badge-success float-right mt-1" id="challenge-card-1"></span>
-                                            </small>
+                                            </small> -->
                                         </strong>
+                        <div>
+                            <small>
+                                <span class="badge badge-success text-center"  id="challenge-card-1"></span>
+                            </small>
+                        </div>               
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">Custom Description</p>
-                                     <a href="#" onclick="showCard('<h2>Learn More - Broken Object Level Authorization</h2><br><img src=\'https://assets.website-files.com/5ff66329429d880392f6cba2/60eebb42c6468d31c7a25ce1_Broken%20Object%20Level%20Authorisation%20preview.png\' style=\'display: block; margin: 0 auto;\' width=\'600px\' height=\'300px\'></img><br><p>Authentication endpoints, which are typically public-facing, are a common target for attackers. To prevent attacks, these endpoints should have extra protection measures in place. However, misconfigurations can occur due to insufficient threat modeling.</p>')">Read More</a>
+                                     <a href="##" onclick="showCard('<h2>Learn More - Broken Object Level Authorization</h2><br><img src=\'https://assets.website-files.com/5ff66329429d880392f6cba2/60eebb42c6468d31c7a25ce1_Broken%20Object%20Level%20Authorisation%20preview.png\' style=\'display: block; margin: 0 auto;\' width=\'600px\' height=\'300px\'></img><br><p style=\'padding: 0 30px;\'>Authentication endpoints, which are typically public-facing, are a common target for attackers. To prevent attacks, these endpoints should have extra protection measures in place. However, misconfigurations can occur due to insufficient threat modeling.</p>')">Read More</a>
 
 
                                               
@@ -278,14 +298,15 @@
                                 <div class="card" style="height: 90%; ">
                                     <div class="card-header">
                                         <strong class="card-title">API2:2023 Broken Authentication
-                                            <small>
-                                                <span class="badge badge-success float-right mt-1" id="challenge-card-2"></span>
-                                            </small>
                                         </strong>
+                                        <div><small>
+                                            <span class="badge badge-success float-right mt-1" id="challenge-card-2"></span>
+                                        </small></div>
                                     </div>
+                                    
                                     <div class="card-body">
                                         <p class="card-text">Custom Description</p>
-                                            <a href="#" onclick="showCard('<h2>Learn More - Broken Authentication</h2><br><img src=\'https://th.bing.com/th/id/OIP.YN2vUsGisFHVfwcu1LryiwHaD6?pid=ImgDet&rs=1\' style=\'display: block; margin: 0 auto;\' width=\'600px\' height=\'300px\'></img><br><p>Authentication endpoints, which are typically public-facing, are a common target for attackers. To prevent attacks, these endpoints should have extra protection measures in place. However, misconfigurations can occur due to insufficient threat modeling.</p>')">Read More</a>                                       
+                                            <a href="##" onclick="showCard('<h2>Learn More - Broken Authentication</h2><br><img src=\'https://th.bing.com/th/id/OIP.YN2vUsGisFHVfwcu1LryiwHaD6?pid=ImgDet&rs=1\' style=\'display: block; margin: 0 auto;\' width=\'600px\' height=\'300px\'></img><br><p style=\'padding: 0 30px;\'>Authentication endpoints, which are typically public-facing, are a common target for attackers. To prevent attacks, these endpoints should have extra protection measures in place. However, misconfigurations can occur due to insufficient threat modeling.</p>')">Read More</a>                                       
                                             <br>
                                         <!-- <br> -->
                                         <div class="input-group">
@@ -313,7 +334,7 @@
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">Custom Description</p>
-                                            <a href="#" onclick="showCard('<h2>Lear More - Broken Object Property Level Authorization</h2><br><p>APIs perform actions on objects and their properties. Developers may neglect property level authorization, allowing users to modify object properties they shouldn\'t access, despite having object level authorization.</p>')">Read More</a>
+                                            <a href="##" onclick="showCard('<h2>Lear More - Broken Object Property Level Authorization</h2><br><p style=\'padding: 0 30px;\'>APIs perform actions on objects and their properties. Developers may neglect property level authorization, allowing users to modify object properties they shouldn\'t access, despite having object level authorization.</p>')">Read More</a>
 
                                             <br>
                                         <!-- <br> -->
@@ -335,14 +356,15 @@
                                 <div class="card" style="height: 90%; ">
                                     <div class="card-header">
                                         <strong class="card-title">API4:2023 Unrestricted Resource Consumption
-                                            <small>
-                                                <span class="badge badge-success float-right mt-1" id="challenge-card-4"></span>
-                                            </small>
+                                            
                                         </strong>
+                                        <div><small>
+                                            <span class="badge badge-success float-right mt-1" id="challenge-card-4"></span>
+                                        </small></div>
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">Costum description</p>                                            
-                                        <a href="#" onclick="showCard('<h2>Learn More - Unrestricted Resource Consumption</h2><br><p>API requests consume resources such as CPU/memory, bandwidth, storage, and integrations with other services. Attackers can cause high resource consumption by sending excessive requests, leading to unresponsive APIs or increased business expenses.</p>')">Read More</a>
+                                        <a href="##" onclick="showCard('<h2>Learn More - Unrestricted Resource Consumption</h2><br><p style=\'padding: 0 30px;\'>API requests consume resources such as CPU/memory, bandwidth, storage, and integrations with other services. Attackers can cause high resource consumption by sending excessive requests, leading to unresponsive APIs or increased business expenses.</p>')">Read More</a>
 
                                             <br>
                                         <!-- <br> -->
@@ -364,14 +386,15 @@
                                 <div class="card" style="height: 90%; ">
                                     <div class="card-header">
                                         <strong class="card-title">API5:2023 Broken Function Level Authorization
-                                            <small>
-                                                <span class="badge badge-success float-right mt-1" id="challenge-card-5"></span>
-                                            </small>
+                                            
                                         </strong>
+                                        <div><small>
+                                            <span class="badge badge-success float-right mt-1" id="challenge-card-5"></span>
+                                        </small></div>
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">Custom Description</p>
-                                        <a href="#" onclick="showCard('<h2>Learn More - Broken Function Level Authorization</h2><br><p>APIs enable users to perform specific functions on API objects, with some of these functions restricted to certain user permissions. It is crucial to implement proper authorization checks for API functions to ensure users are granted the correct privileges for object manipulation.</p>')">Read More</a>
+                                        <a href="##" onclick="showCard('<h2>Learn More - Broken Function Level Authorization</h2><br><p style=\'padding: 0 30px;\'>APIs enable users to perform specific functions on API objects, with some of these functions restricted to certain user permissions. It is crucial to implement proper authorization checks for API functions to ensure users are granted the correct privileges for object manipulation.</p>')">Read More</a>
 
                                             <br>
                                         <!-- <br> -->
@@ -393,14 +416,15 @@
                                 <div class="card" style="height: 90%; ">
                                     <div class="card-header">
                                         <strong class="card-title">API6:2023 Server Side Request Forgery
-                                            <small>
-                                                <span class="badge badge-success float-right mt-1" id="challenge-card-6"></span>
-                                            </small>
+                                            
                                         </strong>
+                                        <div><small>
+                                            <span class="badge badge-success float-right mt-1" id="challenge-card-6"></span>
+                                        </small></div>
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">DVAPI is using a function to set SecretNote for your user through a link/url, try to learn more about SSRF and capture the flag !!! </p>
-                                        <a href="#" onclick="showCard('<h2>Learn More - Server Side Request Forgery</h2><br><img src=\'https://miro.medium.com/v2/resize:fit:1104/1*oeYbCp36k03j5E4SFhfX0A.png\' style=\'display: block; margin: 0 auto;\' width=\'300px\' height=\'100px\'></img><br><p>Server-Side Request Forgery (SSRF) flaws occur whenever an API is fetching a remote resource without validating the user-supplied URL. It allows an attacker to coerce the application to send a crafted request to an unexpected destination, even when protected by a firewall or a VPN.</p><br><p>So, imagine you\'re a hacker and you want to get access to some secret data or functionality on a server that you\'re not supposed to have access to. How would you do it? You can\'t just waltz in through the front door, right? Well, that\'s where SSRF comes in. SSRF stands for Server-Side Request Forgery, and it\'s a technique that allows a hacker to trick a server into making requests on their behalf. It\'s like getting the server to open the back door for you without it even realizing it!</p><br><p>How does it work? Well, the hacker will first find a vulnerable website that allows them to input a URL. Then, they\'ll craft a special URL that points to the server they want to attack. When the vulnerable website makes a request to the URL provided by the hacker, it will include the hacker\'s malicious instructions in the request headers. These instructions can include things like accessing internal resources or even executing commands on the server!</p><p>So, SSRF is like having a secret passageway that lets you bypass all the security measures put in place to keep you out. It\'s a sneaky and dangerous technique, but also kind of cool in a \'Mission Impossible\' sort of way, don\'t you think?</p><br><a href=\'https://payatu.com/blog/a-basic-approach-to-ssrf\'>Learn SSRF</a><br><a href=\'https://book.hacktricks.xyz/pentesting-web/ssrf-server-side-request-forgery\'>SSRF Attacks</a>')">Read More</a>
+                                        <a href="##" onclick="showCard('<h2>Learn More - Server Side Request Forgery</h2><br><img src=\'https://miro.medium.com/v2/resize:fit:1104/1*oeYbCp36k03j5E4SFhfX0A.png\' style=\'display: block; margin: 0 auto;\' width=\'300px\' height=\'100px\'></img><br><p style=\'padding: 0 30px;\'>Server-Side Request Forgery (SSRF) flaws occur whenever an API is fetching a remote resource without validating the user-supplied URL. It allows an attacker to coerce the application to send a crafted request to an unexpected destination, even when protected by a firewall or a VPN.</p><br><p style=\'padding: 0 30px;\'>So, imagine you\'re a hacker and you want to get access to some secret data or functionality on a server that you\'re not supposed to have access to. How would you do it? You can\'t just waltz in through the front door, right? Well, that\'s where SSRF comes in. SSRF stands for Server-Side Request Forgery, and it\'s a technique that allows a hacker to trick a server into making requests on their behalf. It\'s like getting the server to open the back door for you without it even realizing it!</p><br><p style=\'padding: 0 30px;\'>How does it work? Well, the hacker will first find a vulnerable website that allows them to input a URL. Then, they\'ll craft a special URL that points to the server they want to attack. When the vulnerable website makes a request to the URL provided by the hacker, it will include the hacker\'s malicious instructions in the request headers. These instructions can include things like accessing internal resources or even executing commands on the server!</p><p style=\'padding: 0 30px;\'>So, SSRF is like having a secret passageway that lets you bypass all the security measures put in place to keep you out. It\'s a sneaky and dangerous technique, but also kind of cool in a \'Mission Impossible\' sort of way, don\'t you think?</p><br><a href=\'https://payatu.com/blog/a-basic-approach-to-ssrf\'>Learn SSRF</a><br><a href=\'https://book.hacktricks.xyz/pentesting-web/ssrf-server-side-request-forgery\'>SSRF Attacks</a>')">Read More</a>
                                         <!-- <br> -->
                                         <div class="input-group">
                                             <form id="challenge-6" class="flag-submit-form">
@@ -420,14 +444,15 @@
                                 <div class="card" style="height: 90%; ">
                                     <div class="card-header">
                                         <strong class="card-title">API7:2023 Security Misconfiguration
-                                            <small>
-                                                <span class="badge badge-success float-right mt-1" id="challenge-card-7"></span>
-                                            </small>
+                                           
                                         </strong>
+                                        <div> <small>
+                                            <span class="badge badge-success float-right mt-1" id="challenge-card-7"></span>
+                                        </small></div>
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">The Developers at DVAPI are lazy which has lead to a misconfigured system, find the misconfiguration and submit the flag !!! </p>
-                                        <a href="#" onclick="showCard('<h2>Learn More - Security Misconfiguration</h2><br><img src=\'https://th.bing.com/th/id/OIP.MXyMqcEJ6Se0SCWcYCKZTQHaEK\' style=\'display: block; margin: 0 auto;\' width=\'300px\' height=\'100px\'></img><br><p>A security misconfiguration arises when essential security settings are either not implemented or implemented with errors.</p><br><p>In the world of cybersecurity, security misconfiguration is a vulnerability that arises when systems or applications are not configured properly. It\'s like leaving the front door of your house unlocked or your windows wide open. It\'s an open invitation to attackers who are looking for an easy way in.</p><br><p>Security misconfiguration can take many forms, such as not changing default passwords, not patching systems with security updates, or leaving unnecessary ports open or giving out sensitive information in errors. Hackers can exploit these misconfigurations to gain access to sensitive data or to take control of systems.</p><br><a href=\'https://brightsec.com/blog/security-misconfiguration/\'>Understanding Security Misconfiguration</a>')">Read More</a>
+                                        <a href="##" onclick="showCard('<h2>Learn More - Security Misconfiguration</h2><br><img src=\'https://th.bing.com/th/id/OIP.MXyMqcEJ6Se0SCWcYCKZTQHaEK\' style=\'display: block; margin: 0 auto;\' width=\'300px\' height=\'100px\'></img><br><p style=\'padding: 0 30px;\'>A security misconfiguration arises when essential security settings are either not implemented or implemented with errors.</p><br><p style=\'padding: 0 30px;\'>In the world of cybersecurity, security misconfiguration is a vulnerability that arises when systems or applications are not configured properly. It\'s like leaving the front door of your house unlocked or your windows wide open. It\'s an open invitation to attackers who are looking for an easy way in.</p><br><p style=\'padding: 0 30px;\'>Security misconfiguration can take many forms, such as not changing default passwords, not patching systems with security updates, or leaving unnecessary ports open or giving out sensitive information in errors. Hackers can exploit these misconfigurations to gain access to sensitive data or to take control of systems.</p><br><a href=\'https://brightsec.com/blog/security-misconfiguration/\'>Understanding Security Misconfiguration</a>')">Read More</a>
                                         <br>
                                         <!-- <br> -->
                                         <div class="input-group">
@@ -455,7 +480,7 @@
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">DVAPI is People first applicaiton, we are keen on knowing your requests through submit ticket maybe it'll help you find the flag !!!</p>
-                                        <a href="#" onclick="showCard('<h2>Learn More - Lack of Protection from Automated Threats</h2><br><img src=\'https://img.freepik.com/premium-vector/hosting-ddos-attack-vector-icon_116137-4771.jpg\' style=\'display: block; margin: 0 auto;\' width=\'300px\' height=\'50px\'></img><br><p>An automated threat is a type of computer security threat to a computer network or web application, characterised by the malicious use of automated tools such as Internet bots, Using large amounts of repetitive tasks with almost no cost to execute.</p><br><p>Have you ever watched a superhero movie where the hero has to fight off a swarm of robot drones that are attacking them? Well, in the world of cybersecurity, a lack of protection from automated threats is kind of like being attacked by those same robot drones, but in the digital world.</p><br><p>Automated threats are like the robot drones of the cyber world. They are malicious programs that are designed to infiltrate and attack systems automatically, without any human intervention. They can be used to steal sensitive data, launch DDoS attacks, or even take control of entire systems.</p><br><p>A lack of protection from these threats is like being defenseless against the swarm of robot drones. Without the proper safeguards in place, they can wreak havoc on your systems and leave you vulnerable to attack.</p><br>')">Read More</a>
+                                        <a href="##" onclick="showCard('<h2>Learn More - Lack of Protection from Automated Threats</h2><br><img src=\'https://img.freepik.com/premium-vector/hosting-ddos-attack-vector-icon_116137-4771.jpg\' style=\'display: block; margin: 0 auto;\' width=\'300px\' height=\'50px\'></img><br><p style=\'padding: 0 30px;\'>An automated threat is a type of computer security threat to a computer network or web application, characterised by the malicious use of automated tools such as Internet bots, Using large amounts of repetitive tasks with almost no cost to execute.</p><br><p style=\'padding: 0 30px;\'>Have you ever watched a superhero movie where the hero has to fight off a swarm of robot drones that are attacking them? Well, in the world of cybersecurity, a lack of protection from automated threats is kind of like being attacked by those same robot drones, but in the digital world.</p><br><p style=\'padding: 0 30px;\'>Automated threats are like the robot drones of the cyber world. They are malicious programs that are designed to infiltrate and attack systems automatically, without any human intervention. They can be used to steal sensitive data, launch DDoS attacks, or even take control of entire systems.</p><br><p style=\'padding: 0 30px;\'>A lack of protection from these threats is like being defenseless against the swarm of robot drones. Without the proper safeguards in place, they can wreak havoc on your systems and leave you vulnerable to attack.</p><br>')">Read More</a>
                                         <br>
                                         <!-- <br> -->
                                         <div class="input-group">
@@ -477,14 +502,15 @@
                                     <div class="card-header">
                                         <strong class="card-title">API9:2023 Improper Inventory Management
 
-                                            <small>
-                                                <span class="badge badge-success float-right mt-1" id="challenge-card-9"></span>
-                                            </small>
+                                            
                                         </strong>
+                                        <div><small>
+                                            <span class="badge badge-success float-right mt-1" id="challenge-card-9"></span>
+                                        </small></div>
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">There was a data leak at DVAPI, people found out there are 12 Challenges and not 10, What do you think ? </p>
-                                        <a href="#" onclick="showCard('<h2>Learn More - Improper Inventory Management</h2><br><img src=\'https://velosiaims.com/wp-content/uploads/2022/07/asset-mgmt-scaled.jpg\' style=\'display: block; margin: 0 auto;\' width=\'300px\' height=\'50px\'></img><br><p>Improper management of APIs refers to instances when the production APIs are built, utilized, and then no longer managed without being terminated.</p><br><p>Inventory management is all about keeping track of what you have, what you need, and when you need it. When it comes to APIs, improper inventory management can mean not keeping track of all the APIs in use, their access levels, or who has access to them, uat endpoints left open in prod. It\'s like not having a proper recipe for the cake you want to bake – you might have some ingredients, but without the right recipe, you won\'t end up with the cake you wanted.</p><br><p>This can lead to security vulnerabilities, such as unauthorized access or data leaks.</p>')">Read More</a>
+                                        <a href="##" onclick="showCard('<h2>Learn More - Improper Inventory Management</h2><br><img src=\'https://velosiaims.com/wp-content/uploads/2022/07/asset-mgmt-scaled.jpg\' style=\'display: block; margin: 0 auto;\' width=\'300px\' height=\'50px\'></img><br><p style=\'padding: 0 30px;\'>Improper management of APIs refers to instances when the production APIs are built, utilized, and then no longer managed without being terminated.</p><br><p style=\'padding: 0 30px;\'>Inventory management is all about keeping track of what you have, what you need, and when you need it. When it comes to APIs, improper inventory management can mean not keeping track of all the APIs in use, their access levels, or who has access to them, uat endpoints left open in prod. It\'s like not having a proper recipe for the cake you want to bake – you might have some ingredients, but without the right recipe, you won\'t end up with the cake you wanted.</p><br><p style=\'padding: 0 30px;\'>This can lead to security vulnerabilities, such as unauthorized access or data leaks.</p>')">Read More</a>
                                         <br>
                                         <!-- <br> -->
                                         <div class="input-group">
@@ -505,14 +531,15 @@
                                 <div class="card" style="height: 90%; ">
                                     <div class="card-header">
                                         <strong class="card-title">API10:2023 Unsafe Consumption of APIs
-                                            <small>
-                                                <span class="badge badge-success float-right mt-1" id="challenge-card-10"></span>
-                                            </small>
+                                           
                                         </strong>
+                                        <div> <small>
+                                                <span class="badge badge-success float-right mt-1" id="challenge-card-10"></span>
+                                            </small></div>
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text">API's used at the Authentication of the application does not look safe, can you test it and get the flag !!!</p>
-                                        <a href="#" onclick="showCard('<h2>Learn More - Unsafe Consumption of APIs</h2><br><img src=\'https://www.mainjava.com/wp-content/uploads/2016/06/docs-inputs-symbol@2x.png\' style=\'display: block; margin: 0 auto;\' width=\'300px\' height=\'50px\'></img><br><p>Developers tend to trust data received from third-party APIs more than user input. This is especially true for APIs offered by well-known companies. Because of that, developers tend to adopt weaker security standards, for instance, in regards to input validation and sanitization.</p><br><p>Have you ever heard the phrase \'you are what you eat\'? Well, in the world of cybersecurity, the same can be said for APIs. Unsafe consumption of APIs is like eating something that might look good, but could actually be harmful to you.</p><p>APIs are like the ingredients in a recipe – they come in all shapes and sizes, and you need to be careful about how you consume them. Unsafe consumption of APIs means using APIs in a way that exposes your systems to security vulnerabilities. It\'s like eating something that might look and smell good, but could give you food poisoning.</p><br><p>This can happen when you don\'t properly authenticate or authorize API requests, or when you don\'t sanitize user inputs. It\'s like not properly washing your hands or cooking your food – it can lead to harmful bacteria and germs entering your system.</p>')">Read More</a>
+                                        <a href="##" onclick="showCard('<h2>Learn More - Unsafe Consumption of APIs</h2><br><img src=\'https://www.mainjava.com/wp-content/uploads/2016/06/docs-inputs-symbol@2x.png\' style=\'display: block; margin: 0 auto;\' width=\'300px\' height=\'50px\'></img><br><p style=\'padding: 0 30px;\'>Developers tend to trust data received from third-party APIs more than user input. This is especially true for APIs offered by well-known companies. Because of that, developers tend to adopt weaker security standards, for instance, in regards to input validation and sanitization.</p><br><p style=\'padding: 0 30px;\'>Have you ever heard the phrase \'you are what you eat\'? Well, in the world of cybersecurity, the same can be said for APIs. Unsafe consumption of APIs is like eating something that might look good, but could actually be harmful to you.</p><p style=\'padding: 0 30px;\'>APIs are like the ingredients in a recipe – they come in all shapes and sizes, and you need to be careful about how you consume them. Unsafe consumption of APIs means using APIs in a way that exposes your systems to security vulnerabilities. It\'s like eating something that might look and smell good, but could give you food poisoning.</p><br><p style=\'padding: 0 30px;\'>This can happen when you don\'t properly authenticate or authorize API requests, or when you don\'t sanitize user inputs. It\'s like not properly washing your hands or cooking your food – it can lead to harmful bacteria and germs entering your system.</p>')">Read More</a>
                                         <br>
                                         <!-- <br> -->
                                         <div class="input-group">
