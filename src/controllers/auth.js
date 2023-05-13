@@ -141,7 +141,7 @@ exports.checkUserSolves = async (req, res, next) => {
     if (Object.values(solves).every((value) => value === 1)) {
       return res.status(200).render('cert'); // Display certificate page
     } else {
-      return res.status(301).redirect('/challenges'); // Redirect to register page
+      return res.status(301).redirect('/challenges?message=!!! You%20need%20to%20solve%20all%20challenges%20to%20access%20the%20certificate !!!');
     }
   } catch (err) {
     console.error(err);
