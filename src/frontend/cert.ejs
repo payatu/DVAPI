@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Your Certificate for DVAPI</title>
+    <link rel="stylesheet" href="./Cert-Generator-master/style.css">
+    <link rel="favicon" href="favicon.ico">
+</head>
+
+<body>
+    <header>
+        <img src="../images/icon/logo.png" alt="DVAPI">
+    </header>
+    <main>
+<br>
+        <label for="name">Type Your Name</label>
+        <br>
+        
+        <input required type="text" name="Name" autocomplete="name" placeholder="Full Name" id="name" minlength="3"
+            maxlength="18">
+            <br>
+        <Button id="submitBtn">Get Certificate</Button>
+
+
+    </main>
+<script src="https://unpkg.com/pdf-lib@1.4.0"></script>
+    <script src="./Cert-Generator-master/FileSaver.js"></script>
+    <script src="https://unpkg.com/@pdf-lib/fontkit@0.0.4"></script>
+    <script src="./Cert-Generator-master/index.js"></script>
+</body>
+
+</html>

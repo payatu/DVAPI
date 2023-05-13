@@ -134,3 +134,17 @@ exports.verifyTokenforPage = async (req, res, next) => {
   }
 };
 
+exports.checkUserSolves = async (req, res, next) => {
+  try {
+    // Get the user's solves property from the req.user object
+    const solves = req.user.solves;
+    if (Object.values(solves).every((value) => value === 1)) {
+      return res.status(200).render('cert'); // Display certificate page
+    } else {
+      return res.status(301).redirect('/challenges'); // Redirect to register page
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send('Internal Server Error');
+  }
+};

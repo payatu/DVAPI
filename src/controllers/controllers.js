@@ -412,6 +412,27 @@ exports.profilePage = (req, res, next) => {
   res.render('profile', {user: req.user})
 }
 
+exports.FileSaver = (req, res, next) => {
+  res.sendFile('C:/Users/SamuelValmiki/DVAPI/src/frontend/Cert-Generator-master/FileSaver.js', )
+}
+
+exports.indexCrt = (req, res, next) => {
+  res.sendFile('C:/Users/SamuelValmiki/DVAPI/src/frontend/Cert-Generator-master/index.js', )
+}
+
+exports.style = (req, res, next) => {
+  res.sendFile('C:/Users/SamuelValmiki/DVAPI/src/frontend/Cert-Generator-master/style.css', )
+}
+
+exports.font = (req, res, next) => {
+  res.sendFile('C:/Users/SamuelValmiki/DVAPI/src/frontend/Cert-Generator-master/Sanchez-Regular.ttf', )
+}
+
+
+exports.certPage = (req, res, next) => {
+  res.render('cert', {});
+}
+
 exports.challengePage = (req, res, next) => {
   console.log(req.user)
   res.render('challenges', {user: req.user})
@@ -554,4 +575,27 @@ const server = http.createServer((req, res) => {
 
 server.listen(PORT, HOST, () => {
   console.log(`Server running at http://${HOST}:${PORT}/`);
+});
+
+
+const express = require('express');
+const cors = require('cors');
+const app = express();
+
+app.use(cors());
+
+const fs2 = require('fs');
+
+// define a route for serving the PDF file
+app.get('/cert', (req, res) => {
+  // read the PDF file
+  const existingPdfBytes = fs2.readFileSync('C:/Users/SamuelValmiki/DVAPI/src/frontend/cert.pdf');
+
+  // set the content type and send the PDF file in the response
+  res.setHeader('Content-Type', 'application/pdf');
+  res.end(existingPdfBytes);
+});
+
+app.listen(3001, () => {
+  console.log('Server listening on port 3001');
 });
