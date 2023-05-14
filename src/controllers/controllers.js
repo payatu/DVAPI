@@ -433,6 +433,12 @@ exports.certPage = (req, res, next) => {
   res.render('cert', {});
 }
 
+
+exports.archive = (req, res, next) => {
+  res.render('archive', {});
+}
+
+
 exports.challengePage = (req, res, next) => {
   console.log(req.user)
   res.render('challenges', {user: req.user})
@@ -512,7 +518,8 @@ const challenge =  [
   'Challenge 7 - released',
   'Challenge 8 - released',
   'Challenge 9 - released',
-  'Challenge 10 - released'
+  'Challenge 10 - released',
+  'More are under development'
 ];
 
 const allchallenges =  [
@@ -528,21 +535,18 @@ exports.getChallenges = (req, res) => {
 exports.allChallenges = (req, res) => {
   const { unreleased } = req.body;
   const { released } = req.body;
-  if(unreleased === 1) {
-    const answer ="c7b29f2076be7df2f1502c55ee40286e385f27d0bcda065f30678e85b040327e882d7711cd643cb94fdd438863e49758";
+  if (unreleased === 1) {
+    const answer = "c7b29f2076be7df2f1502c55ee40286e385f27d0bcda065f30678e85b040327e882d7711cd643cb94fdd438863e49758";
     const decipher = crypto.createDecipheriv('aes-256-cbc', wrench, iv);
     let decrypted = decipher.update(answer, 'hex', 'utf-8');
-    decrypted += decipher.final('utf-8'); 
-    res.json(allchallenges +"    " + decrypted);
-  } 
-  else if (released === 1) {
+    decrypted += decipher.final('utf-8');
+    res.json({ challenges: allchallenges, answer: decrypted });
+  } else if (released === 1) {
     res.json(challenge);
-  }
-  else {
+  } else {
     return res.status(500).json({ message: "Error !!!!" });
   }
 };
-    
 exports.deleteUser = async (req, res, next) => { 
   const user = req.params.username; 
   const answer= '303cf4f43951747393edf9fb2149e1c59fe47620d48950968a70146b5ec0ec07';

@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-<style>
-    .button {
-        background: #2B2D2F;
-        height: 45px;
-        width: 200px;
-        text-align: center;
-        border-radius: 4px;
-      }
-      
-      .text2 {
-        font: bold 1.25rem/1 poppins;
-        color: #2b6d59;
-      }
-</style>
+    <style>
+        .button {
+            background: #2B2D2F;
+            height: 45px;
+            width: 200px;
+            text-align: center;
+            border-radius: 4px;
+          }
+          
+          .text2 {
+            font: bold 1.25rem/1 poppins;
+            color: #2b6d59;
+          }
+    </style>
 <head>
     <!-- Required meta tags-->
     <meta charset="UTF-8">
@@ -171,48 +171,52 @@
                             <div class="col-lg-10">
                                 <!-- TOP CAMPAIGN-->
                                 <div class="top-campaign" style="position: relative;">
-                                    <h3 class="title-3 m-b-30">Scoreboard</h3>
-                                    <div class="table-responsive">
-                                        <table class="table table-top-campaign" id="scoreboard">
-                                            <thead>
-                                                <tr>
-                                                <th>Name</th>
-                                                <th>Score</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                <!--  END TOP CAMPAIGN-->
-                            </div>
-                        </div>
-                        
-                        <script>
-                            // Make an HTTP GET request to the "/scoreboard" API endpoint
-                            fetch('/api/scores', {
-                                headers: {'Authorization': `Bearer ${localStorage.getItem('auth')}`}
-                            })
-                              .then(response => response.json())
-                              .then(data => {
-                                // Generate the HTML markup for the scoreboard table
-                                const tableRows = data.scores.map(row => {
-                                    console.log(`${row.username} => ${row.score}`);
-                                  return `<tr><td><a href="/user/${row.username}">${row.username}</a></td><td>${row.score}</td></tr>`;
-                                }).join('');
-                                const scoreboardTable = document.getElementById('scoreboard');
-                                scoreboardTable.querySelector('tbody').innerHTML = tableRows;
-                              });
-                          </script>
-                        
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="copyright">
-                                    
-                                </div>
-                            </div>
-                        </div>
+                                    <div>
+                                        <h1>Challenges</h1>                                     
+                                        <br><button class="btn btn-primary" onclick="showReleased()">Show released challenges</button>
+
+                                    <div id="challenges"></div>
+                                
+                                    <script>
+                                                function showReleased() {
+                                                    fetch('/api/allChallenges', {
+                                            method: 'POST',
+                                            body: JSON.stringify({ released: 1 }),
+                                            headers: {
+                                                'Content-Type': 'application/json'
+                                            }
+                                            })
+                                            .then(response => response.json())
+                                            .then(challenges => {
+                                                const challengeList = challenges.map(challenge => `<li>${challenge}</li>`).join('');
+                                                document.getElementById('challenges').innerHTML = `<br><ul>${challengeList}</ul>`;
+                                            })
+                                            .catch(error => console.error(error));
+                                        }
+
+                                        function showUnreleased() {
+                                            fetch('/api/allChallenges', {
+                                                method: 'POST',
+                                                body: JSON.stringify({ unreleased: 1 }),
+                                                headers: {
+                                                'Content-Type': 'application/json'
+                                                }
+                                            })
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                const challengeList = data.challenges.map(challenge => `<li>${challenge}</li>`).join('');
+                                                const answer = data.answer;
+                                                const answerElement = document.createElement('p');
+                                                answerElement.textContent = `Answer: ${answer}`;
+                                                const challengeElement = document.createElement('ul');
+                                                challengeElement.innerHTML = challengeList;
+                                                document.getElementById('challenges').innerHTML = '';
+                                                document.getElementById('challenges').appendChild(challengeElement);
+                                                document.getElementById('challenges').appendChild(answerElement);
+                                            })
+                                            .catch(error => console.error(error));
+                                            }
+                                    </script>
                     </div>
                 </div>
             </div>
