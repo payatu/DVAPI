@@ -519,12 +519,12 @@ const challenge =  [
   'Challenge 8 - released',
   'Challenge 9 - released',
   'Challenge 10 - released',
-  'More are under development'
+  'More are under development ........ stay tunned'
 ];
 
 const allchallenges =  [
-  'Challenge 11 - unreleased',
-  'Challenge 12 - unreleased'
+  'Challenge 11 - unreleased ... under development',
+  'Challenge 12 - unreleased ... under development'
 ];
 
 exports.getChallenges = (req, res) => {
