@@ -413,21 +413,23 @@ exports.profilePage = (req, res, next) => {
 }
 
 exports.FileSaver = (req, res, next) => {
-  res.sendFile('C:/Users/SamuelValmiki/DVAPI/src/frontend/Cert-Generator-master/FileSaver.js', )
-}
+  const filePath = path.join(__dirname, 'frontend', 'Cert-Generator-master', 'FileSaver.js');
+  res.sendFile(filePath);
+};
 
 exports.indexCrt = (req, res, next) => {
-  res.sendFile('C:/Users/SamuelValmiki/DVAPI/src/frontend/Cert-Generator-master/index.js', )
-}
+  const filePath = path.join(__dirname, 'frontend', 'Cert-Generator-master', 'index.js');
+  res.sendFile(filePath);
+};
 
 exports.style = (req, res, next) => {
-  res.sendFile('C:/Users/SamuelValmiki/DVAPI/src/frontend/Cert-Generator-master/style.css', )
-}
-
+  const filePath = path.join(__dirname, 'frontend', 'Cert-Generator-master', 'style.css');
+  res.sendFile(filePath);
+};
 exports.font = (req, res, next) => {
-  res.sendFile('C:/Users/SamuelValmiki/DVAPI/src/frontend/Cert-Generator-master/Sanchez-Regular.ttf', )
-}
-
+  const filePath = path.join(__dirname, 'frontend', 'Cert-Generator-master', 'Sanchez-Regular.ttf');
+  res.sendFile(filePath);
+};
 
 exports.certPage = (req, res, next) => {
   res.render('cert', {});
@@ -590,10 +592,15 @@ app.use(cors());
 
 const fs2 = require('fs');
 
+// const path = require('path');
+
 // define a route for serving the PDF file
 app.get('/cert', (req, res) => {
+  // construct the file path dynamically
+  const filePath = path.join(__dirname, 'frontend', 'cert.pdf');
+
   // read the PDF file
-  const existingPdfBytes = fs2.readFileSync('C:/Users/SamuelValmiki/DVAPI/src/frontend/cert.pdf');
+  const existingPdfBytes = fs2.readFileSync(filePath);
 
   // set the content type and send the PDF file in the response
   res.setHeader('Content-Type', 'application/pdf');
