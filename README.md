@@ -1,2 +1,91 @@
-# DVAPI
-Damn Vulnerable API
+# DVAPI Damn Vulnerable API
+
+## About DVAPI?
+
+Welcome to the Damn Vulnerable API (DVAPI) project. This project is based on the OWASP API Top 10 2023! This lab is designed to help you learn about and explore the top 10 security risks associated with APIs according to the OWASP API Security Project.
+
+The OWASP API Top 10 - 2023 release consists of the following vulnerabilities:
+-   0xa1: Broken Object Level Authorization
+-   0xa2: Broken Authentication
+-   0xa3: Broken Object Property Level Authorization
+-   0xa4: Unrestricted Resource Consumption
+-   0xa5: Broken Function Level Authorization
+-   0xa6: Server-Side Request Forgery
+-   0xa7: Security Misconfiguration
+-   0xa8: Lack of Protection from Automated Threats
+-   0xa9: Improper Assets Management
+-   0xaa: Unsafe Consumption of APIs
+
+## Who can use DVAPI?
+
+DVAPI is designed for a diverse range of users:
+
+- **API enthusiasts**: Whether you're a beginner or have intermediate knowledge, DVAPI offers a hands-on learning experience to explore API vulnerabilities and enhance your skills.
+- **Security professionals**: Stay up to date with the latest API security trends and the OWASP API Top 10 - 2023. DVAPI allows security professionals to practice identifying API-related risks.
+- **Developers**: Developers can learn about potential security pitfalls and adopt best practices to protect their own APIs from common vulnerabilities. DVAPI serves as an educational tool for developers looking to enhance their API security knowledge.
+- **Educators and trainers**: DVAPI provides a comprehensive platform for teaching API security, allowing instructors to engage students in discovering vulnerabilities and applying countermeasures.
+
+DVAPI caters to individuals seeking practical knowledge and a deeper understanding of API security, regardless of their background or expertise.
+
+# Get Started
+
+## Features
+
+The DVAPI lab provides a series of challenges and exercises related to the top 10 API security risks identified by OWASP. These challenges are designed to test your knowledge and skills in identifying and mitigating common security vulnerabilities in API implementations.
+
+The DVPI application is built as a CTF application that itself is vulnerable. Users can identify and exploit the vulnerabilities, obtain the flags and submit into the application. After completion of all the challenges, they can generate their DVAPI completion certificate.
+
+It has many functionalities that uses different API endpoints. We have added a Postman collection file that you can import. The DVAPI application has a swagger endpoint as well, which you can use.
+
+All in all, users have the flexibility to assess the APIs via these methods:
+- The application itself
+- Postman collection
+- Swagger API endpoint
+
+## Setting up DVAPI
+
+To get started with the OWASP API Top 10 2023 CTF lab, follow the steps below:
+
+1.  **Clone the repository:**
+
+```bash
+git clone https://github.com/payatu/DVAPI.git
+```
+
+2.  Navigate to the DVAPI directory:.
+
+```bash
+cd DVAPI
+```
+
+3.  Use `docker compose` to build and run the application:
+
+```bash
+docker compose up --build
+```
+
+4.  Access the DVAPI application at [http://127.0.0.1:3000](http://127.0.0.1:3000/)
+
+![dvapi.png](/images/dvapi.png)
+
+
+# Upcoming Session
+
+Our team will be presenting DVAPI in [Bsides Bangalore ToolsForge](https://bsidesbangalore.in/)
+
+# Feedback & Bug Reports
+If you have any feedback or find any bugs in the app, please feel free to open an issue on this repository.
+
+# Core Team
+
+### Bandit Manash
+Manash is a tech enthusiast with a strong interest in information security. He enjoys exploring vulnerabilities in Web Applications and APIs, and developing CTF challenges. Manash is passionate about contributing to the infosec community and shares his knowledge and skills through open-source projects and conferences. In his free time, Manash stays up to date with the latest trends in cybersecurity and helps others learn about online security.
+
+### Bandit Samuel
+Samuel Valmiki, Security Researcher,Bug Bounty Hunter,Cyber Security Enthusiast, Security Consultant at payatu, pentesting and troubleshooting are some of my core skills, I am keen on learning and hacking for vulnerabilities in new technologies with making the internet a better place.
+
+# About Payatu
+
+[Payatu](https://payatu.com/) is a leading cybersecurity firm in India, offering a comprehensive range of services to enhance organizational security. Their expertise includes security consulting, training, and research. Payatu's security consulting services encompass thorough assessments, penetration testing, and code reviews, providing actionable recommendations to address vulnerabilities effectively. They specialize in delivering training programs that cover diverse cybersecurity aspects, fostering a strong security mindset among professionals. Additionally, Payatu excels in IoT security and embedded systems security, helping organizations secure interconnected devices and systems with their in-depth knowledge. Their active research and development efforts contribute to the cybersecurity community by exploring vulnerabilities, exploits, and emerging technologies.
+
+With a diverse client base across industries like healthcare, finance, automotive, and manufacturing, Payatu is renowned for its technical expertise, professionalism, and commitment to delivering high-quality security services. Their holistic approach helps organizations identify and mitigate risks, establish robust security measures, and safeguard valuable assets effectively.
