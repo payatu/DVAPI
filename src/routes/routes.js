@@ -14,7 +14,7 @@ router.get('/api/scores', auth.verifyToken, controller.getScores);
 router.post('/api/profile/upload', auth.verifyToken, controller.uploadProfileImage);
 router.post('/api/addNoteWithLink', auth.verifyToken, controller.addNoteWithLink);
 router.get('/api/getChallenges', auth.verifyToken, controller.getChallenges);
-router.post('/api/allChallenges',auth.verifyTokenforPage, controller.allChallenges);
+router.post('/api/allChallenges',auth.verifyToken, controller.allChallenges);
 router.get('/api/getSolves', auth.verifyToken, controller.getSolves);
 router.post('/api/flag/submit', auth.verifyToken, controller.flagSubmit);
 router.post('/api/addTicket', auth.verifyToken, controller.submitTicket);
@@ -22,7 +22,7 @@ router.post('/api/getTicket', auth.verifyToken, controller.checkTicket);
 router.get('/api/user/:username', auth.verifyToken, controller.getUser);
 router.delete('/api/user/:username', auth.verifyToken, controller.deleteUser);
 
-router.get('/certificate',auth.verifyTokenforPage,auth.checkUserSolves, controller.certPage)
+router.get('/certificate', auth.verifyTokenforPage, auth.checkUserSolves, controller.certPage)
 router.get('/', auth.verifyTokenforPage, controller.getHome);
 router.get('/login', controller.loginPage);
 router.get('/register', controller.registerPage);
@@ -34,12 +34,10 @@ router.get('/Cert-Generator-master/FileSaver.js', controller.FileSaver);
 router.get('/Cert-Generator-master/index.js', controller.indexCrt);
 router.get('/Cert-Generator-master/style.css', controller.style);
 router.get('/Sanchez-Regular.ttf', controller.font);
-router.get('/archive', auth.verifyTokenforPage, controller.archive);
 
 
 router.get('/logout', controller.logout);
-
-// router.get('*', controller.get404);
+router.get('*', controller.get404);
 
 
 
