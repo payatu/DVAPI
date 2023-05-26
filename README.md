@@ -66,7 +66,7 @@ docker compose up --build
 
 4.  Access the DVAPI application at [http://127.0.0.1:3000](http://127.0.0.1:3000/)
 
-![dvapi.png](/images/dvapi.png)
+![](images/dvapi.png)
 
 
 # Upcoming Session
@@ -74,15 +74,22 @@ docker compose up --build
 Our team will be presenting DVAPI in [Bsides Bangalore ToolsForge](https://bsidesbangalore.in/)
 
 # Feedback & Bug Reports
+
 If you have any feedback or find any bugs in the app, please feel free to open an issue on this repository.
 
 # Core Team
 
-### Bandit Manash
-Manash is a tech enthusiast with a strong interest in information security. He enjoys exploring vulnerabilities in Web Applications and APIs, and developing CTF challenges. Manash is passionate about contributing to the infosec community and shares his knowledge and skills through open-source projects and conferences. In his free time, Manash stays up to date with the latest trends in cybersecurity and helps others learn about online security.
+### Bandit Manash (developer)
+- [linkedin](https://www.linkedin.com/in/manash-saikia)
+- [@manash036](https://twitter.com/manash036)
 
-### Bandit Samuel
-Samuel Valmiki, Security Researcher,Bug Bounty Hunter,Cyber Security Enthusiast, Security Consultant at payatu, pentesting and troubleshooting are some of my core skills, I am keen on learning and hacking for vulnerabilities in new technologies with making the internet a better place.
+### Bandit Samuel (developer)
+- [linkedin](https://www.linkedin.com/in/samuel-valmiki-6a39371a8)
+- [@sign3tsh3l1](https://twitter.com/sign3tsh3l1)
+
+### Suraj Kumar (project lead)
+- [linkedin](https://www.linkedin.com/in/surajkum4r)
+- [@surajkum4r](https://twitter.com/surajkum4r)
 
 # About Payatu
 
