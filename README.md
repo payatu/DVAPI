@@ -40,6 +40,7 @@ It has many functionalities that uses different API endpoints. We have added a P
 All in all, users have the flexibility to assess the APIs via these methods:
 - The application itself
 - Postman collection
+    - Get the Postman collection on [DVAPI.postman_collection.json](src/swagger/DVAPI.postman_collection.json)
 - Swagger API endpoint
 
 ## Setting up DVAPI
