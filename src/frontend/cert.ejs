@@ -1,34 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Get Your Certificate for DVAPI</title>
-    <link rel="stylesheet" href="./Cert-Generator-master/style.css">
-    <link rel="favicon" href="favicon.ico">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Get Your Certificate for DVAPI</title>
+        <link rel="stylesheet" href="./Cert-Generator-master/style.css">
+        <link rel="favicon" href="favicon.ico">
+    </head>
 
-<body>
-    <header>
-        <img src="../images/icon/logo.png" alt="DVAPI">
-    </header>
-    <main>
-<br>
-        <label for="name">Type Your Name</label>
-        <br>
-        
-        <input required type="text" name="Name" autocomplete="name" placeholder="Full Name" id="name" minlength="3"
-            maxlength="18">
+    <body>
+        <header>
+            <img src="../images/icon/logo.png" alt="DVAPI">
+        </header>
+        <main>
             <br>
-        <Button id="submitBtn">Get Certificate</Button>
-
-
-    </main>
-<script src="https://unpkg.com/pdf-lib@1.4.0"></script>
-    <script src="./Cert-Generator-master/FileSaver.js"></script>
-    <script src="https://unpkg.com/@pdf-lib/fontkit@0.0.4"></script>
-    <script src="./Cert-Generator-master/index.js"></script>
-</body>
-
+            <label for="nameInput">Type Your Name</label>
+            <br>
+            <form id="certificateForm">
+                <label for="nameInput">Name:</label>
+                <input type="text" id="nameInput" required>
+                <br>
+                <button type="submit">Generate Certificate</button>
+            </form>
+            <script>
+                document.getElementById("certificateForm").addEventListener("submit", function(event) {
+                    event.preventDefault();
+                    
+                    const name = document.getElementById("nameInput").value;
+                    
+                    const confirmation = confirm(`Are you sure you want to have "${name}" as your name in the certificate? This can't be changed later, so if it is incorrect, please correct it.`);
+                    
+                    if (confirmation) {
+                        const requestData = { name };
+            
+                        fetch("/certificate", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(requestData)
+                        })
+                        .then(response => response.blob())
+                        .then(blob => {
+                            const pdfUrl = URL.createObjectURL(blob);
+                            window.open(pdfUrl, "_blank");
+                            window.close();
+                        })
+                        .catch(error => {
+                            console.error("Error generating certificate:", error);
+                            alert("Error generating certificate. Please try again.");
+                        });
+                    } else {
+                        document.getElementById("nameInput").value = "";
+                    }
+                });
+            </script>
+        </main>
+    </body>
 </html>

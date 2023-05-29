@@ -139,9 +139,16 @@ exports.checkUserSolves = async (req, res, next) => {
     // Get the user's solves property from the req.user object
     const solves = req.user.solves;
     if (Object.values(solves).every((value) => value === 1)) {
-      return res.status(200).render('cert'); // Display certificate page
+      next();
     } else {
-      return res.status(301).redirect('/challenges?message=!!! You%20need%20to%20solve%20all%20challenges%20to%20access%20the%20certificate !!!');
+      
+      const message = `<script>
+      window.history.pushState(null, null, '/challenges');
+  </script>
+  <div id="message" style="color: white;background-color: rgb(173, 40, 40);position: relative;border-radius: 5px;text-align: center;">
+      !!! You need to solve all challenges to access the certificate !!!
+  </div>`;
+      return res.render('challenges', { message })
     }
   } catch (err) {
     console.error(err);

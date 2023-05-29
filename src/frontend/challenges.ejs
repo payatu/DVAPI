@@ -167,7 +167,7 @@
                                 <i class="fa fa-arrow-circle-o-right"></i>API Swagger</a>
                         </li>
                         <li>
-                            <a href="/certificate" class="text2 button">Generate Certificate</a>
+                            <a href="/certificate" class="text2 button" target="_blank">Generate Certificate</a>
                         </li>
                     </ul>
                 </nav>
@@ -237,22 +237,9 @@
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
                         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-                        <div id="message" style="color: white;background-color: rgb(173, 40, 40);position: relative;border-radius: 5px;text-align: center;"></div>
-
-                        <!-- JavaScript code for extracting and displaying the message -->
-                        <script>
-                          // Get the query string parameters from the URL
-                          const queryString = window.location.search;
-                          const urlParams = new URLSearchParams(queryString);
-                        
-                          // Get the message parameter and display it in the HTML page
-                          const message = urlParams.get('message');
-                          if (message) {
-                            const messageElement = document.getElementById('message');
-                            messageElement.textContent = message;
-                          }
-                        </script>
+                        <% if (message) { %>
+                            <%- message %>
+                        <% } %>
                         <h4>Progress</h4>
                         <br>
                         <div class="progress ">
@@ -482,10 +469,7 @@
                 })
                 .then(response => response.json())
             .then(data => {
-                updateProgressBar(data);
-                // <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" style="width: 25%" aria-valuenow="25"
-                //              aria-valuemin="0" aria-valuemax="100">25%</div>
-                
+                updateProgressBar(data);                
             })
             .catch(error => console.error(error));
             }

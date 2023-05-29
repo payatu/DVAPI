@@ -432,12 +432,15 @@ exports.font = (req, res, next) => {
 };
 
 exports.certPage = (req, res, next) => {
+  if (req.user.certGenerated) {
+    return this.generateCert(req, res);
+  }
   res.render('cert', {});
 }
 
 exports.challengePage = (req, res, next) => {
-  console.log(req.user)
-  res.render('challenges', {user: req.user})
+  message = null;
+  res.render('challenges', { message });
 }
 
 exports.userPage = (req, res, next) => {
@@ -574,7 +577,7 @@ exports.deleteUser = async (req, res, next) => {
     } 
       else { 
         return res.json({ status: 'error', message: 'User does not exist' }); 
-      } } 
+} } 
 
 const HOST = 'localhost';
 const PORT = 8443;
@@ -593,30 +596,73 @@ server.listen(PORT, HOST, () => {
   console.log(`Server running at http://${HOST}:${PORT}/`);
 });
 
-
-const express = require('express');
-const cors = require('cors');
-const app = express();
-
-app.use(cors());
-
-const fs2 = require('fs');
-
-// const path = require('path');
-
-// define a route for serving the PDF file
-app.get('/cert', (req, res) => {
-  // construct the file path dynamically
+exports.generateCert = async (req, res) => {
   const filePath = path.join(__dirname, 'frontend', 'cert.pdf');
 
-  // read the PDF file
-  const existingPdfBytes = fs2.readFileSync(filePath);
+  const capitalize = (str, lower = false) =>
+    (lower ? str.toLowerCase() : str).replace(/(?:^|\s|["'([{])+\S/g, (match) =>
+      match.toUpperCase()
+    );
+  
+  const PDFLib = require(path.join(__dirname, 'frontend', 'Cert-Generator-master', 'pdflib-1.4.0.js'));
+  const fontkit = require(path.join(__dirname, 'frontend', 'Cert-Generator-master', 'fontkit-0.0.4.js'));
+  const { PDFDocument, rgb } = PDFLib;
 
-  // set the content type and send the PDF file in the response
-  res.setHeader('Content-Type', 'application/pdf');
-  res.end(existingPdfBytes);
-});
+  const generatePDF = async (name) => {
+    const existingPdfBytes = fs.readFileSync(filePath);
 
-app.listen(3001, () => {
-  console.log('Server listening on port 3001');
-});
+    const pdfDoc = await PDFDocument.load(existingPdfBytes);
+    pdfDoc.registerFontkit(fontkit);
+
+    const fontPath = path.join(__dirname, 'frontend', 'Cert-Generator-master', 'Sanchez-Regular.ttf');
+    const fontBytes = fs.readFileSync(fontPath);
+
+    const SanChezFont = await pdfDoc.embedFont(fontBytes);
+    console.log(SanChezFont);
+
+    const pages = pdfDoc.getPages();
+    const firstPage = pages[0];
+
+    const nameWidth = SanChezFont.widthOfTextAtSize(name, 58);
+    const centerX = firstPage.getWidth() / 2;
+    const nameX = centerX - nameWidth / 2;
+
+    firstPage.drawText(name, {
+      x: nameX,
+      y: 260,
+      size: 58,
+      font: SanChezFont,
+      color: rgb(0.94, 0.97, 1.0),
+    });
+
+    const pdfBytes = await pdfDoc.save();
+
+    return pdfBytes;
+  };
+
+  try {
+    const user = await User.findOne({ username: req.user.username });
+    if (user.certGenerated) {
+      var userName = req.user.certGeneratedName;
+    }
+    else {
+      const { name } = req.body;
+      var userName = capitalize(name);
+      
+    }
+    const pdfBytes = await generatePDF(userName);
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename="DVAPI-Certificate.pdf"');
+    res.send(Buffer.from(pdfBytes.buffer));
+
+    // Update the user's certGenerated and certGeneratedName fields
+    await User.findOneAndUpdate(
+      { username: req.user.username },
+      { certGenerated: true, certGeneratedName: userName }
+    );
+  } catch (error) {
+    console.error('Error generating PDF:', error);
+    res.status(500).send('Error generating PDF');
+  }
+};

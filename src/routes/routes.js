@@ -23,6 +23,7 @@ router.get('/api/user/:username', auth.verifyToken, controller.getUser);
 router.delete('/api/user/:username', auth.verifyToken, controller.deleteUser);
 
 router.get('/certificate', auth.verifyTokenforPage, auth.checkUserSolves, controller.certPage)
+router.post('/certificate', auth.verifyTokenforPage, auth.checkUserSolves, controller.generateCert)
 router.get('/', auth.verifyTokenforPage, controller.getHome);
 router.get('/login', controller.loginPage);
 router.get('/register', controller.registerPage);
