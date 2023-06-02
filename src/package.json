@@ -4,18 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "ejs": "^3.1.8",
     "express": "^4.18.2",
     "express-fileupload": "^1.4.0",
     "jsonwebtoken": "^9.0.0",
-    "mongoose": "^7.0.1"
+    "mongoose": "^7.0.1",
+    "request": "^2.88.2",
+    "swagger-ui-express": "^4.6.2",
+    "yamljs": "^0.3.0"
   }
 }

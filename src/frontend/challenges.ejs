@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <style>
+		/* Styling for the card and overlay */
+		.card2 {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: rgb(237, 240, 243);
+            box-shadow: 0px 8px 8px 0px rgba(0, 0, 0, 0.425);
+            border-radius: 5px;
+            display: none;
+            z-index: 1;
+            margin: 10px;
+            width: 1400px;
+            height: 700px;
+            padding-bottom: 20px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .card2.show {
+            opacity: 1;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0);
+            display: none;
+            z-index: 1;
+        }
+
+        .card-body {
+            position: relative;
+        }
+
+        .input-group {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            padding: 10px;
+            background-color: #f5f5f500;
+            box-sizing: border-box;
+        }
+
+        .form-control {
+            width: 100%;
+            margin-bottom: 10px;
+            bottom: 0;
+        }
+
+        .btn {
+            width: 100%;
+        }
+                
+        body {
+            background: #1D1F20;
+        }
+        main {
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .button {
+            background: #2B2D2F;
+            height: 45px;
+            width: 200px;
+            text-align: center;
+            border-radius: 4px;
+        }
+
+        .text2 {
+            font: bold 1.25rem/1 poppins;
+            color: #2b6d59;
+        }
+
+    </style>
+
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="au theme template">
+    <meta name="author" content="Hau Nguyen">
+    <meta name="keywords" content="au theme template">
+
+    <!-- Title Page-->
+    <title>Challenges</title>
+
+    <!-- Fontfaces CSS-->
+    <link href="/css/font-face.css" rel="stylesheet" media="all">
+    <link href="/vendor/font-awesome-5/css/fontawesome-all.min.css" rel="stylesheet" media="all">
+    <link href="/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <link href="/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+
+    <!-- Bootstrap CSS-->
+    <link href="/vendor/bootstrap-4.1/bootstrap.min.css" rel="stylesheet" media="all">
+
+    <!-- Vendor CSS-->
+    <link href="/vendor/animsition/animsition.min.css" rel="stylesheet" media="all">
+    <link href="/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" media="all">
+    <link href="/vendor/wow/animate.css" rel="stylesheet" media="all">
+    <link href="/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" media="all">
+    <link href="/vendor/slick/slick.css" rel="stylesheet" media="all">
+    <link href="/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" media="all">
+    <script>
+        fetch('/api/profile', {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('auth')}`
+        }
+        })
+        .then(response => response.json())
+        .then(data => {
+        if (data.status === 'success') {
+            document.querySelectorAll('#profilePicImage').forEach(image => {
+                image.src = `/uploads/${data.user.profilePic}`;
+            });
+            document.querySelectorAll('#profileUsername').forEach(name => {
+                name.innerText = data.user.username;
+            });
+            document.querySelectorAll('#profileScore').forEach(scoreVal => {
+                scoreVal.innerText = `Score: ${data.user.score}`;
+            });
+        } else if (data.status === 'error') {
+            window.location.href = '/login'; // redirect to /login
+        }
+        })
+        .catch(error => console.error(error));
+    </script>
+
+
+<!-- Main CSS-->
+    <link href="/css/theme.css" rel="stylesheet" media="all">
+
+</head>
+
+<body class="animsition">
+    
+    <div class="page-wrapper">
+        <!-- MENU SIDEBAR-->
+        <aside class="menu-sidebar d-none d-lg-block">
+            <div class="logo">
+                    <img src="/images/icon/logo.png" alt="DVAPI" />
+            </div>
+            <div class="menu-sidebar__content js-scrollbar1">
+                <nav class="navbar-sidebar">
+                    <ul class="list-unstyled navbar__list">
+                        <li>
+                            <a href="/challenges">
+                                <i class="fas fa-tachometer-alt"></i>Challenges</a>
+                        </li>
+                        <li>
+                            <a href="/scoreboard">
+                                <i class="fa  fa-bar-chart-o"></i>Scoreboard</a>
+                        </li>
+                        <li>
+                            <a href="/Swagger">
+                                <i class="fa fa-arrow-circle-o-right"></i>API Swagger</a>
+                        </li>
+                        <li>
+                            <a href="/certificate" style="color:white" class="text2 button" target="_blank">Generate Certificate</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+        <!-- END MENU SIDEBAR-->
+
+        <!-- PAGE CONTAINER-->
+        <div class="page-container">
+            <!-- HEADER DESKTOP-->
+            <header class="header-desktop">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        <div class="header-wrap">
+                            <div class="header-button" style="position:absolute;right:0px; margin: 25px;">
+                                <div class="noti-wrap">
+                                    <div class="noti__item js-item-menu">
+                                        <i class="fa fa-ticket" onclick="document.getElementById('ticket-button').click();"></i>
+                                    </div>
+                                </div>
+                                <div class="account-wrap">
+                                    <div class="account-item clearfix js-item-menu">
+                                        <div class="image">
+                                            <img id="profilePicImage" src="/uploads/#" alt="" />
+                                        </div>
+                                        <div class="content">
+                                            <a id="profileUsername" class="js-acc-btn" style="color:aliceblue;" href="#"></a>
+                                        </div>
+                                        <div class="account-dropdown js-dropdown">
+                                            <div class="info clearfix">
+                                                <div class="image">
+                                                    <a href="/profile">
+                                                        <img id="profilePicImage" src="/uploads/#" alt="" />
+                                                    </a>
+                                                </div>
+                                                <div class="content">
+                                                    <h5 class="name">
+                                                        <a id="profileUsername" href="/profile"></a>
+                                                    </h5>
+                                                    <h5 class="name">
+                                                        <span id="profileScore"></span>
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                            <div class="account-dropdown__body">
+                                                <div class="account-dropdown__item">
+                                                    <a href="/profile">
+                                                        <i class="zmdi zmdi-account"></i>Account</a>
+                                                </div>
+                                            </div>
+                                            <div class="account-dropdown__footer">
+                                                <a href="/logout" onclick="localStorage.removeItem('auth')">
+                                                    <i class="zmdi zmdi-power"></i>Logout</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- HEADER DESKTOP-->
+
+            <!-- MAIN CONTENT-->
+            <div class="main-content">
+                <div class="section__content section__content--p30">
+                    <div class="container-fluid">
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <% if (message) { %>
+                            <%- message %>
+                        <% } %>
+                        <h4>Progress</h4>
+                        <br>
+                        <div class="progress ">
+                            <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" id="progressbar-strip" role="progressbar" style="width: 0%" aria-valuenow="0"
+                             aria-valuemin="0" aria-valuemax="100">0%</div>
+                        </div>
+                        <div class="row">
+                            <!-- Use for loop to loop all challenges -->
+                            <div id="overlay" class="overlay"></div>
+                            <div id="card2" class="card2"></div>
+                            <div id="challengeCards" class="row">
+                                <script>
+                                    fetch('/api/allChallenges', {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Authorization': `Bearer ${localStorage.getItem('auth')}`
+                                        },
+                                        body: JSON.stringify({
+                                            released: 1
+                                            // unreleased: 1 // remove on prod
+                                        })
+                                        })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.status === 'success') {
+                                            const challenges = data.challenges;
+                                            const challengeCardsContainer = document.getElementById('challengeCards');
+                                            const challengeModalsContainer = document.getElementById('challengeModals');
+
+                                            challenges.forEach(challenge => {
+                                                // Create Challenge Card
+                                                const cardDiv = document.createElement('div');
+                                                cardDiv.classList.add('col-md-4');
+                                                cardDiv.innerHTML = `
+                                                <div class="card" style="height: 90%;">
+                                                    <div class="card-header">
+                                                    <strong class="card-title">${challenge.challengeName}</strong>
+                                                    <div>
+                                                        <small>
+                                                        <span class="badge badge-success text-center" id="challenge-card-${challenge.id}"></span>
+                                                        </small>
+                                                    </div>               
+                                                    </div>
+                                                    <div class="card-body">
+                                                    <p class="card-text">${challenge.shortDescription}</p>
+                                                    <a href="#" data-toggle="modal" data-target="#largeModal${challenge.id}">Read More</a>
+                                                    <br>
+                                                    <div class="input-group wrapper">
+                                                        <form id="challenge-${challenge.id}" class="flag-submit-form">
+                                                        <input type="text" id="flag" name="flag" placeholder="Flag" class="form-control">
+                                                        <br>
+                                                        <div class="input-group-btn">
+                                                            <button class="btn btn-primary">Submit</button>
+                                                        </div>
+                                                        </form>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                `;
+                                                challengeCardsContainer.appendChild(cardDiv);
+
+                                                // Create Challenge Modal
+                                                const modalDiv = document.createElement('div');
+                                                modalDiv.classList.add('modal', 'fade');
+                                                modalDiv.id = `largeModal${challenge.id}`;
+                                                modalDiv.tabIndex = '-1';
+                                                modalDiv.role = 'dialog';
+                                                modalDiv.setAttribute('aria-labelledby', 'largeModalLabel');
+                                                modalDiv.setAttribute('aria-hidden', 'true');
+                                                modalDiv.innerHTML = `
+                                                <div class="modal-dialog modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="largeModalLabel">${challenge.challengeName}</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>${challenge.longDescription}</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                `;
+                                                challengeModalsContainer.appendChild(modalDiv);
+                                            });
+                                            var forms = document.querySelectorAll(".flag-submit-form");
+                                            getSolves();
+                                            forms.forEach(function(form) {
+                                                form.addEventListener("submit", function(event) {
+                                                    event.preventDefault();
+                                                    var challengeNo = this.getAttribute("id").split('-')[1];
+                                                    const formData = new FormData(this);
+                                                    formObj =  Object.fromEntries(formData);
+                                                    formObj.challengeNo = challengeNo;
+                                                    form.getElementsByTagName('input')[0].value = "";
+                                                    // alert(JSON.stringify(formObj));
+                                                    // do something with the form data
+                                                    fetch("/api/flag/submit", {
+                                                        method: "POST",
+                                                        body: JSON.stringify(formObj),
+                                                        headers: { "Content-Type": "application/json", 'Authorization': `Bearer ${localStorage.getItem('auth')}` }
+                                                    })
+                                                    .then(r => r.json())
+                                                    .then(data => {
+                                                        if (data.status === "success") {
+                                                            alert(data.message);
+                                                            updateProgressBar(data);
+                                                        }
+                                                        else {
+                                                            alert(data.message);
+                                                            updateProgressBar(data);
+                                                        }
+                                                    })
+                                                    .catch(console.error);
+                                                });
+                                            });
+                                            } else {
+                                            console.log('Failed to fetch challenges');
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.log('An error occurred:', error);
+                                        });
+                                </script>
+
+                            </div>
+                            
+
+                            
+                            <script>
+                                
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- modal for ticket -->
+            <div class="col-md4" style="margin-left: 50%; margin-right: 10%;">
+                <button type="button" hidden id="ticket-button" class="btn btn-secondary mb-1" data-toggle="modal" data-target="#mediumModal">
+                    Have any question on a challenge? Create a ticket.
+                </button>
+            </div>
+            <div class="modal fade" id="mediumModal" tabindex="-1" role="dialog" aria-labelledby="mediumModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="mediumModalLabel">Have any query regarding a challenge? Create a ticket!</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="" method="post" id="ticket-form">
+                            <div class="modal-body">
+                                <textarea id="message" rows="4" name="message" class="form-control" maxlength="500"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" id="close-modal" data-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Confirm</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- end modal -->
+        </div>
+        <!-- END PAGE CONTAINER-->
+        <script>
+            const ticketForm = document.getElementById("ticket-form");
+            ticketForm.addEventListener("submit", e => {
+            e.preventDefault();
+            const formData = new FormData(ticketForm);
+            fetch("/api/addTicket", {
+                method: "POST",
+                body: JSON.stringify(Object.fromEntries(formData)),
+                headers: { "Content-Type": "application/json", 'Authorization': `Bearer ${localStorage.getItem('auth')}` }
+            })
+            .then(r => r.json())
+            .then(data => {
+                var icon = document.querySelector('.fa-ticket');
+                var originalColor = "rgb(169, 179, 201)";
+                icon.style.color = 'green';
+                try {
+                    if (data.status === "success") {
+                        icon.style.color = 'green';
+                    }
+                    else {
+                        icon.style.color = 'red';
+                    }
+                }
+                catch {
+                    icon.style.color = 'red';
+                }
+                setTimeout(function() {
+                    icon.style.color = originalColor;
+                }, 3000);
+                document.getElementById('close-modal').click();
+                document.getElementById('message').value = "";
+            })
+            .catch(console.error);
+            });
+            document.getElementById('close-modal').click();
+        </script>
+        <script>
+            // Obtain the challenge solves for the user
+            function updateProgressBar(data) {
+                var solves = data.solves;
+                var solveCount = 0;
+                for (var i = 1; i <= 10; i++) {
+                    if (solves[i] === 1) {
+                        $('#challenge-card-' + i).text('Solved').attr('class', 'badge badge-success float-right mt-1');
+                        solveCount += 1;
+                    }
+                    if (solves[i] === 0) {
+                        $('#challenge-card-' + i).text('Not solved').attr('class', 'badge badge-danger float-right mt-1');
+                    }
+                }
+                var solvePercentage = solveCount * (100/10);
+                $('#progressbar-strip').attr('style', `width: ${solvePercentage}%`).attr('aria-valuenow',`${solvePercentage}`).text(`${solvePercentage}`);
+            }
+            function getSolves(){
+                fetch('/api/getSolves', {
+                    headers: {'Authorization': `Bearer ${localStorage.getItem('auth')}`}
+                })
+                .then(response => response.json())
+            .then(data => {
+                updateProgressBar(data);                
+            })
+            .catch(error => console.error(error));
+            }
+        </script>
+        <div id="challengeModals">
+            
+        </div>
+    </div>
+
+    <!-- Jquery JS-->
+    <script src="/vendor/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap JS-->
+    <script src="/vendor/bootstrap-4.1/popper.min.js"></script>
+    <script src="/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+    <!-- Vendor JS       -->
+    <script src="/vendor/slick/slick.min.js">
+    </script>
+    <script src="/vendor/wow/wow.min.js"></script>
+    <script src="/vendor/animsition/animsition.min.js"></script>
+    <script src="/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+    </script>
+    <script src="/vendor/counter-up/jquery.waypoints.min.js"></script>
+    <script src="/vendor/counter-up/jquery.counterup.min.js">
+    </script>
+    <script src="/vendor/circle-progress/circle-progress.min.js"></script>
+    <script src="/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="/vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="/vendor/select2/select2.min.js">
+    </script>
+
+    <!-- Main JS-->
+    <script src="/js/main.js"></script>
+
+</body>
+
+</html>
+<!-- end document-->
