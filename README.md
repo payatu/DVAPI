@@ -1,5 +1,7 @@
 # DVAPI Damn Vulnerable API
 
+![](images/logo.png)
+
 ## About DVAPI?
 
 Welcome to the Damn Vulnerable API (DVAPI) project. This project is based on the OWASP API Top 10 2023! This lab is designed to help you learn about and explore the top 10 security risks associated with APIs according to the OWASP API Security Project.
