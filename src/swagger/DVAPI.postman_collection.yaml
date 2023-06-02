@@ -111,6 +111,52 @@ paths:
               example:
                 status: error
                 message: Authentication failed. No token supplied
+    post:
+      security:
+        - bearerAuth: []
+      tags:
+        - User
+      summary: Profile Update
+      description: Update your account password here.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                confirm_password: newpass
+                current_password: pass
+                password: newpass
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              example:
+                message: User has been successfully updated
+                status: success
+                user:
+                  id: 64705d45155840d0f3d94438
+                  username: user
+              schema:
+                type: object
+          description: OK
+        '401':
+          content:
+            application/json:
+              examples:
+                example-0:
+                  summary: Error
+                  value:
+                    message: Enter your current password correctly
+                    status: error
+                example-1:
+                  summary: Unauthorized
+                  value:
+                    message: Authentication failed. No token supplied
+                    status: error
+              schema:
+                type: object
+          description: Unauthorized
   /api/addNoteWithLink:
     post:
       security:
@@ -236,41 +282,6 @@ paths:
               example:
                 status: error
                 message: Authentication failed. No token supplied
-  /api/getChallenges:
-    get:
-      security:
-        - bearerAuth: []
-      tags:
-        - Challenges
-      summary: Challenges
-      description: Endpoint for challenges.
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                - Challenge 1 - released
-                - Challenge 2 - released
-                - Challenge 3 - released
-                - Challenge 4 - released
-                - Challenge 5 - released
-                - Challenge 6 - released
-                - Challenge 7 - released
-                - Challenge 8 - released
-                - Challenge 9 - released
-                - Challenge 10 - released
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                status: error
-                message: Authentication failed. No token supplied
   /api/allChallenges:
     post:
       security:
@@ -294,16 +305,13 @@ paths:
               schema:
                 type: object
               example:
-                - Challenge 1 - released
-                - Challenge 2 - released
-                - Challenge 3 - released
-                - Challenge 4 - released
-                - Challenge 5 - released
-                - Challenge 6 - released
-                - Challenge 7 - released
-                - Challenge 8 - released
-                - Challenge 9 - released
-                - Challenge 10 - released
+                status:	success
+                challenges:
+                  - id: 1
+                    challengeName: Challenge 1
+                    shortDescription: This is Challenge 1
+                    longDescription: Challenge 1 long description
+                    challengeLogo: /image/challenge1.png
         '401':
           description: Unauthorized
           content:

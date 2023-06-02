@@ -1,6 +1,5 @@
 {
 	"info": {
-		"_postman_id": "c30159b2-f778-4d47-a0c4-ccbc69531e9e",
 		"name": "DVAPI",
 		"description": "DVAPI or Damn Vulnerable API is an intentionally vulnerable API created for showcasing the OWASP API Top 10 2023.\n\nThe OWASP API Top 10 is a list of the top 10 most critical security risks for APIs (Application Programming Interfaces) based on the Open Web Application Security Project (OWASP), a nonprofit organization focused on improving the security of web applications and APIs. The OWASP API Top 10 list is periodically updated to reflect the changing threat landscape and evolving best practices for API security.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -354,6 +353,226 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"message\": \"Authentication failed\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Profile Update",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"current_password\":\"pass\",\r\n    \"password\":\"newpass\",\r\n    \"confirm_password\":\"newpass\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/profile",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"profile"
+							]
+						},
+						"description": "Update your account password here."
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"current_password\":\"pass\",\r\n    \"password\":\"newpass\",\r\n    \"confirm_password\":\"newpass\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/profile",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"profile"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "126"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"7e-N8v27CqHC+jxKKXRhu5T3+7JtQw\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 01 Jun 2023 08:39:58 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"success\",\n    \"message\": \"User has been successfully updated\",\n    \"user\": {\n        \"id\": \"64705d45155840d0f3d94438\",\n        \"username\": \"user\"\n    }\n}"
+						},
+						{
+							"name": "Error",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"current_password\":\"pass\",\r\n    \"password\":\"newpass\",\r\n    \"confirm_password\":\"newpass\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/profile",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"profile"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "68"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"44-Z6vNo3AxAOk/M0ACikSvqC13K8I\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 01 Jun 2023 08:40:36 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"error\",\n    \"message\": \"Enter your current password correctly\"\n}"
+						},
+						{
+							"name": "Unauthorized",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"current_password\":\"pass\",\r\n    \"password\":\"newpass\",\r\n    \"confirm_password\":\"newpass\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/profile",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"profile"
+									]
+								}
+							},
+							"status": "Unauthorized",
+							"code": 401,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "71"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"47-i9iWhRC4Wie40RtS0s9hrDeYBMY\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 01 Jun 2023 08:41:44 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"error\",\n    \"message\": \"Authentication failed. No token supplied\"\n}"
 						}
 					]
 				},
@@ -1842,136 +2061,6 @@
 								{
 									"key": "Date",
 									"value": "Thu, 13 Apr 2023 06:31:23 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"status\": \"error\",\n    \"message\": \"Authentication failed. No token supplied\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Challenges",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/getChallenges",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"getChallenges"
-							]
-						},
-						"description": "Endpoint for challenges."
-					},
-					"response": [
-						{
-							"name": "Challenges",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:3000/api/getChallenges",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "3000",
-									"path": [
-										"api",
-										"getChallenges"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "252"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"fc-fiw9WLu31o68S0hhBfyhB6gWgF4\""
-								},
-								{
-									"key": "Date",
-									"value": "Thu, 13 Apr 2023 06:20:57 GMT"
-								},
-								{
-									"key": "Connection",
-									"value": "keep-alive"
-								},
-								{
-									"key": "Keep-Alive",
-									"value": "timeout=5"
-								}
-							],
-							"cookie": [],
-							"body": "[\n    \"Challenge 1 - released\",\n    \"Challenge 2 - released\",\n    \"Challenge 3 - released\",\n    \"Challenge 4 - released\",\n    \"Challenge 5 - released\",\n    \"Challenge 6 - released\",\n    \"Challenge 7 - released\",\n    \"Challenge 8 - released\",\n    \"Challenge 9 - released\",\n    \"Challenge 10 - released\"\n]"
-						},
-						{
-							"name": "Unauthorized",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://localhost:3000/api/getChallenges",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "3000",
-									"path": [
-										"api",
-										"getChallenges"
-									]
-								}
-							},
-							"status": "Unauthorized",
-							"code": 401,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "X-Powered-By",
-									"value": "Express"
-								},
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Content-Length",
-									"value": "71"
-								},
-								{
-									"key": "ETag",
-									"value": "W/\"47-i9iWhRC4Wie40RtS0s9hrDeYBMY\""
-								},
-								{
-									"key": "Date",
-									"value": "Thu, 13 Apr 2023 06:31:31 GMT"
 								},
 								{
 									"key": "Connection",
