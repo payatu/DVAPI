@@ -4,9 +4,9 @@
 
 ## About DVAPI?
 
-Welcome to the Damn Vulnerable API (DVAPI) project. This project is based on the OWASP API Top 10 2023! This lab is designed to help you learn about and explore the top 10 security risks associated with APIs according to the OWASP API Security Project.
+Welcome to the Damn Vulnerable API (DVAPI) project. This project is based on the OWASP API Top 10 2023 release candidate! This lab is designed to help you learn about and explore the top 10 security risks associated with APIs according to the OWASP API Security Project.
 
-The OWASP API Top 10 - 2023 release consists of the following vulnerabilities:
+The OWASP API Top 10 - 2023 release candidate consists of the following vulnerabilities:
 -   0xa1: Broken Object Level Authorization
 -   0xa2: Broken Authentication
 -   0xa3: Broken Object Property Level Authorization
@@ -23,7 +23,7 @@ The OWASP API Top 10 - 2023 release consists of the following vulnerabilities:
 DVAPI is designed for a diverse range of users:
 
 - **API enthusiasts**: Whether you're a beginner or have intermediate knowledge, DVAPI offers a hands-on learning experience to explore API vulnerabilities and enhance your skills.
-- **Security professionals**: Stay up to date with the latest API security trends and the OWASP API Top 10 - 2023. DVAPI allows security professionals to practice identifying API-related risks.
+- **Security professionals**: Stay up to date with the latest API security trends and the OWASP API Top 10 - 2023 RC. DVAPI allows security professionals to practice identifying API-related risks.
 - **Developers**: Developers can learn about potential security pitfalls and adopt best practices to protect their own APIs from common vulnerabilities. DVAPI serves as an educational tool for developers looking to enhance their API security knowledge.
 - **Educators and trainers**: DVAPI provides a comprehensive platform for teaching API security, allowing instructors to engage students in discovering vulnerabilities and applying countermeasures.
 
@@ -43,11 +43,11 @@ All in all, users have the flexibility to assess the APIs via these methods:
 - The application itself
 - Postman collection
     - Get the Postman collection on [DVAPI.postman_collection.json](src/swagger/DVAPI.postman_collection.json)
-- Swagger API endpoint
+- Swagger API endpoint (accessible at the `/Swagger` endpoint on the DVAPI lab)
 
 ## Setting up DVAPI
 
-To get started with the OWASP API Top 10 2023 CTF lab, follow the steps below:
+To get started with the DVAPI lab, follow the steps below:
 
 1.  **Clone the repository:**
 
