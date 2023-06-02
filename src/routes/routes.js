@@ -13,7 +13,6 @@ router.get('/api/scores', auth.verifyToken, controller.getScores);
 // router.post('/api/admin/updateStatus', auth.verifyToken, controller.updateUserStatus);
 router.post('/api/profile/upload', auth.verifyToken, controller.uploadProfileImage);
 router.post('/api/addNoteWithLink', auth.verifyToken, controller.addNoteWithLink);
-router.get('/api/getChallenges', auth.verifyToken, controller.getChallenges);
 router.post('/api/allChallenges',auth.verifyToken, controller.allChallenges);
 router.get('/api/getSolves', auth.verifyToken, controller.getSolves);
 router.post('/api/flag/submit', auth.verifyToken, controller.flagSubmit);

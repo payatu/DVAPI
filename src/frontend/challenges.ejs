@@ -167,7 +167,7 @@
                                 <i class="fa fa-arrow-circle-o-right"></i>API Swagger</a>
                         </li>
                         <li>
-                            <a href="/certificate" class="text2 button" target="_blank">Generate Certificate</a>
+                            <a href="/certificate" style="color:white" class="text2 button" target="_blank">Generate Certificate</a>
                         </li>
                     </ul>
                 </nav>
@@ -331,6 +331,7 @@
                                                 challengeModalsContainer.appendChild(modalDiv);
                                             });
                                             var forms = document.querySelectorAll(".flag-submit-form");
+                                            getSolves();
                                             forms.forEach(function(form) {
                                                 form.addEventListener("submit", function(event) {
                                                     event.preventDefault();
@@ -473,7 +474,6 @@
             })
             .catch(error => console.error(error));
             }
-            getSolves();
         </script>
         <div id="challengeModals">
             

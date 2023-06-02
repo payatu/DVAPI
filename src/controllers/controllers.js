@@ -194,6 +194,7 @@ exports.getScores = (req, res, next) => {
   });
 }
 
+// Not a part of DVAPI challenge (pls ignore)
 // exports.updateUserStatus = (req, res, next) => { // TODO
 //   async function updateUserStatus() {
 //     const { username, status } = req.body;
@@ -505,30 +506,6 @@ exports.checkTicket = (req, res) => {
     }
   }
   checkTicket(req.ticketId);
-};
-
-const challenge =  [
-  'Challenge 1 - released',
-  'Challenge 2 - released',
-  'Challenge 3 - released',
-  'Challenge 4 - released',
-  'Challenge 5 - released',
-  'Challenge 6 - released',
-  'Challenge 7 - released',
-  'Challenge 8 - released',
-  'Challenge 9 - released',
-  'Challenge 10 - released',
-  'More are under development ........ stay tunned'
-];
-
-const allchallenges =  [
-  'Challenge 11 - unreleased ... under development',
-  'Challenge 12 - unreleased ... under development'
-];
-
-exports.getChallenges = (req, res) => {
- 
-  res.json(challenge);
 };
 
 exports.allChallenges = (req, res) => {
