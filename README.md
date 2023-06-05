@@ -43,6 +43,7 @@ All in all, users have the flexibility to assess the APIs via these methods:
 - The application itself
 - Postman collection
     - Get the Postman collection on [DVAPI.postman_collection.json](src/swagger/DVAPI.postman_collection.json)
+    - You can also fork the collection from our public Postman workspace at [https://www.postman.com/payatu/workspace/dvapi](https://www.postman.com/payatu/workspace/dvapi)
 - Swagger API endpoint (accessible at the `/Swagger` endpoint on the DVAPI lab)
 
 ## Setting up DVAPI
