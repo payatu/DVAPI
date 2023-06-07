@@ -293,7 +293,7 @@
                                                         <input type="text" id="flag" name="flag" placeholder="Flag" class="form-control">
                                                         <br>
                                                         <div class="input-group-btn">
-                                                            <button class="btn btn-primary">Submit</button>
+                                                            <button id="flag-submit-button" class="btn btn-primary">Submit</button>
                                                         </div>
                                                         </form>
                                                     </div>
@@ -332,6 +332,8 @@
                                             });
                                             var forms = document.querySelectorAll(".flag-submit-form");
                                             getSolves();
+                                            document.getElementById("challenge-6").elements["flag"].disabled = true;
+                                            document.getElementById("challenge-6").elements["flag-submit-button"].disabled = true;
                                             forms.forEach(function(form) {
                                                 form.addEventListener("submit", function(event) {
                                                     event.preventDefault();

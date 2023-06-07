@@ -7,16 +7,16 @@
 Welcome to the Damn Vulnerable API (DVAPI) project. This project is based on the OWASP API Top 10 2023 release candidate! This lab is designed to help you learn about and explore the top 10 security risks associated with APIs according to the OWASP API Security Project.
 
 The OWASP API Top 10 - 2023 release candidate consists of the following vulnerabilities:
--   0xa1: Broken Object Level Authorization
--   0xa2: Broken Authentication
--   0xa3: Broken Object Property Level Authorization
--   0xa4: Unrestricted Resource Consumption
--   0xa5: Broken Function Level Authorization
--   0xa6: Server-Side Request Forgery
--   0xa7: Security Misconfiguration
--   0xa8: Lack of Protection from Automated Threats
--   0xa9: Improper Assets Management
--   0xaa: Unsafe Consumption of APIs
+-	0xa1: Broken Object Level Authorization
+-	0xa2: Broken Authentication
+-	0xa3: Broken Object Property Level Authorization
+-	0xa4: Unrestricted Resource Consumption
+-	0xa5: Broken Function Level Authorization
+-	0xa6: Unrestricted Access to Sensitive Business Flows
+-	0xa7: Server Side Request Forgery
+-	0xa8: Security Misconfiguration
+-	0xa9: Improper Inventory Management
+-	0xaa: Unsafe Consumption of APIs
 
 ## Who can use DVAPI?
 
