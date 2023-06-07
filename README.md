@@ -72,6 +72,7 @@ docker compose up --build
 
 ![](images/dvapi.png)
 
+**Disclaimer: As this application is intentionally vulnerable, do not host this on a production environment.** 
 
 # Upcoming Session
 
