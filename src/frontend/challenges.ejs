@@ -277,7 +277,7 @@
                                                 cardDiv.innerHTML = `
                                                 <div class="card" style="height: 90%;">
                                                     <div class="card-header">
-                                                    <strong class="card-title">${challenge.challengeName}</strong>
+                                                    <strong class="card-title" style="font-size: 15px">${challenge.challengeName}</strong>
                                                     <div>
                                                         <small>
                                                         <span class="badge badge-success text-center" id="challenge-card-${challenge.id}"></span>
@@ -332,8 +332,6 @@
                                             });
                                             var forms = document.querySelectorAll(".flag-submit-form");
                                             getSolves();
-                                            document.getElementById("challenge-6").elements["flag"].disabled = true;
-                                            document.getElementById("challenge-6").elements["flag-submit-button"].disabled = true;
                                             forms.forEach(function(form) {
                                                 form.addEventListener("submit", function(event) {
                                                     event.preventDefault();
