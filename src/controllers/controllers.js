@@ -354,11 +354,7 @@ exports.submitTicket = (req, res) => {
         });
       })
       .catch((err) => {
-        answer = '008fd3e6fca2e8b095fd098186052c5e711ef63215d9c1479c585fd2113378d1';
-        const decipher = crypto.createDecipheriv('aes-256-cbc', wrench, iv);
-        let decrypted = decipher.update(answer, 'hex', 'utf-8');
-        decrypted += decipher.final('utf-8');
-        res.status(200).json({ msg: 'Lack of Protection from Automated Threats', flag :decrypted });
+        res.status(200).json({ status: 'error', msg: 'Something went wrong' });
       });
 
     function generateId() {
@@ -375,7 +371,7 @@ async function checkTicket(ticketId,req, res) {
     const ticketCount = await Ticket.countDocuments(ticketId );
     console.log(ticketCount);
 
-    if (ticketCount > 150) {
+    if (ticketCount == -150) {
       return Promise.reject();
     } else {
       return Promise.resolve();
