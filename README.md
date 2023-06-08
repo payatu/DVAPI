@@ -6,7 +6,7 @@
 
 Welcome to the Damn Vulnerable API (DVAPI) project. This project is based on the OWASP API Top 10 2023 Stable version which is published on June 5th 2023. This lab is designed to help you learn about and explore the top 10 security risks associated with APIs according to the OWASP API Security Project.
 
-The OWASP API Top 10 - 2023 release candidate consists of the following vulnerabilities:
+The OWASP API Top 10 - 2023 consists of the following vulnerabilities:
 -	0xa1: Broken Object Level Authorization
 -	0xa2: Broken Authentication
 -	0xa3: Broken Object Property Level Authorization
