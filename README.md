@@ -74,9 +74,9 @@ docker compose up --build
 
 **Disclaimer: As this application is intentionally vulnerable, do not host this on a production environment.** 
 
-# Upcoming Session
+# Upcoming/Past Sessions
 
-Our team will be presenting DVAPI in [Bsides Bangalore ToolsForge](https://bsidesbangalore.in/)
+Our team has presented DVAPI in [Bsides Bangalore 2023 ToolsForge](https://bsidesbangalore.in/) on 8th June 2023.
 
 # Feedback & Bug Reports
 
