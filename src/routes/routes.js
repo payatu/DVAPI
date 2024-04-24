@@ -21,8 +21,8 @@ router.post('/api/getTicket', auth.verifyToken, controller.checkTicket);
 router.get('/api/user/:username', auth.verifyToken, controller.getUser);
 router.delete('/api/user/:username', auth.verifyToken, controller.deleteUser);
 
-router.get('/certificate', auth.verifyTokenforPage, auth.checkUserSolves, controller.certPage)
-router.post('/certificate', auth.verifyTokenforPage, auth.checkUserSolves, controller.generateCert)
+// router.get('/certificate', auth.verifyTokenforPage, auth.checkUserSolves, controller.certPage)
+// router.post('/certificate', auth.verifyTokenforPage, auth.checkUserSolves, controller.generateCert)
 router.get('/', auth.verifyTokenforPage, controller.getHome);
 router.get('/login', controller.loginPage);
 router.get('/register', controller.registerPage);
@@ -30,9 +30,9 @@ router.get('/scoreboard', auth.verifyTokenforPage, controller.scoreboardPage);
 router.get('/profile', auth.verifyTokenforPage, controller.profilePage);
 router.get('/challenges', auth.verifyTokenforPage, controller.challengePage);
 router.get('/user/:username', auth.verifyTokenforPage, controller.userPage);
-router.get('/Cert-Generator-master/FileSaver.js', controller.FileSaver);
-router.get('/Cert-Generator-master/index.js', controller.indexCrt);
-router.get('/Cert-Generator-master/style.css', controller.style);
+// router.get('/Cert-Generator-master/FileSaver.js', controller.FileSaver);
+// router.get('/Cert-Generator-master/index.js', controller.indexCrt);
+// router.get('/Cert-Generator-master/style.css', controller.style);
 router.get('/Sanchez-Regular.ttf', controller.font);
 
 

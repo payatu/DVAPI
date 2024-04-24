@@ -11,8 +11,8 @@ const userSchema = new mongoose.Schema({
   profilePic: { type: String, default: "avatar.jpg" },
   status: { type: String, default: "ACTIVE"}, // ACTIVE, BANNED
   solves: { type: Object, default: {1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,10:0} },
-  certGenerated: { type: Boolean, default: false },
-  certGeneratedName: { type: String, default: "" }
+  // certGenerated: { type: Boolean, default: false },
+  // certGeneratedName: { type: String, default: "" }
 });
 
 // Check password
