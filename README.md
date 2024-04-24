@@ -35,7 +35,7 @@ DVAPI caters to individuals seeking practical knowledge and a deeper understandi
 
 The DVAPI lab provides a series of challenges and exercises related to the top 10 API security risks identified by OWASP. These challenges are designed to test your knowledge and skills in identifying and mitigating common security vulnerabilities in API implementations.
 
-The DVPI application is built as a CTF application that itself is vulnerable. Users can identify and exploit the vulnerabilities, obtain the flags and submit into the application. After completion of all the challenges, they can generate their DVAPI completion certificate.
+The DVPI application is built as a CTF application that itself is vulnerable. Users can identify and exploit the vulnerabilities, obtain the flags and submit into the application.
 
 It has many functionalities that uses different API endpoints. We have added a Postman collection file that you can import. The DVAPI application has a swagger endpoint as well, which you can use.
 
